@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useAttachments } from "@/hooks/useAttachments";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { Attachment } from "@/lib/api";
+import { Attachment } from "@/types/api";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { useToaster } from "@/components/ui/Toaster";
 import { AttachmentCard } from "@/components/ui/AttachmentCard";

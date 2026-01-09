@@ -1,94 +1,19 @@
 import { API_CONFIG } from './api-config';
+import type { 
+  LoginResponse, 
+  SignupResponse,
+  UserProfileResponse,
+  JobsResponse,
+  Attachment,
+  AttachmentUploadResponse,
+  AttachmentsListResponse,
+  BackendAttachment,
+  ContactMessage,
+  MessageResponse
+} from '@/types/api';
 
 const API_BASE_URL = API_CONFIG.BASE_URL;
 
-// API Response types
-export interface LoginResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    user: {
-      id: string;
-      email: string;
-      first_name?: string;
-      last_name?: string;
-      role?: string;
-    };
-    token: string;
-  };
-  error?: string;
-}
-
-export interface SignupResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    user: {
-      id: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      role: string;
-    };
-    token: string;
-  };
-  error?: string;
-}
-
-// Complete User Profile Interface (Backend)
-export interface UserProfile {
-  first_name: string;
-  last_name: string;
-  role: string;
-  picture?: string;
-  email: string;
-  password: string;
-  profession?: string;
-  bio?: string;
-  current_job?: string;
-  experience?: string;
-  location?: string;
-  looking_for?: string[];
-  socials?: {
-    linkedin?: string;
-    twitter?: string;
-    github?: string;
-  };
-  professional_summary?: string;
-  work_experience?: Array<{
-    company: string;
-    position: string;
-    start_date?: string;
-    end_date?: string;
-    description?: string;
-  }>;
-  education?: Array<{
-    institution: string;
-    degree: string;
-    field_of_study: string;
-    start_year?: string;
-    end_year?: string;
-    description?: string;
-    location?: string;
-  }>;
-  certifications?: Array<{
-    name: string;
-    issuing_organization: string;
-    issue_date: string;
-    expiration_date?: string;
-    credential_id?: string;
-    credential_url?: string;
-  }>;
-  saved_jobs?: string[];
-  attachments?: Array<{
-    name: string;
-    url: string;
-    file_type?: string;
-    file_size?: number;
-    upload_date?: Date | string;
-    description?: string;
-  }>;
-}
 
 // Login API call
 export async function loginUser(
@@ -201,16 +126,22 @@ export async function signupUser(userData: {
 }
 
 // Store authentication token
-export function storeAuthToken(token: string) {
+export function storeAuthToken(token: string, rememberMe: boolean = true) {
   if (typeof window !== "undefined") {
-    localStorage.setItem("authToken", token);
+    if (rememberMe) {
+      localStorage.setItem("authToken", token);
+      sessionStorage.removeItem("authToken"); // Clean up other storage
+    } else {
+      sessionStorage.setItem("authToken", token);
+      localStorage.removeItem("authToken"); // Clean up other storage
+    }
   }
 }
 
 // Get authentication token
 export function getAuthToken(): string | null {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("authToken");
+    return localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
   }
   return null;
 }
@@ -219,6 +150,7 @@ export function getAuthToken(): string | null {
 export function removeAuthToken() {
   if (typeof window !== "undefined") {
     localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
   }
 }
 
@@ -275,40 +207,6 @@ export async function logoutUser(): Promise<{
 
     return { success: true, message: "Logged out locally" };
   }
-}
-
-interface UserProfileResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    user: {
-      id: string;
-      email: string;
-      first_name?: string;
-      last_name?: string;
-      profession?: string;
-      location?: string;
-      experience?: string;
-      current_job?: string;
-      looking_for?: string[];
-      bio?: string;
-      picture?: string;
-      socials?: {
-        linkedin?: string;
-        twitter?: string;
-        github?: string;
-      };
-      professional_summary?: string;
-      attachments?: Array<{
-        name: string;
-        url: string;
-        file_type?: string;
-        file_size?: number;
-        upload_date?: string;
-        description?: string;
-      }>;
-    };
-  };
 }
 
 // Get user profile
@@ -396,41 +294,6 @@ export async function updateUserProfile(
 
     throw error;
   }
-}
-
-// Jobs API Response types - Direct array response from backend
-export interface JobsResponse {
-  _id: string;
-  id: string;
-  role: string;
-  company_name: string;
-  company_logo?: string;
-  location?: string;
-  salary: {
-    symbol: string;
-    number: number;
-    currency: string;
-  };
-  salary_range?: {
-    start_salary: {
-      symbol: string;
-      number?: number;
-      currency: string;
-    };
-    end_salary: {
-      symbol: string;
-      number?: number;
-      currency: string;
-    };
-  };
-  tags?: string[];
-  full_description?: string;
-  responsibilities?: string[];
-  qualifications?: string[];
-  applicationLink?: string;
-  description?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // Fetch jobs from database
@@ -546,57 +409,6 @@ export async function getJobById(jobId: string): Promise<JobsResponse> {
 
     throw error;
   }
-}
-
-// Attachment types (matching backend schema)
-export interface Attachment {
-  _id?: string; // MongoDB ID when fetched from backend
-  name: string;
-  url: string;
-  file_type?: string; // "pdf", "doc", "docx"
-  file_size?: number; // in bytes
-  upload_date?: string; // ISO date string
-  description?: string;
-  // For compatibility with existing frontend code
-  id?: string; // Will map from _id
-  type?: string; // Will map from file_type
-  size?: number; // Will map from file_size
-  uploadedAt?: string; // Will map from upload_date
-  preview?: string; // Optional preview URL
-}
-
-export interface AttachmentUploadResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    attachments: Attachment[];
-  };
-  error?: string;
-}
-
-export interface AttachmentsListResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    attachments: Attachment[];
-  };
-  error?: string;
-}
-
-// Backend attachment type
-interface BackendAttachment {
-  _id?: string;
-  id?: string;
-  name: string;
-  url: string;
-  file_type?: string;
-  file_size?: number;
-  upload_date?: string;
-  description?: string;
-  type?: string;
-  size?: number;
-  uploadedAt?: string;
-  preview?: string;
 }
 
 // Helper function to normalize attachment data from backend to frontend format
@@ -934,26 +746,6 @@ export async function deleteAttachment(
 
     throw error;
   }
-}
-
-// Message/Contact form types
-export interface ContactMessage {
-  full_name: string;
-  email: string;
-  description: string;
-}
-
-export interface MessageResponse {
-  success: boolean;
-  description: string;
-  data?: {
-    id: string;
-    full_name: string;
-    email: string;
-    description: string;
-    createdAt: string;
-  };
-  error?: string;
 }
 
 // Send contact message

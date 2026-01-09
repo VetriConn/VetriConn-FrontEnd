@@ -7,7 +7,8 @@ import CallCallingIcon from "@/public/images/call-calling.svg";
 import SmsIcon from "@/public/images/sms.svg";
 import SmsTrackingIcon from "@/public/images/sms-tracking.svg";
 import { FiLinkedin } from "react-icons/fi";
-import { sendContactMessage, ContactMessage } from "@/lib/api";
+import { sendContactMessage } from "@/lib/api";
+import { ContactMessage } from "@/types/api";
 import { useToaster } from "@/components/ui/Toaster";
 
 interface ContactSectionProps {

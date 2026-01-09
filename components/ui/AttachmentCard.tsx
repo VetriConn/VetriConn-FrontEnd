@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaEllipsisV, FaTrash, FaDownload } from "react-icons/fa";
 import { IoDocumentText } from "react-icons/io5";
 import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
-import { Attachment } from "@/lib/api";
+import { Attachment } from "@/types/api";
 
 interface AttachmentCardProps {
   attachment: Attachment;

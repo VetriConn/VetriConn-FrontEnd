@@ -30,7 +30,7 @@ export const SignIn = () => {
       signInSchema.parse({ email, password });
       const response = await loginUser(email, password);
       if (response.success && response.data) {
-        storeAuthToken(response.data.token);
+        storeAuthToken(response.data.token, terms);
         showToast({ type: "success", title: "Login successful", description: "Welcome back! Redirecting to dashboard..." });
         setTimeout(() => router.push("/dashboard"), 1500);
       } else {
@@ -68,8 +68,11 @@ export const SignIn = () => {
       <div className="flex-1 items-center justify-center p-16 bg-white relative flex">
         <DottedBox4 className="absolute top-8 left-15 h-auto z-0 opacity-60" />
         <div className="w-full max-w-[500px]">
-          <h2 className="text-3xl mb-4">Welcome back!</h2>
-          <p className="text-sm mb-4">Sign in to your account and continue your journey with VetriConn.</p>
+          {/* Logo */}
+          <img src="/images/logo_1.svg" alt="VetriConn" className="w-40 mb-8" />
+          
+          <h2 className="text-3xl mb-4">Welcome back</h2>
+          <p className="text-sm mb-4">Sign in to continue to your account and find opportunities.</p>
           <form onSubmit={handleSubmit}>
             <FormField name="email" label="Email" type="email" placeholder="you@example.com" value={email} onChange={setEmail} helperText="Use the email you registered with." />
             
