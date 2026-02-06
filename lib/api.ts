@@ -2,6 +2,7 @@ import { API_CONFIG } from './api-config';
 import type { 
   LoginResponse, 
   SignupResponse,
+  UserProfile,
   UserProfileResponse,
   JobsResponse,
   Attachment,
@@ -284,6 +285,47 @@ export async function updateUserProfile(
     return data;
   } catch (error) {
     console.error("Profile update error:", error);
+
+    // Handle network errors specifically
+    if (error instanceof TypeError && error.message.includes("fetch")) {
+      throw new Error(
+        `Network error: Unable to connect to server. Please ensure the backend server is running.`
+      );
+    }
+
+    throw error;
+  }
+}
+
+// PATCH user profile (partial update for profile page)
+export async function patchUserProfile(
+  profileData: Partial<UserProfile>
+): Promise<UserProfileResponse> {
+  const token = getAuthToken();
+
+  if (!token) {
+    throw new Error("No authentication token found");
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(profileData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || data.error || "Failed to update profile");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Profile patch error:", error);
 
     // Handle network errors specifically
     if (error instanceof TypeError && error.message.includes("fetch")) {

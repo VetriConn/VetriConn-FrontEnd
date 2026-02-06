@@ -3,8 +3,21 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
-import { FaChevronDown, FaBars, FaTimes, FaSignOutAlt, FaBookmark, FaCog } from "react-icons/fa";
-import { HiOutlineBriefcase, HiOutlineUsers, HiOutlineInbox, HiOutlineBell } from "react-icons/hi";
+import {
+  FaChevronDown,
+  FaBars,
+  FaTimes,
+  FaSignOutAlt,
+  FaBookmark,
+  FaCog,
+  FaBriefcase,
+} from "react-icons/fa";
+import {
+  HiOutlineBriefcase,
+  HiOutlineUsers,
+  HiOutlineInbox,
+  HiOutlineBell,
+} from "react-icons/hi";
 import Image from "next/image";
 import { logoutUser } from "@/lib/api";
 import { useToaster } from "@/components/ui/Toaster";
@@ -18,9 +31,22 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Find Jobs", href: "/dashboard", icon: <HiOutlineBriefcase className="text-lg" />, hasDropdown: true },
-  { name: "Community", href: "/dashboard/community", icon: <HiOutlineUsers className="text-lg" /> },
-  { name: "Inbox", href: "/dashboard/inbox", icon: <HiOutlineInbox className="text-lg" /> },
+  {
+    name: "Find Jobs",
+    href: "/dashboard",
+    icon: <HiOutlineBriefcase className="text-lg" />,
+    hasDropdown: true,
+  },
+  {
+    name: "Community",
+    href: "/dashboard/community",
+    icon: <HiOutlineUsers className="text-lg" />,
+  },
+  {
+    name: "Inbox",
+    href: "/dashboard/inbox",
+    icon: <HiOutlineInbox className="text-lg" />,
+  },
 ];
 
 const DashboardNavbar = () => {
@@ -38,13 +64,22 @@ const DashboardNavbar = () => {
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target as Node)
+      ) {
         setIsProfileDropdownOpen(false);
       }
-      if (jobsDropdownRef.current && !jobsDropdownRef.current.contains(event.target as Node)) {
+      if (
+        jobsDropdownRef.current &&
+        !jobsDropdownRef.current.contains(event.target as Node)
+      ) {
         setIsJobsDropdownOpen(false);
       }
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -60,15 +95,23 @@ const DashboardNavbar = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      showToast({ type: "success", title: "Logged out successfully", description: "Redirecting to homepage..." });
+      showToast({
+        type: "success",
+        title: "Logged out successfully",
+        description: "Redirecting to homepage...",
+      });
       setTimeout(() => router.push("/"), 1500);
     } catch (error) {
       console.error("Logout error:", error);
-      showToast({ type: "error", title: "Logout failed", description: "Please try again" });
+      showToast({
+        type: "error",
+        title: "Logout failed",
+        description: "Please try again",
+      });
     }
     setIsProfileDropdownOpen(false);
   };
-console.log(userProfile);
+  console.log(userProfile);
   const userName = userProfile?.name || "User";
   const userRole = userProfile?.role === "employer" ? "Employer" : "Job Seeker";
 
@@ -77,13 +120,23 @@ console.log(userProfile);
       <div className="max-w-[1400px] mx-auto flex items-center justify-between py-3 px-6 lg:px-4">
         {/* Logo */}
         <Link href="/dashboard" className="flex items-center shrink-0">
-          <Image src="/images/logo_1.svg" alt="VetriConn" width={140} height={45} priority />
+          <Image
+            src="/images/logo_1.svg"
+            alt="VetriConn"
+            width={140}
+            height={45}
+            priority
+          />
         </Link>
 
         {/* Center Navigation - Desktop */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
-            <div key={item.name} className="relative" ref={item.hasDropdown ? jobsDropdownRef : undefined}>
+            <div
+              key={item.name}
+              className="relative"
+              ref={item.hasDropdown ? jobsDropdownRef : undefined}
+            >
               {item.hasDropdown ? (
                 <button
                   onClick={() => setIsJobsDropdownOpen(!isJobsDropdownOpen)}
@@ -91,12 +144,17 @@ console.log(userProfile);
                     "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                     pathname === item.href
                       ? "text-primary bg-red-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
                   )}
                 >
                   {item.icon}
                   <span>{item.name}</span>
-                  <FaChevronDown className={clsx("text-xs transition-transform", isJobsDropdownOpen && "rotate-180")} />
+                  <FaChevronDown
+                    className={clsx(
+                      "text-xs transition-transform",
+                      isJobsDropdownOpen && "rotate-180",
+                    )}
+                  />
                 </button>
               ) : (
                 <Link
@@ -105,7 +163,7 @@ console.log(userProfile);
                     "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                     pathname === item.href
                       ? "text-primary bg-red-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
                   )}
                 >
                   {item.icon}
@@ -115,9 +173,27 @@ console.log(userProfile);
               {/* Find Jobs Dropdown */}
               {item.hasDropdown && isJobsDropdownOpen && (
                 <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[180px] py-1 z-50">
-                  <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsJobsDropdownOpen(false)}>All Jobs</Link>
-                  <Link href="/dashboard/saved-jobs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsJobsDropdownOpen(false)}>Saved Jobs</Link>
-                  <Link href="/jobs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsJobsDropdownOpen(false)}>Browse Jobs</Link>
+                  <Link
+                    href="/dashboard"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsJobsDropdownOpen(false)}
+                  >
+                    All Jobs
+                  </Link>
+                  <Link
+                    href="/dashboard/saved-jobs"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsJobsDropdownOpen(false)}
+                  >
+                    Saved Jobs
+                  </Link>
+                  <Link
+                    href="/dashboard/search"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsJobsDropdownOpen(false)}
+                  >
+                    Browse Jobs
+                  </Link>
                 </div>
               )}
             </div>
@@ -140,36 +216,76 @@ console.log(userProfile);
             >
               <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                 {userProfile?.avatar ? (
-                  <Image src={userProfile.avatar} alt={userName} width={36} height={36} className="object-cover" />
+                  <Image
+                    src={userProfile.avatar}
+                    alt={userName}
+                    width={36}
+                    height={36}
+                    className="object-cover"
+                  />
                 ) : (
-                  <span className="text-gray-500 text-sm font-medium">{userName.charAt(0).toUpperCase()}</span>
+                  <span className="text-gray-500 text-sm font-medium">
+                    {userName.charAt(0).toUpperCase()}
+                  </span>
                 )}
               </div>
               <div className="text-left">
-                <p className="text-sm font-medium text-gray-900 leading-tight">{userName}</p>
-                <p className="text-xs text-gray-500 leading-tight">{userRole}</p>
+                <p className="text-sm font-medium text-gray-900 leading-tight">
+                  {userName}
+                </p>
+                <p className="text-xs text-gray-500 leading-tight">
+                  {userRole}
+                </p>
               </div>
-              <FaChevronDown className={clsx("text-xs text-gray-400 transition-transform ml-1", isProfileDropdownOpen && "rotate-180")} />
+              <FaChevronDown
+                className={clsx(
+                  "text-xs text-gray-400 transition-transform ml-1",
+                  isProfileDropdownOpen && "rotate-180",
+                )}
+              />
             </button>
 
             {isProfileDropdownOpen && (
               <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[200px] py-1 z-50">
-                <Link href="/dashboard/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsProfileDropdownOpen(false)}>
+                <Link
+                  href="/dashboard/profile"
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={() => setIsProfileDropdownOpen(false)}
+                >
                   <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500">
                     {userName.charAt(0).toUpperCase()}
                   </div>
                   View Profile
                 </Link>
-                <Link href="/dashboard/saved-jobs" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsProfileDropdownOpen(false)}>
+                <Link
+                  href="/dashboard/applied-jobs"
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={() => setIsProfileDropdownOpen(false)}
+                >
+                  <FaBriefcase className="text-gray-400" />
+                  Applied Jobs
+                </Link>
+                <Link
+                  href="/dashboard/saved-jobs"
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={() => setIsProfileDropdownOpen(false)}
+                >
                   <FaBookmark className="text-gray-400" />
                   Saved Jobs
                 </Link>
-                <Link href="/dashboard/settings" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsProfileDropdownOpen(false)}>
+                <Link
+                  href="/dashboard/settings"
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={() => setIsProfileDropdownOpen(false)}
+                >
                   <FaCog className="text-gray-400" />
-                  Settings
+                  Account Settings
                 </Link>
                 <hr className="my-1 border-gray-100" />
-                <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 w-full text-left">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 w-full text-left"
+                >
                   <FaSignOutAlt className="text-gray-400" />
                   Logout
                 </button>
@@ -184,7 +300,11 @@ console.log(userProfile);
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
           >
-            {isMobileMenuOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
+            {isMobileMenuOpen ? (
+              <FaTimes className="text-xl" />
+            ) : (
+              <FaBars className="text-xl" />
+            )}
           </button>
 
           {isMobileMenuOpen && (
@@ -195,7 +315,9 @@ console.log(userProfile);
                   href={item.href}
                   className={clsx(
                     "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors",
-                    pathname === item.href ? "text-primary bg-red-50" : "text-gray-700 hover:bg-gray-50"
+                    pathname === item.href
+                      ? "text-primary bg-red-50"
+                      : "text-gray-700 hover:bg-gray-50",
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -204,19 +326,50 @@ console.log(userProfile);
                 </Link>
               ))}
               <hr className="my-2 border-gray-100" />
-              <Link href="/dashboard/profile" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link
+                href="/dashboard/profile"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 <HiOutlineBell className="text-lg" />
                 Notifications
               </Link>
-              <Link href="/dashboard/profile" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link
+                href="/dashboard/profile"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 View Profile
               </Link>
-              <Link href="/dashboard/settings" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link
+                href="/dashboard/applied-jobs"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FaBriefcase className="text-gray-400" />
+                Applied Jobs
+              </Link>
+              <Link
+                href="/dashboard/saved-jobs"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FaBookmark className="text-gray-400" />
+                Saved Jobs
+              </Link>
+              <Link
+                href="/dashboard/settings"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 <FaCog className="text-gray-400" />
-                Settings
+                Account Settings
               </Link>
               <hr className="my-2 border-gray-100" />
-              <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 w-full text-left">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 w-full text-left"
+              >
                 <FaSignOutAlt className="text-gray-400" />
                 Logout
               </button>

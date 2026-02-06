@@ -6,7 +6,10 @@ const PROFILE_STEP_GROUPS = [
   { name: "Account Type", fields: ["role"] },
   { name: "Personal Info", fields: ["full_name"] },
   { name: "Contact Info", fields: ["phone_number", "city", "country"] },
-  { name: "Work Background", fields: ["job_title", "industry", "years_of_experience"] },
+  {
+    name: "Work Background",
+    fields: ["job_title", "industry", "years_of_experience"],
+  },
   { name: "Resume Upload", fields: ["documents"] },
 ] as const;
 
@@ -16,34 +19,45 @@ const ALL_PROFILE_FIELDS = PROFILE_STEP_GROUPS.flatMap((step) => step.fields);
 export function useUserProfile() {
   const { data, error, mutate, isLoading } = useSWR(
     "/auth/profile",
-    getUserProfile
+    getUserProfile,
   );
 
   const rawUser = data?.data?.user;
 
   // Calculate profile completion based on step groups
   const profileCompletion = (() => {
-    if (!rawUser) return { percentage: 0, completed: 0, total: PROFILE_STEP_GROUPS.length };
-    
+    if (!rawUser)
+      return { percentage: 0, completed: 0, total: PROFILE_STEP_GROUPS.length };
+
     // Check if a field has data
     const isFieldFilled = (field: string): boolean => {
       const value = rawUser[field as keyof typeof rawUser];
       if (field === "documents") {
         return Array.isArray(value) && value.length > 0;
       }
-      return value !== undefined && value !== null && String(value).trim() !== "";
+      return (
+        value !== undefined && value !== null && String(value).trim() !== ""
+      );
     };
-    
+
     // Count completed steps (all fields in group must be filled)
     const completedSteps = PROFILE_STEP_GROUPS.filter((step) =>
-      step.fields.every((field) => isFieldFilled(field))
+      step.fields.every((field) => isFieldFilled(field)),
     ).length;
-    
+
     // Calculate percentage based on individual fields filled
-    const filledFields = ALL_PROFILE_FIELDS.filter((field) => isFieldFilled(field)).length;
-    const percentage = Math.round((filledFields / ALL_PROFILE_FIELDS.length) * 100);
-    
-    return { percentage, completed: completedSteps, total: PROFILE_STEP_GROUPS.length };
+    const filledFields = ALL_PROFILE_FIELDS.filter((field) =>
+      isFieldFilled(field),
+    ).length;
+    const percentage = Math.round(
+      (filledFields / ALL_PROFILE_FIELDS.length) * 100,
+    );
+
+    return {
+      percentage,
+      completed: completedSteps,
+      total: PROFILE_STEP_GROUPS.length,
+    };
   })();
 
   // Map backend user data to frontend format with proper fallbacks
@@ -76,15 +90,21 @@ export function useUserProfile() {
         job_title: rawUser.job_title || "",
         industry: rawUser.industry || "",
         years_of_experience: rawUser.years_of_experience || "",
+        // Pass through arrays and email for profile page
+        work_experience: rawUser.work_experience || [],
+        education: rawUser.education || [],
+        documents: rawUser.documents || [],
+        saved_jobs: rawUser.saved_jobs || [],
+        email: rawUser.email || "",
       }
     : null;
 
   return {
     userProfile,
+    rawUser,
     profileCompletion,
     isLoading,
     isError: !!error,
     mutateProfile: mutate,
   };
 }
-

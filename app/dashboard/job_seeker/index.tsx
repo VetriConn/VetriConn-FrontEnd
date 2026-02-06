@@ -8,24 +8,45 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 
 // Dynamically import profile cards for better optimization
 const CompleteProfileCard = dynamic(
-  () => import("@/components/ui/ProfileCompletionCards").then((mod) => mod.CompleteProfileCard),
-  { ssr: false, loading: () => <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 animate-pulse h-[180px]" /> }
+  () =>
+    import("@/components/ui/ProfileCompletionCards").then(
+      (mod) => mod.CompleteProfileCard,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 animate-pulse h-[180px]" />
+    ),
+  },
 );
 
 const ReadyToApplyCard = dynamic(
-  () => import("@/components/ui/ProfileCompletionCards").then((mod) => mod.ReadyToApplyCard),
-  { ssr: false, loading: () => <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 animate-pulse h-[150px]" /> }
+  () =>
+    import("@/components/ui/ProfileCompletionCards").then(
+      (mod) => mod.ReadyToApplyCard,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 animate-pulse h-[150px]" />
+    ),
+  },
 );
 
 // Dynamically import RecommendedJobs component (fetches its own data)
 const RecommendedJobs = dynamic(
   () => import("@/components/ui/RecommendedJobs"),
-  { ssr: false, loading: () => <div className="bg-gray-100 rounded-xl p-6 h-[400px] animate-pulse" /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-gray-100 rounded-xl p-6 h-[400px] animate-pulse" />
+    ),
+  },
 );
 
 const JobSeekerDashboard = () => {
   const { profileCompletion, isLoading } = useUserProfile();
-  
+
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
@@ -36,11 +57,11 @@ const JobSeekerDashboard = () => {
 
   const handleFindJobs = () => {
     const params = new URLSearchParams();
-    if (searchQuery) params.set("search", searchQuery);
+    if (searchQuery) params.set("q", searchQuery);
     if (location) params.set("location", location);
-    if (workType !== "all") params.set("workType", workType);
+    if (workType !== "all") params.set("type", workType);
     if (experienceLevel) params.set("experience", experienceLevel);
-    window.location.href = `/jobs${params.toString() ? `?${params.toString()}` : ""}`;
+    window.location.href = `/dashboard/search${params.toString() ? `?${params.toString()}` : ""}`;
   };
 
   if (isLoading) {
@@ -52,19 +73,29 @@ const JobSeekerDashboard = () => {
       <div className="max-w-[1200px] mx-auto px-6 py-8">
         {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Your Dashboard</h1>
-          <p className="text-gray-500">Here&apos;s what&apos;s happening with your job search today.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+            Your Dashboard
+          </h1>
+          <p className="text-gray-500">
+            Here&apos;s what&apos;s happening with your job search today.
+          </p>
         </div>
 
         {/* Find Your Next Opportunity Card */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">Find Your Next Opportunity</h2>
-          <p className="text-gray-500 text-sm mb-6">Search for jobs that match your skills and preferences</p>
-          
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">
+            Find Your Next Opportunity
+          </h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Search for jobs that match your skills and preferences
+          </p>
+
           <div className="flex flex-wrap gap-4 items-end">
             {/* Job Search */}
             <div className="flex-1 min-w-[200px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Job Search</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Search
+              </label>
               <div className="relative">
                 <HiMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
@@ -79,7 +110,9 @@ const JobSeekerDashboard = () => {
 
             {/* Location */}
             <div className="min-w-[150px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Location
+              </label>
               <div className="relative">
                 <HiOutlineLocationMarker className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <select
@@ -103,7 +136,9 @@ const JobSeekerDashboard = () => {
 
             {/* Work Type */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Work Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Work Type
+              </label>
               <div className="flex rounded-lg overflow-hidden bg-gray-100">
                 <button
                   onClick={() => setWorkType("all")}
@@ -140,7 +175,9 @@ const JobSeekerDashboard = () => {
 
             {/* Experience Level */}
             <div className="min-w-[140px]">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Experience Level
+              </label>
               <select
                 value={experienceLevel}
                 onChange={(e) => setExperienceLevel(e.target.value)}
@@ -166,7 +203,7 @@ const JobSeekerDashboard = () => {
 
         {/* Conditional Cards - Only one shows at a time */}
         {!isProfileComplete ? (
-          <CompleteProfileCard 
+          <CompleteProfileCard
             completed={profileCompletion.completed}
             total={profileCompletion.total}
             percentage={profileCompletion.percentage}
