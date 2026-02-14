@@ -1,18 +1,25 @@
 "use client";
 import React from "react";
-import { FaEdit, FaFileAlt, FaCalendar, FaFile } from "react-icons/fa";
-import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
-import { IoDocumentText } from "react-icons/io5";
+import {
+  HiOutlineArrowUpTray,
+  HiOutlineArrowDownTray,
+  HiOutlineTrash,
+  HiOutlineDocumentText,
+} from "react-icons/hi2";
 import { UserDocument } from "@/types/api";
 
 interface DocumentsCardProps {
   documents: UserDocument[];
-  onEdit: () => void;
+  onUpload: () => void;
+  onDownload?: (doc: UserDocument) => void;
+  onDelete?: (doc: UserDocument) => void;
 }
 
 export const DocumentsCard: React.FC<DocumentsCardProps> = ({
   documents,
-  onEdit,
+  onUpload,
+  onDownload,
+  onDelete,
 }) => {
   const formatDate = (date?: Date | string) => {
     if (!date) return "";
@@ -28,103 +35,97 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
     }
   };
 
-  const getFileIcon = (fileName?: string, fileType?: string) => {
-    const name = (fileName || "").toLowerCase();
-    const type = (fileType || "").toLowerCase();
-
-    if (name.includes(".pdf") || type === "pdf") {
-      return <BsFillFileEarmarkPdfFill className="text-red-600 text-lg" />;
-    }
-    if (name.includes(".doc") || type === "doc" || type === "docx") {
-      return <IoDocumentText className="text-blue-600 text-lg" />;
-    }
-    return <FaFileAlt className="text-gray-600 text-lg" />;
+  const formatFileSize = (bytes?: number) => {
+    if (!bytes) return "";
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
-  const getFileTypeLabel = (fileName?: string, fileType?: string) => {
-    const name = (fileName || "").toLowerCase();
-    const type = (fileType || "").toLowerCase();
+  // Sort by most recently uploaded first
+  const sortedDocuments = [...documents].sort((a, b) => {
+    const dateA = a.upload_date ? new Date(a.upload_date).getTime() : 0;
+    const dateB = b.upload_date ? new Date(b.upload_date).getTime() : 0;
+    return dateB - dateA;
+  });
 
-    if (name.includes(".pdf") || type === "pdf") return "PDF";
-    if (name.includes(".docx") || type === "docx") return "DOCX";
-    if (name.includes(".doc") || type === "doc") return "DOC";
-
-    // Try to extract extension from filename
-    const extension = name.split(".").pop()?.toUpperCase();
-    return extension || "Document";
-  };
-
-  const hasDocuments = documents && documents.length > 0;
+  const hasDocuments = sortedDocuments.length > 0;
 
   return (
     <div
       id="documents-card"
       className="bg-white rounded-xl border border-gray-200 p-6"
     >
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900">Documents</h2>
         <button
-          onClick={onEdit}
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
-          aria-label="Edit documents"
+          onClick={onUpload}
+          className="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+          aria-label="Upload document"
         >
-          <FaEdit className="text-sm" />
-          Edit
+          <HiOutlineArrowUpTray className="text-base" />
+          Upload
         </button>
       </div>
 
       {hasDocuments ? (
-        <div className="space-y-6">
-          {documents.map((doc, index) => (
-            <div
-              key={doc._id || index}
-              className="flex gap-4 pb-6 border-b border-gray-100 last:border-b-0 last:pb-0"
-            >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center flex-shrink-0">
-                {getFileIcon(doc.name, doc.file_type)}
+        <div className="space-y-4">
+          {sortedDocuments.map((doc, index) => (
+            <div key={doc._id || index} className="flex items-center gap-4">
+              {/* File icon */}
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                <HiOutlineDocumentText className="text-red-500 text-lg" />
               </div>
 
-              {/* Content */}
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
+              {/* File info */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold text-gray-900 truncate">
                   {doc.name}
                 </h3>
-
-                {/* File type */}
-                <p className="text-sm text-gray-600 mb-2">
-                  {getFileTypeLabel(doc.name, doc.file_type)}
+                <p className="text-xs text-gray-400">
+                  {formatFileSize(doc.file_size)}
+                  {doc.upload_date && (
+                    <>
+                      {doc.file_size ? " • " : ""}
+                      Uploaded {formatDate(doc.upload_date)}
+                    </>
+                  )}
                 </p>
+              </div>
 
-                {/* Upload date */}
-                {doc.upload_date && (
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <FaCalendar className="text-xs" />
-                    <span>Uploaded {formatDate(doc.upload_date)}</span>
-                  </div>
-                )}
-
-                {/* Description (if available) */}
-                {doc.description && (
-                  <p className="text-sm text-gray-600 leading-relaxed mt-2">
-                    {doc.description}
-                  </p>
-                )}
+              {/* Actions */}
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() => onDownload?.(doc)}
+                  className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label={`Download ${doc.name}`}
+                >
+                  <HiOutlineArrowDownTray className="text-lg" />
+                </button>
+                <button
+                  onClick={() => onDelete?.(doc)}
+                  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                  aria-label={`Delete ${doc.name}`}
+                >
+                  <HiOutlineTrash className="text-lg" />
+                </button>
               </div>
             </div>
           ))}
         </div>
       ) : (
         <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-            <FaFile className="text-gray-400 text-2xl" />
-          </div>
-          <p className="text-gray-500 text-sm mb-2">No documents added yet</p>
+          <p className="text-gray-500 text-sm mb-1">No documents added yet</p>
           <p className="text-gray-400 text-xs">
-            Click the Edit button to upload your documents
+            Click &quot;Upload&quot; to add your documents
           </p>
         </div>
       )}
+
+      {/* Accepted file types footer */}
+      <p className="text-xs text-gray-400 italic mt-4">
+        Accepted file types: PDF, DOC, DOCX (max 10MB)
+      </p>
     </div>
   );
 };

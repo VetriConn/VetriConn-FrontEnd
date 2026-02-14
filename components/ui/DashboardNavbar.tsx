@@ -122,7 +122,7 @@ const DashboardNavbar = () => {
         <Link href="/dashboard" className="flex items-center shrink-0">
           <Image
             src="/images/logo_1.svg"
-            alt="VetriConn"
+            alt="Vetriconn"
             width={140}
             height={45}
             priority
@@ -188,7 +188,7 @@ const DashboardNavbar = () => {
                     Saved Jobs
                   </Link>
                   <Link
-                    href="/dashboard/search"
+                    href="/dashboard/jobs"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     onClick={() => setIsJobsDropdownOpen(false)}
                   >

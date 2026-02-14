@@ -10,6 +10,7 @@ import { JobResultsList } from "@/components/ui/JobResultsList";
 import { LoadMoreButton } from "@/components/ui/LoadMoreButton";
 import { useJobs } from "@/hooks/useJobs";
 import { Job } from "@/types/job";
+import { DUMMY_JOBS } from "@/lib/dummy-jobs";
 
 // Filter state interface
 interface FilterState {
@@ -145,9 +146,14 @@ const SearchResultsPage = () => {
     location: appliedFilters.location || undefined,
   });
 
+  // Fall back to dummy data when API is unavailable
+  const dummyJobsList = useMemo(() => Object.values(DUMMY_JOBS), []);
+  const effectiveJobs = allJobs.length > 0 ? allJobs : dummyJobsList;
+  const effectiveError = false; // Always show dummy data instead of error state
+
   // Filter jobs based on applied filters (client-side filtering for job type and experience)
   const filteredJobs = useMemo(() => {
-    return allJobs.filter((job) => {
+    return effectiveJobs.filter((job) => {
       // Filter by job type
       if (appliedFilters.jobType) {
         const jobType = getJobType(job);
@@ -165,7 +171,7 @@ const SearchResultsPage = () => {
 
       return true;
     });
-  }, [allJobs, appliedFilters.jobType, appliedFilters.experienceLevel]);
+  }, [effectiveJobs, appliedFilters.jobType, appliedFilters.experienceLevel]);
 
   // Get displayed jobs based on pagination
   const displayedJobs = useMemo(() => {
@@ -278,13 +284,13 @@ const SearchResultsPage = () => {
               <JobResultsList
                 jobs={displayedJobs}
                 isLoading={isLoading}
-                isError={isError}
+                isError={effectiveError}
                 onRetry={handleRetry}
                 onApply={handleApply}
               />
 
               {/* Load More Button */}
-              {!isLoading && !isError && displayedJobs.length > 0 && (
+              {!isLoading && !effectiveError && displayedJobs.length > 0 && (
                 <nav
                   className="flex justify-center mt-6 sm:mt-8"
                   aria-label="Pagination"

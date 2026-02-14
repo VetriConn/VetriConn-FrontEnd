@@ -1,4 +1,4 @@
-# VetriConn Frontend — Developer Context
+# Vetriconn Frontend — Developer Context
 
 A job board platform connecting Canadian veterans and retirees with employers. This document captures project styles, preferences, and conventions for any developer continuing work.
 

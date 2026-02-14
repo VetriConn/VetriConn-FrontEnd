@@ -1,4 +1,4 @@
-// Signup flow types for VetriConn platform
+// Signup flow types for Vetriconn platform
 
 /**
  * Form data collected across all signup steps

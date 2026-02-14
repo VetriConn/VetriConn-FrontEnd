@@ -1,100 +1,111 @@
 "use client";
 import React from "react";
 import {
-  FaEdit,
-  FaGraduationCap,
-  FaCalendar,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+  HiOutlinePlus,
+  HiOutlineAcademicCap,
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import { Education } from "@/types/api";
 
 interface EducationCardProps {
   education: Education[];
-  onEdit: () => void;
+  onAdd: () => void;
+  onEdit?: (index: number) => void;
+  onDelete?: (index: number) => void;
 }
 
 export const EducationCard: React.FC<EducationCardProps> = ({
   education,
+  onAdd,
   onEdit,
+  onDelete,
 }) => {
   const formatYearRange = (startYear?: string, endYear?: string) => {
     if (!startYear && !endYear) return "";
     if (!startYear) return endYear;
-    if (!endYear) return `${startYear} - Present`;
+    if (!endYear) return `${startYear} – Present`;
 
-    return `${startYear} - ${endYear}`;
+    return `${startYear} – ${endYear}`;
   };
 
-  const hasEducation = education && education.length > 0;
+  // Sort by most recent first (end_year descending, no end_year = current/most recent)
+  // Preserve original indices so edit/delete callbacks reference the correct item
+  const sortedEducation = education
+    .map((edu, originalIndex) => ({ ...edu, _originalIndex: originalIndex }))
+    .sort((a, b) => {
+      const endA = a.end_year ? parseInt(a.end_year, 10) : Infinity;
+      const endB = b.end_year ? parseInt(b.end_year, 10) : Infinity;
+      if (endA !== endB) return endB - endA;
+      const startA = a.start_year ? parseInt(a.start_year, 10) : 0;
+      const startB = b.start_year ? parseInt(b.start_year, 10) : 0;
+      return startB - startA;
+    });
+
+  const hasEducation = sortedEducation.length > 0;
 
   return (
     <div
       id="education-card"
       className="bg-white rounded-xl border border-gray-200 p-6"
     >
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900">Education</h2>
         <button
-          onClick={onEdit}
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
-          aria-label="Edit education"
+          onClick={onAdd}
+          className="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+          aria-label="Add education"
         >
-          <FaEdit className="text-sm" />
-          Edit
+          <HiOutlinePlus className="text-base" />
+          Add education
         </button>
       </div>
 
       {hasEducation ? (
         <div className="space-y-6">
-          {education.map((edu, index) => (
+          {sortedEducation.map((edu, index) => (
             <div
               key={index}
               className="flex gap-4 pb-6 border-b border-gray-100 last:border-b-0 last:pb-0"
             >
               {/* Icon */}
-              <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
-                <FaGraduationCap className="text-purple-600 text-lg" />
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                <HiOutlineAcademicCap className="text-red-500 text-lg" />
               </div>
 
               {/* Content */}
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  {edu.degree}
-                </h3>
-                <p className="text-base font-medium text-gray-700 mb-2">
-                  {edu.institution}
-                </p>
-
-                {/* Field of study */}
-                {edu.field_of_study && (
-                  <p className="text-sm text-gray-600 mb-2">
-                    {edu.field_of_study}
-                  </p>
-                )}
-
-                {/* Year range and location */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
-                  {(edu.start_year || edu.end_year) && (
-                    <div className="flex items-center gap-2">
-                      <FaCalendar className="text-xs" />
-                      <span>
-                        {formatYearRange(edu.start_year, edu.end_year)}
-                      </span>
-                    </div>
-                  )}
-
-                  {edu.location && (
-                    <div className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-xs" />
-                      <span>{edu.location}</span>
-                    </div>
-                  )}
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900">
+                      {edu.institution}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-0.5">
+                      {edu.degree}
+                      {edu.field_of_study ? ` of ${edu.field_of_study}` : ""}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0 ml-4">
+                    <button
+                      onClick={() => onEdit?.(edu._originalIndex)}
+                      className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors rounded-md hover:bg-gray-100"
+                      aria-label={`Edit ${edu.institution}`}
+                    >
+                      <HiOutlinePencilSquare className="text-base" />
+                    </button>
+                    <button
+                      onClick={() => onDelete?.(edu._originalIndex)}
+                      className="p-1.5 text-gray-400 hover:text-red-500 transition-colors rounded-md hover:bg-gray-100"
+                      aria-label={`Delete ${edu.institution}`}
+                    >
+                      <HiOutlineTrash className="text-base" />
+                    </button>
+                  </div>
                 </div>
 
-                {/* Description */}
-                {edu.description && (
-                  <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                    {edu.description}
+                {(edu.start_year || edu.end_year) && (
+                  <p className="text-sm text-gray-400 mt-0.5">
+                    {formatYearRange(edu.start_year, edu.end_year)}
                   </p>
                 )}
               </div>
@@ -103,12 +114,9 @@ export const EducationCard: React.FC<EducationCardProps> = ({
         </div>
       ) : (
         <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-            <FaGraduationCap className="text-gray-400 text-2xl" />
-          </div>
-          <p className="text-gray-500 text-sm mb-2">No education added yet</p>
+          <p className="text-gray-500 text-sm mb-1">No education added yet</p>
           <p className="text-gray-400 text-xs">
-            Click the Edit button to add your education history
+            Click &quot;+ Add education&quot; to add your education history
           </p>
         </div>
       )}

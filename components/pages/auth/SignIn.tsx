@@ -60,7 +60,7 @@ export const SignIn = () => {
       {/* Desktop: Left side with image */}
       <div className="flex-1 bg-gray-100 items-center justify-center p-8 text-left bg-[linear-gradient(70deg,rgba(0,0,0,0.6),rgba(0,0,0,0.3)),url('/images/Hero/1.svg')] bg-right bg-cover hidden mobile:hidden tablet:hidden relative md:flex">
         <DottedBox9 className="absolute top-50 right-10 w-[120px] h-auto z-0 opacity-60" />
-        <h1 className="font-lato text-heading-2 mb-4 text-white text-[2.5rem] font-semibold leading-tight">Join the <br /> <span className="text-primary">VetriConn</span> community</h1>
+        <h1 className="font-lato text-heading-2 mb-4 text-white text-[2.5rem] font-semibold leading-tight">Join the <br /> <span className="text-primary">Vetriconn</span> community</h1>
         <DottedBox7 className="absolute bottom-80 left-15 w-[120px] h-auto z-0 opacity-60" />
       </div>
 
@@ -69,7 +69,7 @@ export const SignIn = () => {
         <DottedBox4 className="absolute top-8 left-15 h-auto z-0 opacity-60" />
         <div className="w-full max-w-[500px]">
           {/* Logo */}
-          <img src="/images/logo_1.svg" alt="VetriConn" className="w-40 mb-8" />
+          <img src="/images/logo_1.svg" alt="Vetriconn" className="w-40 mb-8" />
           
           <h2 className="text-3xl mb-4">Welcome back</h2>
           <p className="text-sm mb-4">Sign in to continue to your account and find opportunities.</p>
@@ -89,7 +89,7 @@ export const SignIn = () => {
           {/* Divider with text */}
           <div className="flex items-center gap-4 my-8">
             <div className="flex-1 h-px bg-gray-200"></div>
-            <span className="text-sm text-gray-500">New to VetriConn?</span>
+            <span className="text-sm text-gray-500">New to Vetriconn?</span>
             <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 

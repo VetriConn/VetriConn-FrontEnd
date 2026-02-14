@@ -5,18 +5,18 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = generateSeoMetadata({
-  title: METADATA_TEMPLATES.jobs.title,
-  description: METADATA_TEMPLATES.jobs.description,
-  path: "/jobs",
+  title: METADATA_TEMPLATES.about.title,
+  description: METADATA_TEMPLATES.about.description,
+  path: "/about",
   keywords: [
+    "about Vetriconn",
     "veteran jobs Canada",
-    "retiree jobs",
-    "senior employment",
-    "part-time jobs veterans",
+    "retiree employment mission",
+    "Canadian workforce",
   ],
 });
 
-export default function JobsLayout({
+export default function AboutLayout({
   children,
 }: {
   children: React.ReactNode;

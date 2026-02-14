@@ -61,7 +61,7 @@ const JobSeekerDashboard = () => {
     if (location) params.set("location", location);
     if (workType !== "all") params.set("type", workType);
     if (experienceLevel) params.set("experience", experienceLevel);
-    window.location.href = `/dashboard/search${params.toString() ? `?${params.toString()}` : ""}`;
+    window.location.href = `/dashboard/jobs${params.toString() ? `?${params.toString()}` : ""}`;
   };
 
   if (isLoading) {

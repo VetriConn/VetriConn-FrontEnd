@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { HiCheckCircle } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { CheckCircleIcon } from "@/components/ui/CheckCircleIcon";
 
 export interface ProfileHeaderProps {
   name: string;
@@ -80,7 +80,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
               {/* Completion Badge */}
               <div className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-3 py-1 bg-red-50 rounded-full">
-                <HiCheckCircle className="w-4 h-4 text-red-500 shrink-0" />
+                <CheckCircleIcon color="red" size={16} className="shrink-0" />
                 <span className="text-sm text-gray-700">
                   Profile {completionPercentage}% complete
                 </span>
