@@ -806,11 +806,11 @@ export async function deleteAttachment(
 export async function sendContactMessage(
   messageData: ContactMessage,
 ): Promise<MessageResponse> {
-  console.log("Making message request to:", `${API_BASE_URL}/messages`);
+  console.log("Making message request to:", `${API_BASE_URL}/api/v1/contact`);
   console.log("Message data:", messageData);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/messages`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
