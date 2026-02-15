@@ -18,6 +18,7 @@ import {
   HiOutlineChevronDown,
 } from "react-icons/hi2";
 import { useAccessibility, type TextSize } from "@/hooks/useAccessibility";
+import { useToaster } from "@/components/ui/Toaster";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import {
   changePassword as changePasswordApi,
@@ -187,6 +188,7 @@ function SelectField({
 export default function AccountSettingsPage() {
   // ─── Fetch user profile from DB ───────────────────────────────────────────
   const { userProfile, isLoading: profileLoading } = useUserProfile();
+  const { showToast } = useToaster();
 
   const [settings, setSettings] = useState<SettingsState>({
     jobSeekingStatus: userProfile?.job_seeking_status || "none",
@@ -317,7 +319,11 @@ export default function AccountSettingsPage() {
       setDownloadSuccess(true);
       setTimeout(() => setDownloadSuccess(false), 5000);
     } catch {
-      // Silently fail — user will see no download happened
+      showToast({
+        type: "error",
+        title: "Export failed",
+        description: "Failed to download your data. Please try again.",
+      });
     } finally {
       setIsDownloading(false);
     }

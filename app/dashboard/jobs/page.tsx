@@ -358,6 +358,9 @@ const SearchResultsPage = () => {
   );
 };
 
+// Suspense boundary at the page level because SearchResultsPage calls
+// useSearchParams() directly — Next.js requires a Suspense ancestor for
+// this hook during static rendering. Keep this wrapper if refactoring.
 export default function SearchResultsPageWrapper() {
   return (
     <Suspense

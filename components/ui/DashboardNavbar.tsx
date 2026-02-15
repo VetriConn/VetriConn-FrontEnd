@@ -111,8 +111,13 @@ const DashboardNavbar = () => {
     setIsProfileDropdownOpen(false);
   };
 
-  const userName = userProfile?.name || "User";
-  const userRole = userProfile?.role === "employer" ? "Employer" : "Job Seeker";
+  const isUserProfileLoading = !userProfile;
+  const userName = isUserProfileLoading ? "Loading..." : userProfile?.name || "User";
+  const userRole = isUserProfileLoading
+    ? "Loading..."
+    : userProfile?.role === "employer"
+    ? "Employer"
+    : "Job Seeker";
 
   return (
     <nav className="bg-white border-b-[1px] border-gray-200 sticky top-0 z-[100]">

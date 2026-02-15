@@ -7,6 +7,20 @@ import { AuthHeader } from "@/components/ui/AuthHeader";
 import { getApiUrl } from "@/lib/api-config";
 import Link from "next/link";
 
+function VerifyingSpinner() {
+  return (
+    <>
+      <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+      <h1 className="text-2xl font-bold text-gray-800 mb-2">
+        Verifying Your Email
+      </h1>
+      <p className="text-gray-600">
+        Please wait while we verify your email address...
+      </p>
+    </>
+  );
+}
+
 function EmailVerificationContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -62,17 +76,7 @@ function EmailVerificationContent() {
 
   return (
     <>
-      {status === "loading" && (
-        <>
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Verifying Your Email
-          </h1>
-          <p className="text-gray-600">
-            Please wait while we verify your email address...
-          </p>
-        </>
-      )}
+      {status === "loading" && <VerifyingSpinner />}
 
       {status === "success" && (
         <>
@@ -142,20 +146,6 @@ function EmailVerificationContent() {
   );
 }
 
-function LoadingFallback() {
-  return (
-    <>
-      <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-2">
-        Verifying Your Email
-      </h1>
-      <p className="text-gray-600">
-        Please wait while we verify your email address...
-      </p>
-    </>
-  );
-}
-
 export default function EmailVerification() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100">
@@ -163,7 +153,7 @@ export default function EmailVerification() {
 
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <Suspense fallback={<LoadingFallback />}>
+          <Suspense fallback={<VerifyingSpinner />}>
             <EmailVerificationContent />
           </Suspense>
         </div>
