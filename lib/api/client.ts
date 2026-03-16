@@ -8,6 +8,23 @@ import type { Attachment, BackendAttachment } from "@/types/api";
 
 export const API_BASE_URL = API_CONFIG.BASE_URL;
 
+export interface ApiEnvelope<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+export interface PaginatedApiEnvelope<T> extends ApiEnvelope<T> {
+  pagination?: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
 type ApiFetchInit = RequestInit & {
   skipContentTypeHeaderCheck?: boolean;
 };

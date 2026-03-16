@@ -343,16 +343,10 @@ export function SignupWizard() {
       dispatch({ type: "SET_SUBMITTING", payload: true });
       dispatch({ type: "SET_ERRORS", payload: {} });
 
-      console.log("handleSubmit: Starting registration...");
-
       // Register user
       const response = await registerUser(formData);
 
-      console.log("handleSubmit: Registration response:", response);
-
       if (!response.success) {
-        console.log("handleSubmit: Registration failed, success is false");
-
         // Handle validation errors
         if (response.errors) {
           const errorMap: Record<string, string> = {};
@@ -369,18 +363,12 @@ export function SignupWizard() {
           description:
             response.message || "Please check your information and try again.",
         });
-
-        console.error("Registration failed:", response.message);
         dispatch({ type: "SET_SUBMITTING", payload: false });
         return false;
       }
 
-      console.log("handleSubmit: Registration successful");
-
       if (formData.resumeFile) {
-        console.info(
-          "Resume upload skipped until after email verification and sign-in.",
-        );
+        // Resume upload is intentionally deferred until post-verification sign-in.
       }
 
       // Clear session storage on successful registration
@@ -388,8 +376,7 @@ export function SignupWizard() {
 
       dispatch({ type: "SET_SUBMITTING", payload: false });
       return true;
-    } catch (error) {
-      console.error("Submission error:", error);
+    } catch {
       showToast({
         type: "error",
         title: "Error",

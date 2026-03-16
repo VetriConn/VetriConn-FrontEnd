@@ -4,101 +4,42 @@ import React from "react";
 import Link from "next/link";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { DashboardSkeleton } from "@/components/ui/Skeleton";
+import useSWR from "swr";
+import { getEmployerJobs } from "@/lib/api";
 import {
   HiOutlineBriefcase,
   HiOutlineDocumentText,
-  HiOutlineEye,
   HiOutlineUserGroup,
   HiOutlinePlusCircle,
   HiOutlineBuildingOffice2,
+  HiOutlineCalendar,
 } from "react-icons/hi2";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type JobStatus = "under_review" | "live" | "rejected";
-
-interface JobListing {
-  id: string;
-  title: string;
-  category: string;
-  type: string;
-  status: JobStatus;
-  views: number;
-  applications: number;
-}
-
-// ─── Mock Data ───────────────────────────────────────────────────────────────
-
-const MOCK_LISTINGS: JobListing[] = [
-  {
-    id: "1",
-    title: "Security Guard",
-    category: "Security",
-    type: "Full-time",
-    status: "under_review",
-    views: 58,
-    applications: 12,
-  },
-  {
-    id: "2",
-    title: "Office Assistant",
-    category: "Administrative",
-    type: "Part-time",
-    status: "live",
-    views: 62,
-    applications: 11,
-  },
-  {
-    id: "3",
-    title: "Warehouse Associate",
-    category: "Warehouse & Logistics",
-    type: "Full-time",
-    status: "rejected",
-    views: 53,
-    applications: 10,
-  },
-];
-
-// ─── Status Badge ────────────────────────────────────────────────────────────
-
-const STATUS_CONFIG: Record<
-  JobStatus,
-  { label: string; bg: string; text: string }
-> = {
-  under_review: {
-    label: "Under Review",
-    bg: "bg-yellow-50",
-    text: "text-yellow-700",
-  },
-  live: { label: "Live", bg: "bg-green-50", text: "text-green-700" },
-  rejected: { label: "Rejected", bg: "bg-red-50", text: "text-red-600" },
-};
-
-function StatusBadge({ status }: { status: JobStatus }) {
-  const config = STATUS_CONFIG[status];
-  return (
-    <span
-      className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${config.bg} ${config.text}`}
-    >
-      {config.label}
-    </span>
-  );
+function formatDate(value?: string) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString();
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const EmployerDashboard = () => {
   const { isLoading } = useUserProfile();
+  const { data: jobs = [], isLoading: isJobsLoading } = useSWR(
+    "employer-jobs-dashboard",
+    getEmployerJobs,
+  );
 
-  // In a real app these would come from an API
-  const listings = MOCK_LISTINGS;
+  const listings = jobs;
   const totalJobs = listings.length;
-  const activePosts = listings.filter((j) => j.status === "live").length;
-  const totalViews = listings.reduce((sum, j) => sum + j.views, 0);
+  const activePosts = listings.length;
   const totalApplications = listings.reduce(
-    (sum, j) => sum + j.applications,
+    (sum, j) => sum + (j.application_count || 0),
     0,
   );
+  const averageApplications =
+    totalJobs > 0 ? Math.round(totalApplications / totalJobs) : 0;
 
   const STATS = [
     { label: "Total Jobs", value: totalJobs, icon: HiOutlineDocumentText },
@@ -107,21 +48,25 @@ const EmployerDashboard = () => {
       value: activePosts,
       icon: HiOutlineBuildingOffice2,
     },
-    { label: "Total Views", value: totalViews, icon: HiOutlineEye },
+    {
+      label: "Avg. Applications",
+      value: averageApplications,
+      icon: HiOutlineUserGroup,
+    },
     {
       label: "Applications",
       value: totalApplications,
-      icon: HiOutlineUserGroup,
+      icon: HiOutlineCalendar,
     },
   ];
 
-  if (isLoading) {
+  if (isLoading || isJobsLoading) {
     return <DashboardSkeleton />;
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[800px] mx-auto px-6 py-8">
+      <div className="max-w-200 mx-auto px-6 py-8">
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {STATS.map((stat) => (
@@ -180,16 +125,13 @@ const EmployerDashboard = () => {
                       Job Title
                     </th>
                     <th className="text-left font-medium text-gray-400 px-3 py-2.5">
-                      Category
+                      Company
                     </th>
                     <th className="text-left font-medium text-gray-400 px-3 py-2.5">
-                      Type
+                      Location
                     </th>
                     <th className="text-left font-medium text-gray-400 px-3 py-2.5">
-                      Status
-                    </th>
-                    <th className="text-right font-medium text-gray-400 px-3 py-2.5">
-                      Views
+                      Posted
                     </th>
                     <th className="text-right font-medium text-gray-400 pr-6 pl-3 py-2.5">
                       Applications
@@ -199,24 +141,23 @@ const EmployerDashboard = () => {
                 <tbody>
                   {listings.map((job) => (
                     <tr
-                      key={job.id}
+                      key={job._id}
                       className="border-b border-gray-50 last:border-b-0 hover:bg-gray-50/50 transition-colors"
                     >
                       <td className="pl-6 pr-3 py-3 font-medium text-gray-900">
-                        {job.title}
+                        {job.role}
                       </td>
                       <td className="px-3 py-3 text-gray-500">
-                        {job.category}
+                        {job.company_name}
                       </td>
-                      <td className="px-3 py-3 text-gray-500">{job.type}</td>
-                      <td className="px-3 py-3">
-                        <StatusBadge status={job.status} />
+                      <td className="px-3 py-3 text-gray-500">
+                        {job.location || "Remote"}
                       </td>
-                      <td className="px-3 py-3 text-right text-gray-500">
-                        {job.views}
+                      <td className="px-3 py-3 text-gray-500">
+                        {formatDate(job.createdAt)}
                       </td>
                       <td className="pr-6 pl-3 py-3 text-right text-gray-500">
-                        {job.applications}
+                        {job.application_count || 0}
                       </td>
                     </tr>
                   ))}

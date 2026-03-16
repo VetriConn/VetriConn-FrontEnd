@@ -13,6 +13,7 @@ import {
 import { PiTreeStructureLight } from "react-icons/pi";
 import { type JobSeekingStatus } from "@/components/pages/profile/ProfileHeader";
 import type { WorkExperience, Education } from "@/types/api";
+import { getInitials } from "@/lib/initials";
 
 // ─── Status config (reuse from ProfileHeader) ──────────────────────────────────
 
@@ -70,15 +71,6 @@ export function ProfilePreviewDialog({
   profile,
 }: ProfilePreviewDialogProps) {
   if (!isOpen) return null;
-
-  const getInitials = (fullName: string): string => {
-    const parts = fullName.trim().split(/\s+/);
-    if (parts.length === 0) return "U";
-    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-    return (
-      parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
-    ).toUpperCase();
-  };
 
   const statusConfig = profile.job_seeking_status
     ? STATUS_CONFIG[profile.job_seeking_status]

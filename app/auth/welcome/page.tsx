@@ -20,11 +20,11 @@ export default function WelcomePage() {
         }
         // Clear signup session storage now that verification is complete
         sessionStorage.removeItem("vetriconn_signup_wizard_state");
-      } catch (error) {
-        console.error("Error parsing signup data:", error);
+      } catch {
+        // Ignore malformed session payload.
       }
     }
-  }, [router]);
+  }, []);
 
   const handleGoToSignIn = () => {
     router.push("/signin");

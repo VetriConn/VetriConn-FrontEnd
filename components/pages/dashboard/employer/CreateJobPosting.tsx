@@ -753,27 +753,25 @@ const CreateJobPosting = () => {
     setIsSaving(true);
     try {
       // TODO: Wire up to backend API
-      console.log("Saving draft:", formData);
       await new Promise((r) => setTimeout(r, 600));
     } catch {
       // Error handling with real API
     } finally {
       setIsSaving(false);
     }
-  }, [formData]);
+  }, []);
 
   const handlePublish = useCallback(async () => {
     setIsSaving(true);
     try {
       // TODO: Wire up to backend API
-      console.log("Publishing job:", formData);
       await new Promise((r) => setTimeout(r, 800));
     } catch {
       // Error handling with real API
     } finally {
       setIsSaving(false);
     }
-  }, [formData]);
+  }, []);
 
   // ─── Render Current Step ─────────────────────────────────────────────────
 

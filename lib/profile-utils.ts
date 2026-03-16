@@ -54,11 +54,6 @@ export const PROFILE_COMPLETION_FIELDS: CompletionItem[] = [
   },
   { field: "education", label: "Education", scrollTo: "education-card" },
   {
-    field: "documents",
-    label: "Resume / Documents",
-    scrollTo: "documents-card",
-  },
-  {
     field: "skills",
     label: "Skills",
     scrollTo: "skills-card",
@@ -84,7 +79,13 @@ function isFieldFilled(profile: UserProfile, field: string): boolean {
     return value.trim() !== "";
   }
   if (field === "location") {
-    // location is derived from city + country
+    // location can be explicit or derived from city + country
+    if (
+      typeof profile.location === "string" &&
+      profile.location.trim() !== ""
+    ) {
+      return true;
+    }
     const city = profile.city || "";
     const country = profile.country || "";
     return city.trim() !== "" && country.trim() !== "";

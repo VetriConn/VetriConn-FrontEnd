@@ -32,7 +32,7 @@ export async function registerUser(
 ): Promise<ApiResponse<RegisterResponse>> {
   try {
     // Prepare the data for backend
-    const requestData: any = {
+    const requestData: Record<string, unknown> = {
       full_name: formData.full_name,
       email: formData.email,
       password: formData.password,
@@ -43,13 +43,16 @@ export async function registerUser(
 
     // Add role-specific optional fields
     if (formData.role === "employer") {
-      // Employer-specific fields
-      if (formData.company_name)
-        requestData.company_name = formData.company_name;
-      if (formData.company_industry)
-        requestData.industry = formData.company_industry;
-      if (formData.company_location)
-        requestData.company_location = formData.company_location;
+      const [cityPart = "", countryPart = ""] = formData.company_location
+        .split(",")
+        .map((value) => value.trim());
+
+      requestData.employer_profile = {
+        company_name: formData.company_name,
+        industry: formData.company_industry,
+        city: cityPart,
+        country: countryPart,
+      };
     } else {
       // Job seeker-specific fields
       if (formData.phone_number)

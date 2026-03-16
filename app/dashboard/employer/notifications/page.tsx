@@ -1,90 +1,21 @@
 "use client";
 
+import React from "react";
 import {
   HiCheckCircle,
   HiXCircle,
   HiOutlineUserPlus,
   HiOutlineChatBubbleLeftRight,
+  HiOutlineInformationCircle,
 } from "react-icons/hi2";
+import { useNotifications } from "@/hooks/useNotifications";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 type NotificationType =
-  | "job_approved"
-  | "new_application"
-  | "new_message"
-  | "job_rejected";
-
-interface Notification {
-  id: string;
-  type: NotificationType;
-  title: string;
-  description: string;
-  timestamp: string;
-  read: boolean;
-}
-
-// ─── Mock Data ───────────────────────────────────────────────────────────────
-
-const MOCK_NOTIFICATIONS: Notification[] = [
-  {
-    id: "1",
-    type: "job_approved",
-    title: "Job Approved",
-    description: 'Your posting "Warehouse Supervisor" is now live.',
-    timestamp: "2026-02-15 09:00",
-    read: false,
-  },
-  {
-    id: "2",
-    type: "new_application",
-    title: "New Application",
-    description: "Patricia Williams applied for Logistics Coordinator.",
-    timestamp: "2026-02-15 08:30",
-    read: false,
-  },
-  {
-    id: "3",
-    type: "new_message",
-    title: "New Message",
-    description: "James Mitchell sent you a message.",
-    timestamp: "2026-02-15 10:30",
-    read: false,
-  },
-  {
-    id: "4",
-    type: "job_rejected",
-    title: "Job Rejected",
-    description:
-      'Your posting "Administrative Assistant" was not approved. Please review and resubmit.',
-    timestamp: "2026-02-12 14:00",
-    read: true,
-  },
-  {
-    id: "5",
-    type: "new_application",
-    title: "New Application",
-    description: "David Thompson applied for Logistics Coordinator.",
-    timestamp: "2026-02-12 11:00",
-    read: true,
-  },
-  {
-    id: "6",
-    type: "job_approved",
-    title: "Job Approved",
-    description: 'Your posting "Logistics Coordinator" is now live.',
-    timestamp: "2026-02-11 09:00",
-    read: true,
-  },
-  {
-    id: "7",
-    type: "new_application",
-    title: "New Application",
-    description: "Robert Chen applied for Warehouse Supervisor.",
-    timestamp: "2026-02-13 15:00",
-    read: true,
-  },
-];
+  | "application_received"
+  | "application_reviewed"
+  | "system";
 
 // ─── Icon + color config ─────────────────────────────────────────────────────
 
@@ -96,46 +27,63 @@ const NOTIFICATION_CONFIG: Record<
     borderColor: string;
   }
 > = {
-  job_approved: {
+  application_reviewed: {
     icon: HiCheckCircle,
     iconColor: "text-green-500",
     borderColor: "border-l-green-500",
   },
-  new_application: {
+  application_received: {
     icon: HiOutlineUserPlus,
     iconColor: "text-primary",
     borderColor: "border-l-primary",
   },
-  new_message: {
+  system: {
     icon: HiOutlineChatBubbleLeftRight,
-    iconColor: "text-primary",
-    borderColor: "border-l-primary",
-  },
-  job_rejected: {
-    icon: HiXCircle,
-    iconColor: "text-red-500",
-    borderColor: "border-l-red-500",
+    iconColor: "text-gray-500",
+    borderColor: "border-l-gray-400",
   },
 };
+
+function formatTimestamp(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Recently";
+  return date.toLocaleString();
+}
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function NotificationsPage() {
+  const { notifications, isLoading } = useNotifications();
+
+  const employerNotifications = notifications.filter((notification) =>
+    ["application_received", "application_reviewed", "system"].includes(
+      notification.type,
+    ),
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[680px] mx-auto px-6 py-8">
+      <div className="max-w-170 mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
 
+        {isLoading && (
+          <div className="bg-white rounded-lg border border-gray-200 p-5 text-sm text-gray-500 mb-3">
+            Loading notifications...
+          </div>
+        )}
+
         <div className="space-y-2">
-          {MOCK_NOTIFICATIONS.map((notif) => {
-            const config = NOTIFICATION_CONFIG[notif.type];
+          {employerNotifications.map((notif) => {
+            const config =
+              NOTIFICATION_CONFIG[notif.type as NotificationType] ||
+              NOTIFICATION_CONFIG.system;
             const Icon = config.icon;
 
             return (
               <div
-                key={notif.id}
+                key={notif._id}
                 className={`bg-white rounded-lg border border-gray-200 border-l-4 ${config.borderColor} px-5 py-4 flex items-start gap-3 ${
-                  !notif.read ? "bg-yellow-50/40" : ""
+                  !notif.is_read ? "bg-yellow-50/40" : ""
                 }`}
               >
                 {/* Icon */}
@@ -155,11 +103,17 @@ export default function NotificationsPage() {
 
                 {/* Timestamp */}
                 <span className="text-xs text-gray-400 whitespace-nowrap shrink-0 mt-0.5">
-                  {notif.timestamp}
+                  {formatTimestamp(notif.createdAt)}
                 </span>
               </div>
             );
           })}
+
+          {!isLoading && employerNotifications.length === 0 && (
+            <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-sm text-gray-500">
+              No notifications yet.
+            </div>
+          )}
         </div>
       </div>
     </div>

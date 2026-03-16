@@ -146,8 +146,12 @@ export default function ProfilePage() {
         country: contactFormData.country,
       });
       setEditSection(null);
-    } catch (error) {
-      console.error("Failed to update contact info:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Update failed",
+        description: "Could not update contact info. Please try again.",
+      });
     }
   };
 
@@ -171,8 +175,12 @@ export default function ProfilePage() {
         bio: publicProfileForm.bio,
       });
       setEditSection(null);
-    } catch (error) {
-      console.error("Failed to update public profile:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Update failed",
+        description: "Could not update public profile. Please try again.",
+      });
     }
   };
 
@@ -197,8 +205,13 @@ export default function ProfilePage() {
         years_of_experience: professionalInfoForm.years_of_experience,
       });
       setEditSection(null);
-    } catch (error) {
-      console.error("Failed to update professional info:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Update failed",
+        description:
+          "Could not update professional information. Please try again.",
+      });
     }
   };
 
@@ -230,11 +243,15 @@ export default function ProfilePage() {
       try {
         await patchProfile({ work_experience: updated });
         setLocalExperiences(updated);
-      } catch (error) {
-        console.error("Failed to delete experience:", error);
+      } catch {
+        showToast({
+          type: "error",
+          title: "Delete failed",
+          description: "Could not delete work experience. Please try again.",
+        });
       }
     },
-    [localExperiences, patchProfile],
+    [localExperiences, patchProfile, showToast],
   );
 
   const handleExperienceSubmit = async (e: React.FormEvent) => {
@@ -257,8 +274,12 @@ export default function ProfilePage() {
       setLocalExperiences(updatedList);
       setEditSection(null);
       setEditingIndex(null);
-    } catch (error) {
-      console.error("Failed to save work experience:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Save failed",
+        description: "Could not save work experience. Please try again.",
+      });
     }
   };
 
@@ -290,11 +311,15 @@ export default function ProfilePage() {
       try {
         await patchProfile({ education: updated });
         setLocalEducation(updated);
-      } catch (error) {
-        console.error("Failed to delete education:", error);
+      } catch {
+        showToast({
+          type: "error",
+          title: "Delete failed",
+          description: "Could not delete education. Please try again.",
+        });
       }
     },
-    [localEducation, patchProfile],
+    [localEducation, patchProfile, showToast],
   );
 
   const handleEducationSubmit = async (e: React.FormEvent) => {
@@ -317,8 +342,12 @@ export default function ProfilePage() {
       setLocalEducation(updatedList);
       setEditSection(null);
       setEditingIndex(null);
-    } catch (error) {
-      console.error("Failed to save education:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Save failed",
+        description: "Could not save education. Please try again.",
+      });
     }
   };
 
@@ -343,8 +372,7 @@ export default function ProfilePage() {
 
     setLocalDocuments((prev) => [...prev, newDoc]);
 
-    // TODO: Upload to backend (Cloudinary) when API is ready
-    console.log("Document uploaded locally:", newDoc.name);
+    // TODO: Upload to backend (Cloudinary) when API is ready.
 
     setEditSection(null);
     setUploadedFile(null);
@@ -414,8 +442,7 @@ export default function ProfilePage() {
       setPhotoFile(null);
       if (photoPreview) URL.revokeObjectURL(photoPreview);
       setPhotoPreview(null);
-    } catch (error) {
-      console.error("Failed to upload profile picture:", error);
+    } catch {
       showToast({
         type: "error",
         title: "Upload failed",
@@ -433,8 +460,7 @@ export default function ProfilePage() {
       await deleteProfilePicture();
       mutateProfile();
       setEditSection(null);
-    } catch (error) {
-      console.error("Failed to delete profile picture:", error);
+    } catch {
       showToast({
         type: "error",
         title: "Delete failed",
@@ -455,8 +481,12 @@ export default function ProfilePage() {
     try {
       await patchProfile({ skills: localSkills });
       setEditSection(null);
-    } catch (error) {
-      console.error("Failed to update skills:", error);
+    } catch {
+      showToast({
+        type: "error",
+        title: "Update failed",
+        description: "Could not update skills. Please try again.",
+      });
     }
   };
 
@@ -796,6 +826,7 @@ export default function ProfilePage() {
               onSectionClick={handleSectionClick}
             />
             <QuickActionsCard
+              appliedJobsCount={userProfile.applied_jobs_count ?? 0}
               savedJobsCount={userProfile.saved_jobs?.length ?? 0}
             />
           </div>

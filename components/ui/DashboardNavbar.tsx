@@ -24,10 +24,12 @@ import {
   HiOutlineGlobeAlt,
   HiOutlineCreditCard,
 } from "react-icons/hi2";
+import { getInitials } from "@/lib/initials";
 import Image from "next/image";
 import { logoutUser } from "@/lib/api";
 import { useToaster } from "@/components/ui/Toaster";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useNotifications } from "@/hooks/useNotifications";
 
 interface NavItem {
   name: string;
@@ -81,6 +83,7 @@ const DashboardNavbar = () => {
   const router = useRouter();
   const { showToast } = useToaster();
   const { userProfile } = useUserProfile();
+  const { unreadCount } = useNotifications();
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isJobsDropdownOpen, setIsJobsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -128,8 +131,7 @@ const DashboardNavbar = () => {
         description: "Redirecting to homepage...",
       });
       setTimeout(() => router.push("/"), 1500);
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch {
       showToast({
         type: "error",
         title: "Logout failed",
@@ -154,6 +156,7 @@ const DashboardNavbar = () => {
     () => (isEmployer ? employerNavItems : jobSeekerNavItems),
     [isEmployer],
   );
+  const hasUnreadNotifications = unreadCount > 0;
 
   return (
     <nav className="bg-white border-b-[1px] border-gray-200 sticky top-0 z-[100]">
@@ -302,7 +305,9 @@ const DashboardNavbar = () => {
           >
             <div className="relative">
               <HiOutlineBell className="text-lg" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+              {hasUnreadNotifications && (
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+              )}
             </div>
             <span>Notifications</span>
           </Link>
@@ -340,7 +345,7 @@ const DashboardNavbar = () => {
                   />
                 ) : (
                   <span className="text-gray-500 text-sm font-medium">
-                    {userName.charAt(0).toUpperCase()}
+                    {getInitials(userName)}
                   </span>
                 )}
               </div>
@@ -513,7 +518,9 @@ const DashboardNavbar = () => {
                   >
                     <div className="relative">
                       <HiOutlineBell className="text-lg" />
-                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                      {hasUnreadNotifications && (
+                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                      )}
                     </div>
                     Notifications
                   </Link>
@@ -556,7 +563,9 @@ const DashboardNavbar = () => {
                   >
                     <div className="relative">
                       <HiOutlineBell className="text-lg" />
-                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                      {hasUnreadNotifications && (
+                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                      )}
                     </div>
                     Notifications
                   </Link>

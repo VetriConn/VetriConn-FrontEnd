@@ -98,12 +98,6 @@ export default function SettingsPage() {
     setIsSaving(true);
     try {
       // TODO: Wire up to backend API
-      console.log("Saving settings:", {
-        account,
-        passwords,
-        notifications,
-        companyPrefs,
-      });
       await new Promise((r) => setTimeout(r, 800));
     } finally {
       setIsSaving(false);

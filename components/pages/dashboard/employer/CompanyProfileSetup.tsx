@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { usePatchProfile } from "@/hooks/usePatchProfile";
 import { DashboardSkeleton } from "@/components/ui/Skeleton";
 import {
   HiOutlineBuildingOffice2,
@@ -74,28 +75,46 @@ const labelClasses = "block text-sm font-medium text-gray-700 mb-1.5";
 
 const CompanyProfileSetup = () => {
   const { userProfile, isLoading } = useUserProfile();
+  const { patchProfile, isLoading: isSaving } = usePatchProfile();
 
   const [formData, setFormData] = useState<CompanyFormData>({
-    company_name: "Apex Solutions Inc.",
-    industry: "technology",
-    location: "Dallas, TX",
-    description:
-      "Apex Solutions is a veteran-friendly technology consulting firm dedicated to building diverse, experienced teams. We believe in the value that seasoned professionals bring to every project.",
-    website: "https://apexsolutions.example.com",
-    company_email: "hr@apexsolutions.example.com",
-    phone_number: "(555) 123-4567",
-    company_size: "50-200",
-    established_year: "2012",
+    company_name: "",
+    industry: "",
+    location: "",
+    description: "",
+    website: "",
+    company_email: "",
+    phone_number: "",
+    company_size: "",
+    established_year: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isSaving, setIsSaving] = useState(false);
 
   React.useEffect(() => {
-    if (userProfile) {
+    const employerProfile = userProfile?.employer_profile;
+    if (userProfile && employerProfile) {
+      const location = [employerProfile.city, employerProfile.country]
+        .filter(Boolean)
+        .join(", ");
+
       setFormData((prev) => ({
         ...prev,
-        company_email: prev.company_email || userProfile.email || "",
+        company_name: employerProfile.company_name || "",
+        industry: employerProfile.industry || "",
+        location,
+        description: employerProfile.about_company || "",
+        website: employerProfile.website || "",
+        company_email: employerProfile.company_email || userProfile.email || "",
+        phone_number:
+          employerProfile.phone_number || userProfile.phone_number || "",
+        company_size: employerProfile.company_size || "",
+      }));
+    } else if (userProfile) {
+      setFormData((prev) => ({
+        ...prev,
+        company_email: userProfile.email || "",
+        phone_number: userProfile.phone_number || "",
       }));
     }
   }, [userProfile]);
@@ -131,17 +150,64 @@ const CompanyProfileSetup = () => {
 
   const handleSave = useCallback(async () => {
     if (!validate()) return;
-    setIsSaving(true);
+
+    const [city = "", country = ""] = formData.location
+      .split(",")
+      .map((part) => part.trim());
+
     try {
-      // TODO: Wire up to backend API
-      console.log("Saving company profile:", formData);
-      await new Promise((r) => setTimeout(r, 800));
+      await patchProfile({
+        employer_profile: {
+          ...(userProfile?.employer_profile || {}),
+          company_name: formData.company_name.trim(),
+          industry: formData.industry,
+          city,
+          country,
+          phone_number: formData.phone_number,
+          company_email: formData.company_email,
+          website: formData.website,
+          company_size: formData.company_size,
+          about_company: formData.description,
+          notification_preferences: {
+            email_notifications:
+              userProfile?.employer_profile?.notification_preferences
+                ?.email_notifications ?? true,
+            job_approved_rejected:
+              userProfile?.employer_profile?.notification_preferences
+                ?.job_approved_rejected ?? true,
+            new_applications:
+              userProfile?.employer_profile?.notification_preferences
+                ?.new_applications ?? true,
+            messages:
+              userProfile?.employer_profile?.notification_preferences
+                ?.messages ?? true,
+          },
+          company_preferences: {
+            public_company_profile:
+              userProfile?.employer_profile?.company_preferences
+                ?.public_company_profile ?? true,
+            show_contact_information:
+              userProfile?.employer_profile?.company_preferences
+                ?.show_contact_information ?? true,
+          },
+        },
+      });
     } catch {
-      // Error handling will be added with real API
-    } finally {
-      setIsSaving(false);
+      // Toast is handled in usePatchProfile
     }
-  }, [formData, validate]);
+  }, [
+    formData.company_email,
+    formData.company_name,
+    formData.company_size,
+    formData.description,
+    formData.industry,
+    formData.location,
+    formData.phone_number,
+    formData.website,
+    patchProfile,
+    userProfile?.employer_profile,
+    validate,
+  ]);
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -154,7 +220,7 @@ const CompanyProfileSetup = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1100px] mx-auto px-6 py-8">
+      <div className="max-w-275 mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">

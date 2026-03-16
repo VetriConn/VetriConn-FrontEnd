@@ -28,8 +28,11 @@ export {
   getJobs,
   getJobById,
   submitJobApplication,
+  getMyApplications,
   saveJob,
   unsaveJob,
+  getSavedJobs,
+  getRecommendedJobs,
 } from "./jobs";
 
 // Contact
@@ -42,3 +45,21 @@ export {
   deactivateAccount,
   updateUserSettings,
 } from "./settings";
+
+// Notifications
+export {
+  getNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+  deleteNotification,
+  clearNotifications,
+} from "./notifications";
+
+// Employer
+export {
+  getEmployerJobs,
+  getEmployerApplications,
+  getEmployerMessageThreads,
+  getEmployerThreadMessages,
+  sendEmployerMessage,
+} from "./employer";
