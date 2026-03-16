@@ -142,7 +142,7 @@ const DashboardNavbar = () => {
   const isUserProfileLoading = !userProfile;
   const userName = isUserProfileLoading
     ? "Loading..."
-    : userProfile?.name || "User";
+    : userProfile?.full_name || "User";
   const isEmployer = userProfile?.role === "employer";
   const userRole = isUserProfileLoading
     ? "Loading..."
@@ -330,9 +330,9 @@ const DashboardNavbar = () => {
               className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                {userProfile?.avatar ? (
+                {userProfile?.picture ? (
                   <Image
-                    src={userProfile.avatar}
+                    src={userProfile.picture}
                     alt={userName}
                     width={36}
                     height={36}

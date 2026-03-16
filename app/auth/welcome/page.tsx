@@ -10,15 +10,6 @@ export default function WelcomePage() {
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
-    // Get user data from localStorage token
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      // If no token, redirect to signin
-      router.push("/signin");
-      return;
-    }
-
     // Try to get user name from session storage (from signup)
     const signupData = sessionStorage.getItem("vetriconn_signup_wizard_state");
     if (signupData) {

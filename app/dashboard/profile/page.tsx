@@ -56,7 +56,6 @@ export default function ProfilePage() {
   const [localEducation, setLocalEducation] = useState<Education[]>([]);
   const [localDocuments, setLocalDocuments] = useState<UserDocument[]>([]);
   const [localSkills, setLocalSkills] = useState<string[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   // Editing index (null = adding new, number = editing existing)
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -89,7 +88,6 @@ export default function ProfilePage() {
   const [publicProfileForm, setPublicProfileForm] = useState({
     full_name: "",
     bio: "",
-    job_title: "",
   });
 
   // ─── Edit Professional Info form data ─────────────────────────────────────
@@ -107,16 +105,25 @@ export default function ProfilePage() {
   // ─── Profile Preview state ────────────────────────────────────────────────
   const [showPreview, setShowPreview] = useState(false);
 
-  // Initialize local state from profile data
+  // Keep persisted profile collections in sync with server data
   useEffect(() => {
-    if (userProfile && !isInitialized) {
+    if (userProfile) {
       setLocalExperiences(userProfile.work_experience || []);
       setLocalEducation(userProfile.education || []);
-      setLocalDocuments(userProfile.documents || []);
       setLocalSkills(userProfile.skills || []);
-      setIsInitialized(true);
     }
-  }, [userProfile, isInitialized]);
+  }, [
+    userProfile?.work_experience,
+    userProfile?.education,
+    userProfile?.skills,
+  ]);
+
+  // Documents remain local-only for now until backend upload wiring is finished.
+  useEffect(() => {
+    if (userProfile) {
+      setLocalDocuments(userProfile.documents || []);
+    }
+  }, [userProfile?.documents]);
 
   // --- Contact handlers ---
   const handleEditContact = useCallback(() => {
@@ -148,9 +155,8 @@ export default function ProfilePage() {
   const handleEditPublicProfile = useCallback(() => {
     if (userProfile) {
       setPublicProfileForm({
-        full_name: userProfile.name || "",
+        full_name: userProfile.full_name || "",
         bio: userProfile.bio || "",
-        job_title: userProfile.job_title || "",
       });
     }
     setEditSection("public-profile");
@@ -163,7 +169,6 @@ export default function ProfilePage() {
       await patchProfile({
         full_name: publicProfileForm.full_name,
         bio: publicProfileForm.bio,
-        job_title: publicProfileForm.job_title,
       });
       setEditSection(null);
     } catch (error) {
@@ -222,9 +227,9 @@ export default function ProfilePage() {
   const handleDeleteExperience = useCallback(
     async (index: number) => {
       const updated = localExperiences.filter((_, i) => i !== index);
-      setLocalExperiences(updated);
       try {
         await patchProfile({ work_experience: updated });
+        setLocalExperiences(updated);
       } catch (error) {
         console.error("Failed to delete experience:", error);
       }
@@ -247,16 +252,14 @@ export default function ProfilePage() {
           )
         : [...localExperiences, experienceFormData];
 
-    setLocalExperiences(updatedList);
-
     try {
       await patchProfile({ work_experience: updatedList });
+      setLocalExperiences(updatedList);
+      setEditSection(null);
+      setEditingIndex(null);
     } catch (error) {
       console.error("Failed to save work experience:", error);
     }
-
-    setEditSection(null);
-    setEditingIndex(null);
   };
 
   // --- Education handlers ---
@@ -284,9 +287,9 @@ export default function ProfilePage() {
   const handleDeleteEducation = useCallback(
     async (index: number) => {
       const updated = localEducation.filter((_, i) => i !== index);
-      setLocalEducation(updated);
       try {
         await patchProfile({ education: updated });
+        setLocalEducation(updated);
       } catch (error) {
         console.error("Failed to delete education:", error);
       }
@@ -309,16 +312,14 @@ export default function ProfilePage() {
           )
         : [...localEducation, educationFormData];
 
-    setLocalEducation(updatedList);
-
     try {
       await patchProfile({ education: updatedList });
+      setLocalEducation(updatedList);
+      setEditSection(null);
+      setEditingIndex(null);
     } catch (error) {
       console.error("Failed to save education:", error);
     }
-
-    setEditSection(null);
-    setEditingIndex(null);
   };
 
   // --- Document handlers ---
@@ -662,7 +663,7 @@ export default function ProfilePage() {
   const displayLocation =
     userProfile.city && userProfile.country
       ? `${userProfile.city}, ${userProfile.country}`
-      : userProfile.location || "";
+      : "";
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -673,8 +674,8 @@ export default function ProfilePage() {
             {/* Profile Header */}
             <div id="profile-header">
               <ProfileHeader
-                name={userProfile.name}
-                avatar={userProfile.avatar}
+                name={userProfile.full_name}
+                avatar={userProfile.picture}
                 location={displayLocation}
                 bio={userProfile.bio || undefined}
                 jobTitle={userProfile.job_title || undefined}
@@ -825,23 +826,6 @@ export default function ProfilePage() {
               }
               className="form-input"
               placeholder="Your full name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Job Title
-            </label>
-            <input
-              type="text"
-              value={publicProfileForm.job_title}
-              onChange={(e) =>
-                setPublicProfileForm((p) => ({
-                  ...p,
-                  job_title: e.target.value,
-                }))
-              }
-              className="form-input"
-              placeholder="e.g. Operations Manager"
             />
           </div>
           <div>
@@ -1063,15 +1047,15 @@ export default function ProfilePage() {
                   alt="Preview"
                   className="w-full h-full object-cover"
                 />
-              ) : userProfile.avatar ? (
+              ) : userProfile.picture ? (
                 <img
-                  src={userProfile.avatar}
+                  src={userProfile.picture}
                   alt="Current photo"
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <span className="text-4xl font-bold text-gray-400">
-                  {userProfile.name
+                  {userProfile.full_name
                     .split(" ")
                     .map((n: string) => n[0])
                     .join("")
@@ -1115,7 +1099,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Delete current photo */}
-          {userProfile.avatar && !photoFile && (
+          {userProfile.picture && !photoFile && (
             <button
               type="button"
               onClick={handleDeletePhoto}
@@ -1144,8 +1128,8 @@ export default function ProfilePage() {
         isOpen={showPreview}
         onClose={() => setShowPreview(false)}
         profile={{
-          name: userProfile.name,
-          avatar: userProfile.avatar,
+          name: userProfile.full_name,
+          avatar: userProfile.picture,
           bio: userProfile.bio || undefined,
           job_title: userProfile.job_title || undefined,
           location: displayLocation,

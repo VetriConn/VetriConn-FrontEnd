@@ -187,7 +187,7 @@ export function ProfilePreviewDialog({
             {(profile.industry || profile.years_of_experience) && (
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1.5">
-                  <HiOutlineBuildingOffice2 className="w-4 h-4 text-red-500" />
+                  <HiOutlineBriefcase className="w-4 h-4 text-red-500" />
                   Professional Information
                 </h4>
                 <div className="flex flex-wrap gap-3">

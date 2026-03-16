@@ -10,7 +10,7 @@ import DottedBox3 from "@/public/images/dotted_box_3.svg";
 import { signInSchema } from "@/lib/validation";
 import { useToaster } from "@/components/ui/Toaster";
 import { ZodError } from "zod";
-import { loginUser, storeAuthToken } from "@/lib/api";
+import { loginUser } from "@/lib/api";
 import { FormField } from "@/components/ui/FormField";
 import { PasswordField } from "@/components/ui/PasswordField";
 
@@ -32,7 +32,6 @@ export const SignIn = () => {
       signInSchema.parse({ email, password });
       const response = await loginUser(email, password);
       if (response.success && response.data) {
-        storeAuthToken(response.data.token, terms);
         showToast({
           type: "success",
           title: "Login successful",

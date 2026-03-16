@@ -15,9 +15,6 @@ export {
 } from "./auth";
 export type { ApiResponse, RegisterResponse } from "./auth";
 
-// Client utilities
-export { storeAuthToken, getAuthToken, removeAuthToken } from "./client";
-
 // Profile
 export {
   getUserProfile,

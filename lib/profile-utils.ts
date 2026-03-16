@@ -84,11 +84,10 @@ function isFieldFilled(profile: UserProfile, field: string): boolean {
     return value.trim() !== "";
   }
   if (field === "location") {
-    // location can be derived from city + country
-    const loc = profile.location || "";
+    // location is derived from city + country
     const city = profile.city || "";
     const country = profile.country || "";
-    return loc.trim() !== "" || (city.trim() !== "" && country.trim() !== "");
+    return city.trim() !== "" && country.trim() !== "";
   }
   if (typeof value === "string") {
     return value.trim() !== "";

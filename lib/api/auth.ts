@@ -4,7 +4,7 @@
  */
 
 import { getApiUrl, API_CONFIG } from "../api-config";
-import { API_BASE_URL, getAuthToken, removeAuthToken } from "./client";
+import { apiFetch, API_BASE_URL } from "./client";
 import { SignupFormData } from "@/types/signup";
 import type { LoginResponse } from "@/types/api";
 
@@ -62,9 +62,7 @@ export async function registerUser(
         requestData.years_of_experience = formData.years_of_experience;
     }
 
-    console.log("Registration request data:", requestData);
-
-    const response = await fetch(
+    return await apiFetch<ApiResponse<RegisterResponse>>(
       getApiUrl(API_CONFIG.ENDPOINTS.AUTH.REGISTER),
       {
         method: "POST",
@@ -72,28 +70,15 @@ export async function registerUser(
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestData),
-        credentials: "include", // Include cookies
       },
     );
-
-    const data: ApiResponse<RegisterResponse> = await response.json();
-
-    console.log("Registration response:", data);
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "Registration failed",
-        errors: data.errors,
-      };
-    }
-
-    return data;
   } catch (error) {
-    console.error("Registration error:", error);
     return {
       success: false,
-      message: "Network error. Please check your connection and try again.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Network error. Please check your connection and try again.",
     };
   }
 }
@@ -104,37 +89,23 @@ export async function registerUser(
  */
 export async function uploadResume(
   file: File,
-  token: string,
+  _token: string,
 ): Promise<ApiResponse<{ url: string; document: any }>> {
   try {
     const formData = new FormData();
     formData.append("resume", file);
 
-    const response = await fetch(getApiUrl("/api/v1/user/upload-resume"), {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    return await apiFetch<ApiResponse<{ url: string; document: any }>>(
+      getApiUrl("/api/v1/user/upload-resume"),
+      {
+        method: "POST",
+        body: formData,
       },
-      body: formData,
-      credentials: "include",
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "Resume upload failed",
-      };
-    }
-
-    return data;
+    );
   } catch (error) {
-    console.error("Resume upload error:", error);
     return {
       success: false,
-      message:
-        "Failed to upload resume. You can upload it later from your profile.",
+      message: error instanceof Error ? error.message : "Resume upload failed",
     };
   }
 }
@@ -153,43 +124,15 @@ export async function loginUser(
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+    return await apiFetch<LoginResponse>(`${API_BASE_URL}/api/v1/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      const textResponse = await response.text();
-      throw new Error(
-        `Server returned non-JSON response: ${response.status} ${response.statusText}. Response: ${textResponse}`,
-      );
-    }
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-          data.error ||
-          `HTTP ${response.status}: ${response.statusText}`,
-      );
-    }
-
-    return data;
   } catch (error) {
-    console.error("Login error:", error);
-
-    if (error instanceof TypeError && error.message.includes("fetch")) {
-      throw new Error(
-        `Network error: Unable to connect to ${API_BASE_URL}. Please ensure the backend server is running.`,
-      );
-    }
-
-    throw error;
+    throw error instanceof Error ? error : new Error("Login failed");
   }
 }
 
@@ -200,39 +143,21 @@ export async function logoutUser(): Promise<{
   success: boolean;
   message: string;
 }> {
-  const token = getAuthToken();
-
-  if (!token) {
-    return { success: true, message: "Already logged out" };
-  }
-
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/auth/logout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    return await apiFetch<{ success: boolean; message: string }>(
+      `${API_BASE_URL}/api/v1/auth/logout`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
-
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      removeAuthToken();
-      return { success: true, message: "Logged out successfully" };
-    }
-
-    const data = await response.json();
-    removeAuthToken();
-
-    if (!response.ok) {
-      return { success: true, message: "Logged out locally" };
-    }
-
-    return data;
+    );
   } catch (error) {
-    console.error("Logout error:", error);
-    removeAuthToken();
-    return { success: true, message: "Logged out locally" };
+    return {
+      success: true,
+      message: error instanceof Error ? error.message : "Logged out locally",
+    };
   }
 }
 
@@ -243,7 +168,7 @@ export async function resendVerificationEmail(
   email: string,
 ): Promise<ApiResponse<{}>> {
   try {
-    const response = await fetch(
+    return await apiFetch<ApiResponse<{}>>(
       getApiUrl(API_CONFIG.ENDPOINTS.AUTH.RESEND_VERIFICATION),
       {
         method: "POST",
@@ -251,25 +176,15 @@ export async function resendVerificationEmail(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
-        credentials: "include",
       },
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "Failed to resend verification email",
-      };
-    }
-
-    return data;
   } catch (error) {
-    console.error("Resend verification error:", error);
     return {
       success: false,
-      message: "Failed to resend verification email. Please try again.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to resend verification email. Please try again.",
     };
   }
 }
@@ -281,7 +196,7 @@ export async function requestPasswordReset(
   email: string,
 ): Promise<ApiResponse<{}>> {
   try {
-    const response = await fetch(
+    return await apiFetch<ApiResponse<{}>>(
       getApiUrl(API_CONFIG.ENDPOINTS.AUTH.FORGOT_PASSWORD),
       {
         method: "POST",
@@ -289,26 +204,15 @@ export async function requestPasswordReset(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
-        credentials: "include",
       },
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "Failed to request password reset",
-        errors: data.errors,
-      };
-    }
-
-    return data;
   } catch (error) {
-    console.error("Forgot password error:", error);
     return {
       success: false,
-      message: "Network error. Please try again.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Network error. Please try again.",
     };
   }
 }
@@ -321,7 +225,7 @@ export async function resetPasswordWithToken(
   newPassword: string,
 ): Promise<ApiResponse<{}>> {
   try {
-    const response = await fetch(
+    return await apiFetch<ApiResponse<{}>>(
       getApiUrl(API_CONFIG.ENDPOINTS.AUTH.RESET_PASSWORD),
       {
         method: "POST",
@@ -329,26 +233,15 @@ export async function resetPasswordWithToken(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ token, newPassword }),
-        credentials: "include",
       },
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "Failed to reset password",
-        errors: data.errors,
-      };
-    }
-
-    return data;
   } catch (error) {
-    console.error("Reset password error:", error);
     return {
       success: false,
-      message: "Network error. Please try again.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Network error. Please try again.",
     };
   }
 }

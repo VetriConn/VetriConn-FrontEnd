@@ -117,7 +117,6 @@ export interface UserProfile {
   phone_number?: string;
   city?: string;
   country?: string;
-  location?: string;
 
   // Work Background
   job_title?: string;
@@ -125,16 +124,12 @@ export interface UserProfile {
   years_of_experience?: string;
 
   // Profile fields
-  profession?: string;
   bio?: string;
-  current_job?: string;
-  experience?: string;
   promotional_emails?: boolean;
   looking_for?: string[];
   documents?: UserDocument[];
   attachments?: UserAttachment[];
   socials?: UserSocials;
-  professional_summary?: string;
   work_experience?: WorkExperience[];
   education?: Education[];
   certifications?: Certification[];
@@ -165,18 +160,13 @@ export interface UserProfileResponse {
       phone_number?: string;
       city?: string;
       country?: string;
-      location?: string;
       job_title?: string;
       industry?: string;
       years_of_experience?: string;
-      profession?: string;
       bio?: string;
-      current_job?: string;
-      experience?: string;
       looking_for?: string[];
       picture?: string;
       socials?: UserSocials;
-      professional_summary?: string;
       work_experience?: WorkExperience[];
       education?: Education[];
       certifications?: Certification[];
