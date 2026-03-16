@@ -283,18 +283,17 @@ export interface BackendAttachment {
 export interface ContactMessage {
   full_name: string;
   email: string;
-  description: string;
+  message: string;
 }
 
 export interface MessageResponse {
   success: boolean;
-  description: string;
+  message: string;
   data?: {
-    id: string;
-    full_name: string;
-    email: string;
-    description: string;
-    createdAt: string;
+    sent: boolean;
   };
-  error?: string;
+  errors?: {
+    field: string;
+    message: string;
+  }[];
 }

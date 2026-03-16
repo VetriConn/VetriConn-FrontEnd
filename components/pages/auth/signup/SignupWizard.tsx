@@ -6,7 +6,7 @@ import {
   SignupWizardState,
   SignupAction,
   STEP_CONFIGS,
-  TOTAL_STEPS,
+  EMPLOYER_STEP_CONFIGS,
   INITIAL_FORM_DATA,
 } from "@/types/signup";
 import { AuthHeader } from "@/components/ui/AuthHeader";
@@ -19,8 +19,14 @@ import {
   WorkBackgroundStep,
   ResumeUploadStep,
   CompletionStep,
+  CompanyInfoStep,
 } from "./steps";
-import { step1Schema, step2Schema, step3Schema } from "@/lib/validation";
+import {
+  step1Schema,
+  step2Schema,
+  step3Schema,
+  employerStep3Schema,
+} from "@/lib/validation";
 import {
   registerUser,
   uploadResume,
@@ -231,8 +237,13 @@ export function SignupWizard() {
     saveStateToStorage(state);
   }, [state]);
 
-  // Get current step configuration
-  const currentStepConfig = STEP_CONFIGS[currentStep - 1];
+  // Derive step configuration based on selected role
+  const isEmployer = formData.role === "employer";
+  const totalSteps = isEmployer
+    ? EMPLOYER_STEP_CONFIGS.length
+    : STEP_CONFIGS.length;
+  const stepConfigs = isEmployer ? EMPLOYER_STEP_CONFIGS : STEP_CONFIGS;
+  const currentStepConfig = stepConfigs[currentStep - 1];
 
   /**
    * Validate current step before proceeding
@@ -256,12 +267,21 @@ export function SignupWizard() {
         };
         break;
       case 3:
-        schema = step3Schema;
-        dataToValidate = {
-          phone_number: formData.phone_number,
-          city: formData.city,
-          country: formData.country,
-        };
+        if (formData.role === "employer") {
+          schema = employerStep3Schema;
+          dataToValidate = {
+            company_name: formData.company_name,
+            company_industry: formData.company_industry,
+            company_location: formData.company_location,
+          };
+        } else {
+          schema = step3Schema;
+          dataToValidate = {
+            phone_number: formData.phone_number,
+            city: formData.city,
+            country: formData.country,
+          };
+        }
         break;
       default:
         // Steps 4, 5, 6 don't require validation to proceed
@@ -370,24 +390,18 @@ export function SignupWizard() {
   }, [formData, showToast]);
 
   /**
-   * Handle step 5 (resume upload) submission and progression
-   * This is used by both Continue and Upload Later buttons
+   * Handle final step submission and progression to completion
+   * For job seekers: triggered on step 5 (resume upload)
+   * For employers: triggered on step 3 (company info)
    */
-  const handleStep5Submission = useCallback(async (): Promise<boolean> => {
-    console.log("handleStep5Submission: Submitting registration...");
+  const handleFinalStepSubmission = useCallback(async (): Promise<boolean> => {
     const success = await handleSubmit();
-    console.log("handleStep5Submission: handleSubmit returned:", success);
 
     if (!success) {
-      console.log("handleStep5Submission: Registration failed, NOT proceeding");
       return false;
     }
 
-    console.log(
-      "handleStep5Submission: Registration succeeded, proceeding to next step",
-    );
-
-    // Update highest completed step and move to next step
+    // Update highest completed step and move to completion
     dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
     dispatch({ type: "SET_STEP", payload: currentStep + 1 });
 
@@ -402,20 +416,18 @@ export function SignupWizard() {
       return;
     }
 
-    console.log("handleNext: Called for step", currentStep);
-
-    // If moving from step 5 to step 6, submit the form
-    if (currentStep === 5) {
-      await handleStep5Submission();
+    // If on the last step before completion, submit the form
+    if (currentStep === totalSteps - 1) {
+      await handleFinalStepSubmission();
       return;
     }
 
-    if (currentStep < TOTAL_STEPS) {
+    if (currentStep < totalSteps) {
       // Update highest completed step when moving forward
       dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
       dispatch({ type: "SET_STEP", payload: currentStep + 1 });
     }
-  }, [currentStep, validateCurrentStep, handleStep5Submission]);
+  }, [currentStep, totalSteps, validateCurrentStep, handleFinalStepSubmission]);
 
   /**
    * Handle resend verification email
@@ -445,20 +457,18 @@ export function SignupWizard() {
    * Skip current step (for optional steps)
    */
   const handleSkip = useCallback(async () => {
-    console.log("handleSkip: Called for step", currentStep);
-
-    // For step 5 (resume upload), use the same submission logic as Continue button
-    if (currentStep === 5) {
-      await handleStep5Submission();
+    // For the final step before completion, use submission logic
+    if (currentStep === totalSteps - 1) {
+      await handleFinalStepSubmission();
       return;
     }
 
     // For other steps, just skip without validation
-    if (currentStep < TOTAL_STEPS) {
+    if (currentStep < totalSteps) {
       dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
       dispatch({ type: "SET_STEP", payload: currentStep + 1 });
     }
-  }, [currentStep, handleStep5Submission]);
+  }, [currentStep, totalSteps, handleFinalStepSubmission]);
 
   /**
    * Render the current step component
@@ -473,11 +483,26 @@ export function SignupWizard() {
       onSkip: handleSkip,
     };
 
+    // Steps 1-2 are shared between job seekers and employers
+    if (currentStep === 1) return <AccountTypeStep {...stepProps} />;
+    if (currentStep === 2) return <CreateAccountStep {...stepProps} />;
+
+    // Employer flow: step 3 = Company Info, step 4 = Completion
+    if (isEmployer) {
+      if (currentStep === 3) return <CompanyInfoStep {...stepProps} />;
+      if (currentStep === 4) {
+        return (
+          <CompletionStep
+            formData={formData}
+            onResendEmail={handleResendEmail}
+          />
+        );
+      }
+      return null;
+    }
+
+    // Job seeker flow: steps 3-6
     switch (currentStep) {
-      case 1:
-        return <AccountTypeStep {...stepProps} />;
-      case 2:
-        return <CreateAccountStep {...stepProps} />;
       case 3:
         return <ContactInfoStep {...stepProps} />;
       case 4:
@@ -485,7 +510,6 @@ export function SignupWizard() {
       case 5:
         return <ResumeUploadStep {...stepProps} />;
       case 6:
-        // Don't clear storage yet - wait until after email verification
         return (
           <CompletionStep
             formData={formData}
@@ -506,12 +530,12 @@ export function SignupWizard() {
       <main className="flex-1 flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-xl">
           {/* Step Indicator - Hide on completion step, outside the card */}
-          {currentStep < TOTAL_STEPS && (
+          {currentStep < totalSteps && (
             <div className="mb-6">
               <StepIndicator
                 currentStep={currentStep}
-                totalSteps={TOTAL_STEPS}
-                stepName={currentStepConfig.name}
+                totalSteps={totalSteps}
+                stepName={currentStepConfig?.name || ""}
               />
             </div>
           )}

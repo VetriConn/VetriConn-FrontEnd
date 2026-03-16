@@ -43,14 +43,26 @@ export async function registerUser(
       promotional_emails: false,
     };
 
-    // Only add optional fields if they have values
-    if (formData.phone_number) requestData.phone_number = formData.phone_number;
-    if (formData.city) requestData.city = formData.city;
-    if (formData.country) requestData.country = formData.country;
-    if (formData.job_title) requestData.job_title = formData.job_title;
-    if (formData.industry) requestData.industry = formData.industry;
-    if (formData.years_of_experience)
-      requestData.years_of_experience = formData.years_of_experience;
+    // Add role-specific optional fields
+    if (formData.role === "employer") {
+      // Employer-specific fields
+      if (formData.company_name)
+        requestData.company_name = formData.company_name;
+      if (formData.company_industry)
+        requestData.industry = formData.company_industry;
+      if (formData.company_location)
+        requestData.company_location = formData.company_location;
+    } else {
+      // Job seeker-specific fields
+      if (formData.phone_number)
+        requestData.phone_number = formData.phone_number;
+      if (formData.city) requestData.city = formData.city;
+      if (formData.country) requestData.country = formData.country;
+      if (formData.job_title) requestData.job_title = formData.job_title;
+      if (formData.industry) requestData.industry = formData.industry;
+      if (formData.years_of_experience)
+        requestData.years_of_experience = formData.years_of_experience;
+    }
 
     console.log("Registration request data:", requestData);
 

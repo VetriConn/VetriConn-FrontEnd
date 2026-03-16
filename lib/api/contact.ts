@@ -4,13 +4,17 @@
  */
 
 import { API_BASE_URL } from "./client";
+import { API_CONFIG } from "@/lib/api-config";
 import type { ContactMessage, MessageResponse } from "@/types/api";
 
 // Send contact message
 export async function sendContactMessage(
   messageData: ContactMessage,
 ): Promise<MessageResponse> {
-  const contactUrl = `${API_BASE_URL}/api/v1/contact`;
+  // Send contact messages to the backend endpoint so the backend (which
+  // already has Resend configured) performs the actual email send.
+  // `API_CONFIG.ENDPOINTS.CONTACT.SEND` contains the endpoint path.
+  const contactUrl = `${API_BASE_URL}${API_CONFIG.ENDPOINTS.CONTACT.SEND}`;
   console.log("=== CONTACT API DEBUG ===");
   console.log("Environment:", process.env.NEXT_PUBLIC_NODE_ENV);
   console.log("API_BASE_URL:", API_BASE_URL);
