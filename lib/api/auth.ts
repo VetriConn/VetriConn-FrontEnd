@@ -16,14 +16,12 @@ export interface ApiResponse<T = any> {
 }
 
 export interface RegisterResponse {
-  user: {
-    id: string;
-    full_name: string;
-    email: string;
-    role: string;
-  };
-  token: string;
   emailVerificationSent: boolean;
+}
+
+export interface GenericSuccessResponse {
+  success: boolean;
+  message: string;
 }
 
 /**
@@ -272,6 +270,85 @@ export async function resendVerificationEmail(
     return {
       success: false,
       message: "Failed to resend verification email. Please try again.",
+    };
+  }
+}
+
+/**
+ * Request forgot-password email
+ */
+export async function requestPasswordReset(
+  email: string,
+): Promise<ApiResponse<{}>> {
+  try {
+    const response = await fetch(
+      getApiUrl(API_CONFIG.ENDPOINTS.AUTH.FORGOT_PASSWORD),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+        credentials: "include",
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "Failed to request password reset",
+        errors: data.errors,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    return {
+      success: false,
+      message: "Network error. Please try again.",
+    };
+  }
+}
+
+/**
+ * Reset password with token
+ */
+export async function resetPasswordWithToken(
+  token: string,
+  newPassword: string,
+): Promise<ApiResponse<{}>> {
+  try {
+    const response = await fetch(
+      getApiUrl(API_CONFIG.ENDPOINTS.AUTH.RESET_PASSWORD),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, newPassword }),
+        credentials: "include",
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "Failed to reset password",
+        errors: data.errors,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return {
+      success: false,
+      message: "Network error. Please try again.",
     };
   }
 }

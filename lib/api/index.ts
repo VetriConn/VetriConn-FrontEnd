@@ -10,6 +10,8 @@ export {
   registerUser,
   uploadResume,
   resendVerificationEmail,
+  requestPasswordReset,
+  resetPasswordWithToken,
 } from "./auth";
 export type { ApiResponse, RegisterResponse } from "./auth";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback, useRef, useState } from "react";
 import {
   SignupFormData,
   SignupWizardState,
@@ -27,11 +27,7 @@ import {
   step3Schema,
   employerStep3Schema,
 } from "@/lib/validation";
-import {
-  registerUser,
-  uploadResume,
-  resendVerificationEmail,
-} from "@/lib/api/auth";
+import { registerUser, resendVerificationEmail } from "@/lib/api/auth";
 import { useToaster } from "@/components/ui/Toaster";
 
 // Session storage key for persisting wizard state
@@ -202,8 +198,27 @@ function clearStateFromStorage(): void {
  */
 export function SignupWizard() {
   const [state, dispatch] = useReducer(signupReducer, initialState);
+  const [isActionLocked, setIsActionLocked] = useState(false);
+  const actionLockTimerRef = useRef<number | null>(null);
   const { showToast } = useToaster();
   const { currentStep, formData, errors } = state;
+
+  const lockAction = useCallback((): boolean => {
+    if (state.isSubmitting || isActionLocked) {
+      return false;
+    }
+    setIsActionLocked(true);
+    return true;
+  }, [state.isSubmitting, isActionLocked]);
+
+  const releaseActionWithDebounce = useCallback(() => {
+    if (actionLockTimerRef.current) {
+      window.clearTimeout(actionLockTimerRef.current);
+    }
+    actionLockTimerRef.current = window.setTimeout(() => {
+      setIsActionLocked(false);
+    }, 800);
+  }, []);
 
   // Restore state from session storage on mount
   useEffect(() => {
@@ -230,6 +245,14 @@ export function SignupWizard() {
         dispatch({ type: "SET_STEP", payload: savedState.currentStep });
       }
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (actionLockTimerRef.current) {
+        window.clearTimeout(actionLockTimerRef.current);
+      }
+    };
   }, []);
 
   // Persist state to session storage on step changes
@@ -354,22 +377,10 @@ export function SignupWizard() {
 
       console.log("handleSubmit: Registration successful");
 
-      // Store token in localStorage
-      if (response.data?.token) {
-        localStorage.setItem("authToken", response.data.token);
-      }
-
-      // Upload resume if provided
-      if (formData.resumeFile && response.data?.token) {
-        const uploadResponse = await uploadResume(
-          formData.resumeFile,
-          response.data.token,
+      if (formData.resumeFile) {
+        console.info(
+          "Resume upload skipped until after email verification and sign-in.",
         );
-
-        if (!uploadResponse.success) {
-          console.warn("Resume upload failed:", uploadResponse.message);
-          // Don't fail the entire registration if resume upload fails
-        }
       }
 
       // Clear session storage on successful registration
@@ -412,22 +423,37 @@ export function SignupWizard() {
    * Navigate to next step
    */
   const handleNext = useCallback(async () => {
-    if (!validateCurrentStep()) {
+    if (!lockAction()) {
       return;
     }
 
-    // If on the last step before completion, submit the form
-    if (currentStep === totalSteps - 1) {
-      await handleFinalStepSubmission();
-      return;
-    }
+    try {
+      if (!validateCurrentStep()) {
+        return;
+      }
 
-    if (currentStep < totalSteps) {
-      // Update highest completed step when moving forward
-      dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
-      dispatch({ type: "SET_STEP", payload: currentStep + 1 });
+      // If on the last step before completion, submit the form
+      if (currentStep === totalSteps - 1) {
+        await handleFinalStepSubmission();
+        return;
+      }
+
+      if (currentStep < totalSteps) {
+        // Update highest completed step when moving forward
+        dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
+        dispatch({ type: "SET_STEP", payload: currentStep + 1 });
+      }
+    } finally {
+      releaseActionWithDebounce();
     }
-  }, [currentStep, totalSteps, validateCurrentStep, handleFinalStepSubmission]);
+  }, [
+    currentStep,
+    totalSteps,
+    validateCurrentStep,
+    handleFinalStepSubmission,
+    lockAction,
+    releaseActionWithDebounce,
+  ]);
 
   /**
    * Handle resend verification email
@@ -457,18 +483,32 @@ export function SignupWizard() {
    * Skip current step (for optional steps)
    */
   const handleSkip = useCallback(async () => {
-    // For the final step before completion, use submission logic
-    if (currentStep === totalSteps - 1) {
-      await handleFinalStepSubmission();
+    if (!lockAction()) {
       return;
     }
 
-    // For other steps, just skip without validation
-    if (currentStep < totalSteps) {
-      dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
-      dispatch({ type: "SET_STEP", payload: currentStep + 1 });
+    try {
+      // For the final step before completion, use submission logic
+      if (currentStep === totalSteps - 1) {
+        await handleFinalStepSubmission();
+        return;
+      }
+
+      // For other steps, just skip without validation
+      if (currentStep < totalSteps) {
+        dispatch({ type: "SET_HIGHEST_COMPLETED_STEP", payload: currentStep });
+        dispatch({ type: "SET_STEP", payload: currentStep + 1 });
+      }
+    } finally {
+      releaseActionWithDebounce();
     }
-  }, [currentStep, totalSteps, handleFinalStepSubmission]);
+  }, [
+    currentStep,
+    totalSteps,
+    handleFinalStepSubmission,
+    lockAction,
+    releaseActionWithDebounce,
+  ]);
 
   /**
    * Render the current step component
@@ -481,6 +521,7 @@ export function SignupWizard() {
       onNext: handleNext,
       onBack: handleBack,
       onSkip: handleSkip,
+      isBusy: state.isSubmitting || isActionLocked,
     };
 
     // Steps 1-2 are shared between job seekers and employers

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import clsx from "clsx";
 import DottedBox7 from "@/public/images/dotted_box_7.svg";
 import DottedBox9 from "@/public/images/dotted_box_9.svg";
@@ -125,6 +126,14 @@ export const SignIn = () => {
                 {errors.password}
               </span>
             )}
+            <div className="flex justify-end -mt-1 mb-4">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-primary hover:text-primary-hover hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <div className="flex items-start gap-2 text-sm mb-6">
               <input
                 type="checkbox"
