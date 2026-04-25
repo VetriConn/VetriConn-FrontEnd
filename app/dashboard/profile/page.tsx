@@ -526,11 +526,10 @@ export default function ProfilePage() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+      <div className="max-w-screen-xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Main content */}
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6 lg:col-span-2">
               {/* Profile Header */}
               <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
                 <div className="flex items-center gap-6 tablet:flex-col">
@@ -639,7 +638,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6 hidden lg:block">
+            <div className="space-y-4 md:space-y-6 lg:col-span-1 hidden lg:block">
               {/* Profile Completion */}
               <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
                 <div className="h-5 w-40 bg-gray-200 rounded mb-4" />
@@ -667,22 +666,19 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 
   // Error state
   if (isError || !userProfile) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          <ErrorState
+      <div className="max-w-screen-xl mx-auto">
+        <ErrorState
             title="Unable to load profile"
             message="There was an error loading your profile. Please try again."
             onRetry={() => mutateProfile()}
           />
         </div>
-      </div>
     );
   }
 
@@ -696,11 +692,10 @@ export default function ProfilePage() {
       : "";
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+    <div className="max-w-screen-xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 items-start">
           {/* Main content */}
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6 lg:col-span-2">
             {/* Profile Header */}
             <div id="profile-header">
               <ProfileHeader
@@ -719,7 +714,7 @@ export default function ProfilePage() {
 
             {/* Professional Info Card */}
             <div id="professional-info-card">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <HiOutlineBriefcase className="w-5 h-5 text-red-500" />
@@ -729,10 +724,10 @@ export default function ProfilePage() {
                   </div>
                   <button
                     onClick={handleEditProfessionalInfo}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+                    className="flex items-center gap-1.5 px-4 py-2 md:px-5 md:py-2.5 min-h-[44px] bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm md:text-base"
                     aria-label="Edit professional info"
                   >
-                    <HiOutlinePencilSquare className="text-base" />
+                    <HiOutlinePencilSquare className="text-base md:text-lg" />
                     Edit
                   </button>
                 </div>
@@ -820,7 +815,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6 lg:col-span-1">
             <ProfileCompletionCard
               completion={profileCompletion}
               onSectionClick={handleSectionClick}
@@ -831,7 +826,6 @@ export default function ProfilePage() {
             />
           </div>
         </div>
-      </div>
 
       {/* ─── Edit Public Profile Dialog ─── */}
       <EditDialog
@@ -841,9 +835,9 @@ export default function ProfilePage() {
         onSubmit={handlePublicProfileSubmit}
         isSubmitting={isPatching}
       >
-        <div className="space-y-4">
+        <div className="space-y-4 md:space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Full Name
             </label>
             <input
@@ -860,7 +854,7 @@ export default function ProfilePage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Professional Bio
             </label>
             <textarea
@@ -887,9 +881,9 @@ export default function ProfilePage() {
         onSubmit={handleProfessionalInfoSubmit}
         isSubmitting={isPatching}
       >
-        <div className="space-y-4">
+        <div className="space-y-4 md:space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Job Title
             </label>
             <input
@@ -906,7 +900,7 @@ export default function ProfilePage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Industry
             </label>
             <select
@@ -956,7 +950,7 @@ export default function ProfilePage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Years of Experience
             </label>
             <select
@@ -1068,7 +1062,7 @@ export default function ProfilePage() {
         isSubmitting={isUploadingPhoto}
         submitLabel={photoFile ? "Upload Photo" : "Save"}
       >
-        <div className="space-y-5">
+        <div className="space-y-4 md:space-y-5">
           {/* Preview */}
           <div className="flex justify-center">
             <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center">

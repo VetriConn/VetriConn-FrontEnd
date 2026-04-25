@@ -41,7 +41,7 @@ function EmptyState() {
         href="/dashboard/jobs"
         className="inline-flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors no-underline"
       >
-        <HiOutlineMagnifyingGlass className="text-base" />
+        <HiOutlineMagnifyingGlass className="w-4 h-4 md:w-5 md:h-5" />
         Search Jobs
       </Link>
     </div>
@@ -58,7 +58,7 @@ function FilterBadge({
   label: string;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium">
+    <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium">
       {icon}
       {label}
     </span>
@@ -135,13 +135,13 @@ function SavedSearchCard({
 
           {/* Alert status */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-400">
-            <span className="flex items-center gap-1.5">
-              <HiOutlineCalendarDays className="text-sm" />
+            <span className="inline-flex items-center gap-2">
+              <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5" />
               Saved on {createdDate}
             </span>
             {search.alertEnabled && (
-              <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
-                <HiOutlineBellAlert className="text-sm" />
+              <span className="inline-flex items-center gap-2 text-emerald-600 font-medium">
+                <HiOutlineBellAlert className="w-4 h-4 md:w-5 md:h-5" />
                 Alerts on
               </span>
             )}
@@ -154,7 +154,7 @@ function SavedSearchCard({
             onClick={() => onRun(search)}
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
           >
-            <HiOutlineArrowTopRightOnSquare className="text-sm" />
+            <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
             Run Search
           </button>
           <button
@@ -167,12 +167,12 @@ function SavedSearchCard({
           >
             {search.alertEnabled ? (
               <>
-                <HiOutlineBellSlash className="text-sm" />
+                <HiOutlineBellSlash className="w-4 h-4 md:w-5 md:h-5" />
                 Alerts On
               </>
             ) : (
               <>
-                <HiOutlineBellAlert className="text-sm" />
+                <HiOutlineBellAlert className="w-4 h-4 md:w-5 md:h-5" />
                 Enable Alerts
               </>
             )}
@@ -195,9 +195,9 @@ function SavedSearchCard({
           ) : (
             <button
               onClick={() => setShowConfirmDelete(true)}
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
             >
-              <HiOutlineTrash className="text-sm" />
+              <HiOutlineTrash className="w-4 h-4 md:w-5 md:h-5" />
               Delete
             </button>
           )}
@@ -221,25 +221,22 @@ export default function SavedSearchesPage() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-[800px] mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-          <div className="animate-pulse space-y-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/3" />
             <div className="h-4 bg-gray-200 rounded w-1/2" />
             <div className="h-40 bg-gray-200 rounded-xl" />
             <div className="h-40 bg-gray-200 rounded-xl" />
           </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[800px] mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-        {/* Page Header */}
+    <div className="max-w-3xl mx-auto">
+      {/* Page Header */}
         <div className="flex items-start justify-between mb-2">
-          <h1 className="font-lato text-[28px] font-bold text-gray-900">
+          <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
             Saved Searches
           </h1>
           {searches.length > 0 && (
@@ -276,7 +273,7 @@ export default function SavedSearchesPage() {
             {/* Info banner */}
             <div className="mt-8 bg-red-50 border border-red-100 rounded-xl p-5">
               <div className="flex gap-3">
-                <HiOutlineBellAlert className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <HiOutlineBellAlert className="w-5 h-5 md:w-6 md:h-6 text-red-500 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-red-800 mb-1">
                     About Job Alerts
@@ -293,6 +290,5 @@ export default function SavedSearchesPage() {
           </>
         )}
       </div>
-    </div>
   );
 }

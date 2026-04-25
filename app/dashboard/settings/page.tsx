@@ -133,7 +133,7 @@ function SelectField({
 
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-900 mb-2">
+      <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
         {label}
       </label>
       <div ref={containerRef} className="relative">
@@ -358,11 +358,10 @@ export default function AccountSettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[800px] mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="font-lato text-[28px] font-bold text-gray-900 mb-1">
+    <div className="max-w-3xl mx-auto">
+      {/* Page Header */}
+      <div className="mb-8">
+          <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900 mb-1">
             Account settings
           </h1>
           <p className="text-gray-500 text-sm leading-relaxed">
@@ -384,7 +383,7 @@ export default function AccountSettingsPage() {
             <div className="space-y-4">
               {/* Email Address (read-only) */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                   Email Address
                 </label>
                 <input
@@ -404,7 +403,7 @@ export default function AccountSettingsPage() {
                 href="/dashboard/profile"
                 className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-hover font-medium transition-colors"
               >
-                <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+                <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
                 Edit your name, bio, and contact info on your Profile page
               </a>
             </div>
@@ -805,10 +804,9 @@ export default function AccountSettingsPage() {
             </div>
           </div>
         </SectionCard>
-      </div>
 
-      {/* ─── Change Password Modal ─── */}
-      {showPasswordModal && (
+        {/* Change Password Modal */}
+        {showPasswordModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center">
           {/* Backdrop */}
           <div
@@ -817,7 +815,7 @@ export default function AccountSettingsPage() {
           />
 
           {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-[460px] w-full mx-4 overflow-hidden">
+          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
               <div className="flex items-center gap-3">
@@ -868,7 +866,7 @@ export default function AccountSettingsPage() {
 
                   {/* Current Password */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                       Current Password
                     </label>
                     <div className="relative">
@@ -897,7 +895,7 @@ export default function AccountSettingsPage() {
 
                   {/* New Password */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                       New Password
                     </label>
                     <div className="relative">
@@ -965,7 +963,7 @@ export default function AccountSettingsPage() {
 
                   {/* Confirm Password */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                       Confirm New Password
                     </label>
                     <div className="relative">
@@ -1047,7 +1045,7 @@ export default function AccountSettingsPage() {
           />
 
           {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-[460px] w-full mx-4 overflow-hidden">
+          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
               <div className="flex items-center gap-3">
@@ -1098,7 +1096,7 @@ export default function AccountSettingsPage() {
 
               {/* Password */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                   Confirm your password
                 </label>
                 <div className="relative">
@@ -1127,7 +1125,7 @@ export default function AccountSettingsPage() {
 
               {/* Type DEACTIVATE to confirm */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                   Type{" "}
                   <span className="text-red-600 font-bold">DEACTIVATE</span> to
                   confirm

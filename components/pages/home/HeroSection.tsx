@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { HiOutlineArrowRight } from "react-icons/hi2";
 import DottedBox from "@/public/images/dotted_box.svg";
 import Advert from "@/components/ui/Advert";
 
@@ -33,99 +34,88 @@ export const HeroSection = () => {
   }, [goToNextImage, isCarouselPaused]);
 
   return (
-    <header className="px-[5%] py-4 pb-16 bg-white relative overflow-hidden mobile:px-[5%] mobile:py-1.5 mobile:pb-8 mobile:min-h-auto">
-      <div className="max-w-[1340px] mx-auto">
+    <header className="pt-4 pb-12 md:pt-6 md:pb-20 lg:pb-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-6 mb-8 md:mb-12">
         <Advert />
       </div>
 
       {/* Decorative dots */}
       <div
-        className="absolute top-10 left-[8%] w-3 h-3 rounded-full bg-amber-400 opacity-70"
+        className="absolute top-10 left-[8%] w-3 h-3 rounded-full bg-amber-400 opacity-70 hidden md:block"
         aria-hidden="true"
       />
       <div
-        className="absolute top-28 left-[3%] w-2 h-2 rounded-full bg-primary opacity-50"
+        className="absolute top-28 left-[3%] w-2 h-2 rounded-full bg-primary opacity-50 hidden md:block"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-20 left-[12%] w-2.5 h-2.5 rounded-full bg-primary opacity-40"
+        className="absolute bottom-20 left-[12%] w-2.5 h-2.5 rounded-full bg-primary opacity-40 hidden md:block"
         aria-hidden="true"
       />
       <div
-        className="absolute top-16 right-[5%] w-2 h-2 rounded-full bg-amber-400 opacity-50"
+        className="absolute top-16 right-[5%] w-2 h-2 rounded-full bg-amber-400 opacity-50 hidden md:block"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-12 right-[8%] w-3 h-3 rounded-full bg-primary opacity-50"
+        className="absolute bottom-12 right-[8%] w-3 h-3 rounded-full bg-primary opacity-50 hidden md:block"
         aria-hidden="true"
       />
       <div
-        className="absolute top-[50%] right-[2%] w-2 h-2 rounded-full bg-pink-400 opacity-40"
+        className="absolute top-[50%] right-[2%] w-2 h-2 rounded-full bg-pink-400 opacity-40 hidden md:block"
         aria-hidden="true"
       />
 
-      <div className="flex items-center justify-between gap-8 relative max-w-[1340px] mx-auto p-8 mobile:flex-col mobile:text-center mobile:gap-6 mobile:mt-4 mobile:p-4 mobile:pt-8">
-        <div className="flex-[0_0_45%] max-w-[500px] relative mobile:flex-none mobile:w-full mobile:mx-auto mobile:max-w-full">
-          <DottedBox className="absolute top-0 -left-[150px] z-0 w-[100px] h-auto pointer-events-none mobile:w-[70px] mobile:-top-10 mobile:left-0" />
-          <h1 className="font-lato text-[52px] leading-[1.1] font-bold text-text mb-6 mobile:text-[32px] mobile:mb-4">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative max-w-7xl mx-auto px-[5%] md:px-6 md:text-left text-center">
+        <div className="w-full md:w-1/2 max-w-lg relative">
+          <DottedBox className="absolute top-0 -left-40 z-0 w-28 h-auto pointer-events-none md:block hidden" />
+          <h1 className="font-lato text-3xl md:text-5xl lg:text-6xl leading-[1.1] font-bold text-text mb-6">
             Reconnecting{" "}
-            <span className="italic font-[var(--font-outfit)] text-[0.85em] underline decoration-primary decoration-2 underline-offset-4">
+            <span className="italic font-[var(--font-outfit)] underline decoration-primary decoration-2 underline-offset-4">
               retirees
             </span>{" "}
             and{" "}
-            <span className="italic font-[var(--font-outfit)] text-[0.85em] underline decoration-primary decoration-2 underline-offset-4">
+            <span className="italic font-[var(--font-outfit)] underline decoration-primary decoration-2 underline-offset-4">
               veterans
             </span>{" "}
             through <span className="text-primary">purposeful work</span>
           </h1>
-          <p className="font-open-sans text-subtitle text-text-muted mb-2 max-w-[80%] text-base mobile:text-sm mobile:mb-2 mobile:max-w-full">
+          <p className="font-open-sans text-subtitle text-text-muted mb-2 max-w-[80%] md:max-w-full mx-auto md:mx-0 text-sm md:text-base">
             From careers to causes, we connect you to purposeful opportunities
             quickly, easily, and on your terms
           </p>
 
-          <Link
-            href="/signup"
-            className="inline-flex items-center gap-2.5 bg-primary text-white font-open-sans font-semibold border-none rounded-full py-3.5 px-10 cursor-pointer transition-colors shadow-none hover:bg-primary-hover mobile:w-full mobile:py-3.5 mobile:px-4 mobile:justify-center mt-4 text-center"
-          >
-            Get Started
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              aria-hidden="true"
+          <div className="flex flex-col md:flex-row gap-3 md:gap-4 mt-4 w-full md:w-auto">
+            <Link
+              href="/signup"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold rounded-full py-3.5 px-8 transition-all shadow-sm hover:bg-red-700 w-full md:w-auto text-center group"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-              />
-            </svg>
-          </Link>
+              Get Started
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
 
         {/* Right — Hero image carousel */}
         <div
-          className="relative flex-[0_0_auto] w-[650px] max-w-[650px] h-[455px] mobile:flex-none mobile:w-full mobile:max-w-full mobile:h-[300px]"
+          className="relative w-full md:w-1/2 max-w-2xl h-80 md:h-[455px]"
           onMouseEnter={() => setIsCarouselPaused(true)}
           onMouseLeave={() => setIsCarouselPaused(false)}
           aria-label="Homepage hero image carousel"
         >
           {/* Maple leaf watermark */}
           <div
-            className="absolute bottom-2 right-2 w-[100px] h-[100px] rounded-[10px] bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 mobile:hidden"
+            className="absolute bottom-2 right-2 w-28 h-28 rounded-10 bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 hidden md:block"
             aria-hidden="true"
           />
 
           {/* Dotted box decoration */}
           <DottedBox
-            className="absolute -bottom-[30px] -right-[70px] z-[5] w-[100px] h-auto pointer-events-none"
+            className="absolute -bottom-8 -right-20 z-[5] w-28 h-auto pointer-events-none hidden md:block"
             aria-hidden="true"
           />
 
           {/* Carousel frame */}
-          <div className="absolute inset-x-2 inset-y-2 mobile:inset-0 rounded-2xl overflow-hidden shadow-xl z-4 bg-white">
+          <div className="absolute inset-0 md:inset-2 rounded-2xl overflow-hidden shadow-xl z-4 bg-white">
             {COLLAGE_IMAGES.map((image, index) => (
               <div
                 key={image.src}
@@ -140,9 +130,10 @@ export const HeroSection = () => {
                   src={image.src}
                   alt={image.alt}
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 92vw, 40vw"
+                  className="object-cover w-full h-full"
+                  sizes="(max-width: 850px) 92vw, 40vw"
                   priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
             ))}
@@ -150,19 +141,19 @@ export const HeroSection = () => {
 
           {/* Decorative accents near images */}
           <div
-            className="absolute -right-3 top-[45%] w-4 h-4 rounded-full bg-amber-400 z-[5]"
+            className="absolute -right-3 top-[45%] w-4 h-4 rounded-full bg-amber-400 z-[5] hidden md:block"
             aria-hidden="true"
           />
           <div
-            className="absolute left-[45%] bottom-[42%] w-3 h-3 rounded-full bg-primary z-[5]"
+            className="absolute left-[45%] bottom-[42%] w-3 h-3 rounded-full bg-primary z-[5] hidden md:block"
             aria-hidden="true"
           />
           <div
-            className="absolute -left-4 top-[35%] w-2.5 h-2.5 rounded-full bg-pink-400 opacity-60 z-[5]"
+            className="absolute -left-4 top-[35%] w-2.5 h-2.5 rounded-full bg-pink-400 opacity-60 z-[5] hidden md:block"
             aria-hidden="true"
           />
           <div
-            className="absolute right-[20%] -top-3 w-2 h-2 rounded-full bg-primary opacity-50 z-[5]"
+            className="absolute right-[20%] -top-3 w-2 h-2 rounded-full bg-primary opacity-50 z-[5] hidden md:block"
             aria-hidden="true"
           />
         </div>

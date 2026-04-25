@@ -15,7 +15,7 @@ export default function JobsLoading() {
           </div>
 
           {/* Grid: Filter Panel + Job Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
             {/* Filter Panel */}
             <aside className="lg:col-span-1 animate-pulse">
               <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-5">

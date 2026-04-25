@@ -32,14 +32,14 @@ const PageHeader = ({ title, jobCount, sortBy, sortOrder, onSortChange }: PageHe
   return (
     <div className="flex items-center justify-between mb-0 py-1.5 px-6 pb-4 bg-white border-b border-gray-200 max-w-container mx-auto tablet:flex-col tablet:items-start tablet:gap-3 tablet:py-2 tablet:px-4 tablet:pb-3 sm:gap-2 sm:py-1.5 sm:px-4 sm:pb-3">
       <div className="flex items-center gap-3 tablet:w-full tablet:justify-between sm:flex-col sm:items-start sm:gap-1.5">
-        <h1 className="font-lato text-3xl font-bold text-gray-900 m-0 tablet:text-[26px] sm:text-[22px] xs:text-xl">{title}</h1>
-        <span className="bg-gray-100 text-gray-500 py-0.5 px-2.5 rounded-full text-sm font-semibold tablet:text-[13px] tablet:py-0.5 tablet:px-2 xs:text-xs xs:py-0.5 xs:px-1.5">{jobCount}</span>
+        <h1 className="font-lato text-2xl md:text-4xl font-bold text-gray-900 m-0">{title}</h1>
+        <span className="bg-gray-100 text-gray-500 py-0.5 px-2.5 rounded-full text-xs md:text-sm font-semibold">{jobCount}</span>
       </div>
       <div className="flex items-center gap-3 tablet:w-full tablet:justify-start tablet:gap-2 sm:flex-col sm:items-start sm:gap-1.5">
-        <span className="text-gray-500 text-sm font-medium sm:text-[13px] xs:text-xs">Sort by:</span>
+        <span className="text-gray-500 text-xs md:text-sm font-medium">Sort by:</span>
         <div className="flex items-center gap-1.5 tablet:flex-wrap tablet:gap-1">
           {sortOptions.map((option) => (
-            <button key={option.value} className={clsx("flex items-center gap-1.5 bg-transparent border-none text-gray-500 text-sm font-medium py-1.5 px-2.5 rounded-md cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:text-gray-700 tablet:text-[13px] tablet:py-1 tablet:px-2 xs:text-xs xs:py-1 xs:px-1.5", sortBy === option.value && "text-primary bg-red-50 font-semibold")} onClick={() => handleSortChange(option.value)}>
+            <button key={option.value} className={clsx("flex items-center gap-2 bg-transparent border-none text-gray-500 text-xs md:text-sm font-medium py-1.5 px-2.5 rounded-md cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:text-gray-700", sortBy === option.value && "text-primary bg-red-50 font-semibold")} onClick={() => handleSortChange(option.value)}>
               {option.label}
               <span className={clsx("flex items-center text-xs opacity-70", sortBy === option.value && "opacity-100")}>{getSortIcon(option.value)}</span>
             </button>

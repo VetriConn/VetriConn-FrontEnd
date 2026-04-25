@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { HiOutlineArrowRight } from "react-icons/hi2";
 
 const aboutContent = {
   headline: {
@@ -80,7 +81,7 @@ export const AboutSection = ({ id }: AboutSectionProps) => (
     className="py-24 bg-gray-light relative overflow-hidden mobile:py-14"
     aria-labelledby="about-heading"
   >
-    <div className="max-w-[1340px] mx-auto px-[5%] relative">
+    <div className="max-w-7xl mx-auto px-[5%] md:px-6 relative">
       {/* Decorative corner images — hidden below xl */}
       <div
         className="absolute inset-0 pointer-events-none hidden xl:block"
@@ -88,7 +89,14 @@ export const AboutSection = ({ id }: AboutSectionProps) => (
       >
         {decorativeImages.map((img, idx) => (
           <div key={idx} className={img.className}>
-            <Image src={img.src} alt={img.alt} fill className="object-cover" />
+            <Image 
+              src={img.src} 
+              alt={img.alt} 
+              fill 
+              className="object-cover w-full h-full"
+              sizes="(max-width: 1280px) 0px, 176px"
+              loading="lazy"
+            />
           </div>
         ))}
       </div>
@@ -107,7 +115,7 @@ export const AboutSection = ({ id }: AboutSectionProps) => (
         </p>
 
         {/* Feature pills */}
-        <div className="flex justify-center gap-8 mb-10 flex-wrap mobile:flex-col mobile:items-center mobile:gap-3 mobile:mb-8">
+        <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-10 flex-wrap items-center">
           {aboutContent.features.map((feature, idx) => (
             <div
               key={idx}
@@ -121,9 +129,10 @@ export const AboutSection = ({ id }: AboutSectionProps) => (
 
         <Link
           href={aboutContent.cta.href}
-          className="inline-flex items-center gap-2.5 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-colors shadow-sm"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-8 rounded-full transition-all shadow-sm group"
         >
           {aboutContent.cta.text}
+          <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
         </Link>
       </div>
     </div>

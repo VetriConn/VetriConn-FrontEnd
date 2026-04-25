@@ -193,8 +193,8 @@ describe("Signup Validation Schemas", () => {
     it("should accept all fields filled", () => {
       const result = step4Schema.safeParse({
         job_title: "Software Engineer",
-        industry: "Technology",
-        years_of_experience: "3-5",
+        industry: "Information Technology",
+        years_of_experience: "3-5 years",
       });
       expect(result.success).toBe(true);
     });

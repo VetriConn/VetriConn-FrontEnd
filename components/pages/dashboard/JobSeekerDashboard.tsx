@@ -70,10 +70,10 @@ const JobSeekerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1200px] mx-auto px-6 py-8">
+      <div className="max-w-screen-xl mx-auto px-6 py-8">
         {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">
             Your Dashboard
           </h1>
           <p className="text-gray-500">
@@ -82,17 +82,17 @@ const JobSeekerDashboard = () => {
         </div>
 
         {/* Find Your Next Opportunity Card */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">
+        <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6 mb-6">
+          <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-1">
             Find Your Next Opportunity
           </h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <p className="text-gray-500 text-xs md:text-sm mb-6">
             Search for jobs that match your skills and preferences
           </p>
 
-          <div className="flex flex-wrap gap-4 items-end">
+          <div className="flex flex-wrap gap-4 md:gap-6 items-end">
             {/* Job Search */}
-            <div className="flex-1 min-w-[200px]">
+            <div className="flex-1 min-w-52">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Job Search
               </label>
@@ -109,7 +109,7 @@ const JobSeekerDashboard = () => {
             </div>
 
             {/* Location */}
-            <div className="min-w-[150px]">
+            <div className="min-w-40">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Location
               </label>
@@ -142,7 +142,7 @@ const JobSeekerDashboard = () => {
               <div className="flex rounded-lg overflow-hidden bg-gray-100">
                 <button
                   onClick={() => setWorkType("all")}
-                  className={`px-4 py-2.5 text-sm font-medium transition-colors rounded-lg ${
+                  className={`px-4 py-2 min-h-[44px] text-sm font-medium transition-colors rounded-lg ${
                     workType === "all"
                       ? "bg-primary text-white"
                       : "bg-transparent text-gray-600 hover:bg-gray-200"
@@ -152,7 +152,7 @@ const JobSeekerDashboard = () => {
                 </button>
                 <button
                   onClick={() => setWorkType("remote")}
-                  className={`px-4 py-2.5 text-sm font-medium transition-colors rounded-lg ${
+                  className={`px-4 py-2 min-h-[44px] text-sm font-medium transition-colors rounded-lg ${
                     workType === "remote"
                       ? "bg-primary text-white"
                       : "bg-transparent text-gray-600 hover:bg-gray-200"
@@ -162,7 +162,7 @@ const JobSeekerDashboard = () => {
                 </button>
                 <button
                   onClick={() => setWorkType("onsite")}
-                  className={`px-4 py-2.5 text-sm font-medium transition-colors rounded-lg ${
+                  className={`px-4 py-2 min-h-[44px] text-sm font-medium transition-colors rounded-lg ${
                     workType === "onsite"
                       ? "bg-primary text-white"
                       : "bg-transparent text-gray-600 hover:bg-gray-200"
@@ -174,7 +174,7 @@ const JobSeekerDashboard = () => {
             </div>
 
             {/* Experience Level */}
-            <div className="min-w-[140px]">
+            <div className="min-w-36">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Experience Level
               </label>
@@ -194,7 +194,7 @@ const JobSeekerDashboard = () => {
             {/* Find Jobs Button */}
             <button
               onClick={handleFindJobs}
-              className="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary-hover transition-colors text-sm"
+              className="bg-primary text-white px-5 py-2 min-h-[44px] rounded-lg font-medium hover:bg-primary-hover transition-colors text-sm"
             >
               Find jobs
             </button>

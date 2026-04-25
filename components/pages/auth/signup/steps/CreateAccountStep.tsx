@@ -32,7 +32,7 @@ export const CreateAccountStep = ({
   return (
     <div className="w-full max-w-lg mx-auto">
       {/* Heading */}
-      <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+      <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-2 text-center">
         Create your account
       </h1>
       
@@ -87,11 +87,11 @@ export const CreateAccountStep = ({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-8">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-[10px] transition-all hover:bg-gray-50"
+          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-10 transition-all hover:bg-gray-50"
         >
           Back
         </button>
@@ -99,7 +99,7 @@ export const CreateAccountStep = ({
           type="button"
           onClick={onNext}
           disabled={!isFormValid}
-          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-[10px] transition-all hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-10 transition-all hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Continue
         </button>

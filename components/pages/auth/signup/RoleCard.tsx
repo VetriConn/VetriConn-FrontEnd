@@ -48,12 +48,12 @@ export function RoleCard({
         <div className="flex items-start gap-3">
           <div className="mt-0.5">{icon}</div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+            <h3 className="text-sm md:text-base font-semibold text-gray-900">{title}</h3>
             <p className="text-xs text-gray-500 mt-1">{description}</p>
           </div>
         </div>
         {disabled && (
-          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500">
+          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
             Coming Soon
           </span>
         )}

@@ -301,37 +301,37 @@ export default function JobApplicationForm({
           {/* Success Card */}
           <div className="bg-white rounded-xl border border-gray-200 p-10 mobile:p-6 text-center mb-4">
             <div className="w-14 h-14 mobile:w-12 mobile:h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-              <HiOutlineCheckCircle className="text-3xl mobile:text-2xl text-emerald-500" />
+              <HiOutlineCheckCircle className="w-8 h-8 md:w-12 md:h-12 text-emerald-500" />
             </div>
-            <h2 className="text-2xl mobile:text-lg font-bold text-gray-900 mb-2">
+            <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">
               Application Submitted Successfully
             </h2>
             <p className="text-sm mobile:text-xs text-gray-500 mb-1">
               Your application for
             </p>
-            <p className="text-base mobile:text-sm font-bold text-gray-900 mb-0.5">
+            <p className="text-sm md:text-base mobile:text-sm font-bold text-gray-900 mb-0.5">
               {job.role}
             </p>
             <p className="text-sm mobile:text-xs text-gray-500 mb-5">
               at {job.company_name}
             </p>
-            <p className="text-sm mobile:text-xs text-gray-500 leading-relaxed mb-7 max-w-[380px] mx-auto">
+            <p className="text-sm mobile:text-xs text-gray-500 leading-relaxed mb-7 max-w-sm mx-auto">
               We&apos;ve sent it to the employer. They will review it and
               contact you if you&apos;re a good match. This usually takes 3–5
               business days.
             </p>
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
               <Link
                 href="/dashboard/jobs"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-primary hover:bg-primary-hover text-white font-semibold text-sm mobile:text-xs rounded-lg transition-colors no-underline"
+                className="inline-flex items-center gap-2 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-primary hover:bg-primary-hover text-white font-semibold text-sm mobile:text-xs rounded-lg transition-colors no-underline"
               >
                 Browse More Jobs
               </Link>
               <Link
                 href="/dashboard/applied-jobs"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm mobile:text-xs rounded-lg hover:bg-gray-50 transition-colors no-underline"
+                className="inline-flex items-center gap-2 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm mobile:text-xs rounded-lg hover:bg-gray-50 transition-colors no-underline"
               >
-                <HiOutlineBriefcase className="text-sm mobile:text-xs" />
+                <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5" />
                 View Applied Jobs
               </Link>
             </div>
@@ -356,10 +356,10 @@ export default function JobApplicationForm({
     <div className="min-h-screen bg-gray-50 pb-8">
       <div className="max-w-2xl mx-auto px-6 py-8 tablet:px-4 tablet:py-6">
         {/* Page header */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-1.5">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1.5">
           Submit Your Application
         </h1>
-        <p className="text-sm text-gray-500 mb-8 leading-relaxed">
+        <p className="text-sm md:text-base text-gray-500 mb-8 leading-relaxed">
           Take your time filling out each section. We&apos;ve pre-filled some
           information from your profile to save you time.
         </p>
@@ -384,29 +384,29 @@ export default function JobApplicationForm({
 
         {/* Job summary card */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-          <div className="flex items-start gap-3.5 mb-3">
+          <div className="flex items-start gap-3 md:gap-4 mb-3">
             <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-              <HiOutlineBriefcase className="text-lg text-red-500" />
+              <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-gray-900">{job.role}</h3>
-              <p className="text-sm text-gray-500">{job.company_name}</p>
-              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-gray-400">
+              <h3 className="text-lg md:text-2xl font-bold text-gray-900">{job.role}</h3>
+              <p className="text-sm md:text-base text-gray-500">{job.company_name}</p>
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-1.5 text-xs text-gray-400">
                 {job.location && (
-                  <span className="flex items-center gap-1">
-                    <HiOutlineMapPin className="text-sm" />
+                  <span className="inline-flex items-center gap-2">
+                    <HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5" />
                     {job.location}
                   </span>
                 )}
-                <span className="flex items-center gap-1">
-                  <HiOutlineClock className="text-sm" />
+                <span className="inline-flex items-center gap-2">
+                  <HiOutlineClock className="w-4 h-4 md:w-5 md:h-5" />
                   {derivedJobType}
                 </span>
               </div>
             </div>
           </div>
-          <p className="text-xs text-emerald-600 font-medium flex items-center gap-1.5">
-            <HiOutlineCheckCircle className="text-sm" />
+          <p className="text-xs text-emerald-600 font-medium flex items-center gap-2">
+            <HiOutlineCheckCircle className="w-4 h-4 md:w-5 md:h-5" />
             You&apos;re applying for this role.
           </p>
         </div>
@@ -449,7 +449,7 @@ export default function JobApplicationForm({
               />
             </FormField>
 
-            <p className="text-xs text-gray-400 flex items-center gap-1.5">
+            <p className="text-xs text-gray-400 flex items-center gap-2">
               <InfoCircle />
               We&apos;ll only use this to contact you about your application.
             </p>
@@ -465,7 +465,7 @@ export default function JobApplicationForm({
         >
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                 Describe Your Relevant Experience
               </label>
               <textarea
@@ -477,7 +477,7 @@ export default function JobApplicationForm({
                 className="form-input resize-none"
                 placeholder="Share your experience related to this role..."
               />
-              <p className="text-xs text-gray-400 flex items-start gap-1.5 mt-2">
+              <p className="text-xs text-gray-400 flex items-start gap-2 mt-2">
                 <InfoCircle className="shrink-0 mt-0.5" />
                 <span>
                   For example: &quot;I have 10 years of customer service
@@ -488,7 +488,7 @@ export default function JobApplicationForm({
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-1">
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                 Select Your Skills
               </label>
               <p className="text-xs text-gray-400 mb-3">
@@ -503,7 +503,7 @@ export default function JobApplicationForm({
                       key={skill}
                       type="button"
                       onClick={() => toggleSkill(skill)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors cursor-pointer ${
+                      className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-medium border transition-colors cursor-pointer ${
                         selected
                           ? "bg-red-50 text-red-700 border-red-200"
                           : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
@@ -537,7 +537,7 @@ export default function JobApplicationForm({
             />
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                 Preferred Schedule
               </label>
               <select
@@ -556,7 +556,7 @@ export default function JobApplicationForm({
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
                 Work Location Preference
               </label>
               <select
@@ -586,10 +586,10 @@ export default function JobApplicationForm({
           {formData.resume ? (
             <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-lg p-4">
               <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                <HiOutlineDocumentText className="text-lg text-red-500" />
+                <HiOutlineDocumentText className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm md:text-base font-medium text-gray-900 truncate">
                   {formData.resume.name}
                 </p>
                 <p className="text-xs text-gray-400">
@@ -599,10 +599,10 @@ export default function JobApplicationForm({
               <button
                 type="button"
                 onClick={removeFile}
-                className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
+                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
                 aria-label="Remove file"
               >
-                <HiOutlineXMark className="text-lg" />
+                <HiOutlineXMark className="w-5 h-5 md:w-6 md:h-6" />
               </button>
             </div>
           ) : (
@@ -628,22 +628,22 @@ export default function JobApplicationForm({
                 className="hidden"
               />
               <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                <HiOutlineArrowUpTray className="text-xl text-gray-400" />
+                <HiOutlineArrowUpTray className="w-6 h-6 md:w-8 md:h-8 text-gray-400" />
               </div>
-              <p className="text-sm font-medium text-gray-700 mb-1">
+              <p className="text-sm md:text-base font-medium text-gray-700 mb-1">
                 Drag and drop your resume here
               </p>
               <p className="text-xs text-gray-400 mb-3">
                 or click to browse your files
               </p>
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-medium rounded">
+                <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs md:text-sm font-medium rounded">
                   PDF
                 </span>
-                <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-medium rounded">
+                <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs md:text-sm font-medium rounded">
                   DOCX
                 </span>
-                <span className="text-[11px] text-gray-400">Max 5MB</span>
+                <span className="text-xs md:text-sm text-gray-400">Max 5MB</span>
               </div>
             </div>
           )}
@@ -658,7 +658,7 @@ export default function JobApplicationForm({
           optional
         >
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
               Is there anything else you&apos;d like to share with us?
             </label>
             <textarea
@@ -668,7 +668,7 @@ export default function JobApplicationForm({
               className="form-input resize-none"
               placeholder="Type your response here..."
             />
-            <p className="text-xs text-gray-400 flex items-start gap-1.5 mt-2">
+            <p className="text-xs text-gray-400 flex items-start gap-2 mt-2">
               <InfoCircle className="shrink-0 mt-0.5" />
               <span>
                 This could include availability constraints, accommodation
@@ -680,9 +680,9 @@ export default function JobApplicationForm({
 
         {/* Review notice */}
         <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl p-4 mb-6">
-          <HiOutlineExclamationCircle className="text-lg text-red-500 shrink-0 mt-0.5" />
+          <HiOutlineExclamationCircle className="w-5 h-5 md:w-6 md:h-6 text-red-500 shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-bold text-gray-900">
+            <p className="text-sm md:text-base font-bold text-gray-900">
               Please Review Your Information
             </p>
             <p className="text-xs text-gray-500 mt-0.5">
@@ -693,7 +693,7 @@ export default function JobApplicationForm({
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-3 tablet:flex-col">
+        <div className="flex flex-col md:flex-row items-center gap-3">
           <button
             type="button"
             onClick={handleSubmit}
@@ -707,7 +707,7 @@ export default function JobApplicationForm({
               </>
             ) : (
               <>
-                <HiOutlinePaperAirplane className="text-base -rotate-45" />
+                <HiOutlinePaperAirplane className="w-5 h-5 md:w-6 md:h-6 -rotate-45" />
                 Submit Application
               </>
             )}
@@ -719,7 +719,7 @@ export default function JobApplicationForm({
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-60 tablet:w-full"
           >
-            <HiOutlineBookmark className="text-base" />
+            <HiOutlineBookmark className="w-5 h-5 md:w-6 md:h-6" />
             Save and Finish Later
           </button>
         </div>
@@ -756,8 +756,8 @@ function SectionCard({
           {complete ? "✓" : number}
         </div>
         <div>
-          <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-          <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>
+          <h2 className="text-xl md:text-3xl font-bold text-gray-900">{title}</h2>
+          <p className="text-xs md:text-sm text-gray-400 mt-0.5">{subtitle}</p>
         </div>
       </div>
       {children}
@@ -776,11 +776,11 @@ function FormField({
 }) {
   return (
     <div>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-1.5 md:mb-2">
         <label className="text-sm font-semibold text-gray-900">{label}</label>
         {preFilled && (
-          <span className="text-xs text-emerald-500 font-medium flex items-center gap-1">
-            <HiOutlineCheckCircle className="text-sm" />
+          <span className="text-xs text-emerald-500 font-medium flex items-center gap-2">
+            <HiOutlineCheckCircle className="w-4 h-4 md:w-5 md:h-5" />
             Pre-filled from your profile
           </span>
         )}
@@ -819,7 +819,7 @@ function DatePickerField({
 
   return (
     <div ref={ref} className="relative">
-      <label className="block text-sm font-semibold text-gray-900 mb-2">
+      <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
         {label}
       </label>
       <button
@@ -832,7 +832,7 @@ function DatePickerField({
             ? format(parse(value, "yyyy-MM-dd", new Date()), "MMM d, yyyy")
             : "Select a date..."}
         </span>
-        <HiOutlineCalendarDays className="text-gray-400 text-base" />
+        <HiOutlineCalendarDays className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />
       </button>
       {open && (
         <div className="absolute z-50 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-3 animate-fadeIn">
@@ -850,7 +850,7 @@ function DatePickerField({
           />
         </div>
       )}
-      <p className="text-xs text-gray-400 flex items-center gap-1.5 mt-2">
+      <p className="text-xs text-gray-400 flex items-center gap-2 mt-2">
         <InfoCircle />
         {hint}
       </p>

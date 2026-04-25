@@ -77,24 +77,24 @@ export const SignIn = () => {
   return (
     <div className="flex min-h-screen font-open-sans">
       {/* Desktop: Left side with image */}
-      <div className="flex-1 bg-gray-100 items-center justify-center p-8 text-left bg-[linear-gradient(70deg,rgba(0,0,0,0.6),rgba(0,0,0,0.3)),url('/images/Hero/1.svg')] bg-right bg-cover hidden mobile:hidden tablet:hidden relative md:flex">
-        <DottedBox9 className="absolute top-50 right-10 w-[120px] h-auto z-0 opacity-60" />
-        <h1 className="font-lato text-heading-2 mb-4 text-white text-[2.5rem] font-semibold leading-tight">
-          Join the <br /> <span className="text-primary">Vetriconn</span>{" "}
+      <div className="flex-1 bg-gray-100 items-center justify-center p-8 text-left bg-[linear-gradient(70deg,rgba(0,0,0,0.65),rgba(0,0,0,0.45)),url('/images/Hero/1.svg')] bg-right bg-cover hidden mobile:hidden tablet:hidden relative md:flex">
+        <DottedBox9 className="absolute top-50 right-10 w-32 h-auto z-0 opacity-60" />
+        <h1 className="font-lato text-2xl md:text-4xl mb-4 text-white font-semibold leading-tight drop-shadow-lg">
+          Join the <br /> <span className="text-primary drop-shadow-lg">Vetriconn</span>{" "}
           community
         </h1>
-        <DottedBox7 className="absolute bottom-80 left-15 w-[120px] h-auto z-0 opacity-60" />
+        <DottedBox7 className="absolute bottom-80 left-15 w-32 h-auto z-0 opacity-60" />
       </div>
 
       {/* Form side - Desktop */}
       <div className="flex-1 items-center justify-center p-16 bg-white relative flex">
         <DottedBox4 className="absolute top-8 left-15 h-auto z-0 opacity-60" />
-        <div className="w-full max-w-[500px]">
+        <div className="w-full max-w-lg">
           {/* Logo */}
           <img src="/images/logo_1.svg" alt="Vetriconn" className="w-40 mb-8" />
 
-          <h2 className="text-3xl mb-4">Welcome back</h2>
-          <p className="text-sm mb-4">
+          <h2 className="text-xl md:text-3xl mb-4">Welcome back</h2>
+          <p className="text-sm md:text-base mb-4">
             Sign in to continue to your account and find opportunities.
           </p>
           <form onSubmit={handleSubmit}>
@@ -145,7 +145,7 @@ export const SignIn = () => {
             </div>
             <button
               type="submit"
-              className="bg-primary text-white py-3 px-7 border-none rounded-[10px] text-sm cursor-pointer transition-colors ml-auto mt-2 inline-block hover:bg-red-700 disabled:bg-gray-300 disabled:text-text-muted disabled:cursor-not-allowed w-full"
+              className="bg-primary text-white py-3 px-7 border-none rounded-10 text-sm cursor-pointer transition-colors ml-auto mt-2 inline-block hover:bg-red-700 disabled:bg-gray-300 disabled:text-text-muted disabled:cursor-not-allowed w-full"
               disabled={isButtonDisabled}
             >
               {isSubmitting ? "Signing In..." : "Sign In to your account"}

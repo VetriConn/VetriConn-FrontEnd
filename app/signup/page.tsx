@@ -1,18 +1,34 @@
-import type { Metadata } from "next";
-import { SignupWizard } from "@/components/pages/auth/signup/SignupWizard";
-import { Suspense } from "react";
-import { generateMetadata as generateSeoMetadata, METADATA_TEMPLATES } from "@/lib/seo";
+"use client";
 
-export const metadata: Metadata = generateSeoMetadata({
-  title: METADATA_TEMPLATES.signup.title,
-  description: METADATA_TEMPLATES.signup.description,
-  path: "/signup",
-  keywords: ["register for senior jobs", "veteran job seeker signup", "retiree job registration"],
-});
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+// Lazy load SignupWizard for better code splitting
+const SignupWizard = dynamic(
+  () => import("@/components/pages/auth/signup/SignupWizard").then((mod) => ({ default: mod.SignupWizard })),
+  {
+    loading: () => (
+      <div className="min-h-screen flex items-center justify-center bg-[#FBFAF9]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    ),
+  }
+);
 
 export default function SignUpPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#FBFAF9]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
       <SignupWizard />
     </Suspense>
   );

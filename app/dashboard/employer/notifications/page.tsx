@@ -68,9 +68,8 @@ export default function NotificationsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-170 mx-auto px-6 py-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
+    <div className="max-w-170 mx-auto">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
 
         {employerNotifications.length > 0 && (
           <div className="mb-3 flex justify-end">
@@ -152,6 +151,5 @@ export default function NotificationsPage() {
           )}
         </div>
       </div>
-    </div>
   );
 }

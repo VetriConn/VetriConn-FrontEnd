@@ -40,38 +40,38 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
       label: "Account settings",
       subtitle: "Update your information",
       href: "/dashboard/settings",
-      icon: <HiOutlineCog6Tooth className="w-5 h-5 text-red-500" />,
+      icon: <HiOutlineCog6Tooth className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
     },
     {
       label: "View applied jobs",
       subtitle: appliedSubtitle,
       href: "/dashboard/applied-jobs",
-      icon: <HiOutlineBriefcase className="w-5 h-5 text-red-500" />,
+      icon: <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
     },
     {
       label: "Saved jobs",
       subtitle: savedSubtitle,
       href: "/dashboard/saved-jobs",
-      icon: <HiOutlineHeart className="w-5 h-5 text-red-500" />,
+      icon: <HiOutlineHeart className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
     },
     {
       label: "Application drafts",
       subtitle: "Continue where you left off",
       href: "/dashboard/application-drafts",
-      icon: <HiOutlineClipboardDocument className="w-5 h-5 text-red-500" />,
+      icon: <HiOutlineClipboardDocument className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
     },
   ];
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 hidden lg:block">
+    <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6 hidden lg:block">
       <div className="flex-1">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
+        <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-4">Quick Actions</h3>
 
-        <div className="space-y-2">
+        <div className="flex flex-col gap-2">
           {quickActions.map((action) => (
             <Link
               key={action.href}
               href={action.href}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+              className="inline-flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
               aria-label={action.label}
             >
               <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
@@ -83,7 +83,7 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
                 </span>
                 <span className="text-xs text-gray-500">{action.subtitle}</span>
               </div>
-              <HiOutlineChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-400 flex-shrink-0" />
             </Link>
           ))}
         </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import {
   HiOutlinePencilSquare,
@@ -9,7 +8,7 @@ import {
   HiOutlineEye,
 } from "react-icons/hi2";
 import { CheckCircleIcon } from "@/components/ui/CheckCircleIcon";
-import { getInitials } from "@/lib/initials";
+import { Avatar } from "@/components/ui/Avatar";
 
 export type JobSeekingStatus =
   | "none"
@@ -68,11 +67,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   onPreview,
   onChangePhoto,
 }) => {
-  const [imageError, setImageError] = useState(false);
-
-  const initials = getInitials(name);
-  const hasValidAvatar = avatar && avatar.trim() !== "" && !imageError;
-
   // Color-coded badge based on completion
   const badgeColor =
     completionPercentage === 100
@@ -91,42 +85,32 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     <div className="space-y-6">
       {/* Page Title Section */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">My Profile</h1>
-        <p className="text-gray-500 text-sm">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">My Profile</h1>
+        <p className="text-gray-500 text-sm md:text-base">
           Review and update your professional information
         </p>
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
         <div className="flex flex-col sm:flex-row gap-5">
           {/* Avatar with camera overlay */}
           <div className="shrink-0 flex justify-center sm:justify-start">
             <button
               type="button"
               onClick={onChangePhoto}
-              className="group relative w-20 h-20 rounded-full overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="group relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               aria-label="Change profile photo"
             >
-              <div className="w-full h-full flex items-center justify-center bg-red-50 border-2 border-red-100 rounded-full overflow-hidden">
-                {hasValidAvatar ? (
-                  <Image
-                    src={avatar!}
-                    alt={name}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-cover"
-                    onError={() => setImageError(true)}
-                  />
-                ) : (
-                  <span className="text-2xl font-bold text-red-600">
-                    {initials}
-                  </span>
-                )}
-              </div>
+              <Avatar
+                src={avatar}
+                name={name}
+                size={96}
+                className="w-full h-full border-2 border-red-100"
+              />
               {/* Camera hover overlay */}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 rounded-full flex items-center justify-center transition-all duration-200">
-                <HiOutlineCamera className="w-5 h-5 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <HiOutlineCamera className="w-5 h-5 md:w-6 md:h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </div>
             </button>
           </div>
@@ -135,7 +119,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div className="flex-1 min-w-0 text-center sm:text-left">
             {/* Name Row with Completion Badge */}
             <div className="flex justify-between flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
-              <h2 className="text-xl font-bold text-gray-900 truncate">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-1">
                 {name}
               </h2>
 
@@ -162,7 +146,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 <span
                   className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${JOB_SEEKING_STATUS_CONFIG[jobSeekingStatus].badge}`}
                 >
-                  <span className="text-[10px]">
+                  <span className="text-xs">
                     {JOB_SEEKING_STATUS_CONFIG[jobSeekingStatus].icon}
                   </span>
                   {JOB_SEEKING_STATUS_CONFIG[jobSeekingStatus].label}
@@ -180,39 +164,39 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             {/* Location */}
             {location && (
               <div className="flex items-center justify-center sm:justify-start gap-1.5 text-gray-500 text-sm mb-3">
-                <HiOutlineLocationMarker className="w-4 h-4 shrink-0" />
+                <HiOutlineLocationMarker className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                 <span>{location}</span>
               </div>
             )}
 
             {/* Bio */}
             {bio ? (
-              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+              <p className="text-xs md:text-sm text-gray-600 leading-relaxed mb-4">
                 {bio}
               </p>
             ) : (
-              <p className="text-gray-400 text-sm italic mb-4">
+              <p className="text-xs md:text-sm text-gray-400 italic mb-4">
                 No bio yet — tell employers about yourself.
               </p>
             )}
 
             {/* Profile Actions */}
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 md:gap-3 flex-wrap">
               <button
                 onClick={onEditProfile}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 md:px-5 md:py-2.5 min-h-[44px] bg-white border border-gray-300 rounded-full text-sm md:text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors cursor-pointer"
                 aria-label="Edit profile"
               >
-                <HiOutlinePencilSquare className="w-4 h-4" />
+                <HiOutlinePencilSquare className="w-4 h-4 md:w-5 md:h-5" />
                 Edit profile
               </button>
               {onPreview && (
                 <button
                   onClick={onPreview}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 md:px-5 md:py-2.5 min-h-[44px] bg-white border border-gray-300 rounded-full text-sm md:text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors cursor-pointer"
                   aria-label="Preview profile as employer"
                 >
-                  <HiOutlineEye className="w-4 h-4" />
+                  <HiOutlineEye className="w-4 h-4 md:w-5 md:h-5" />
                   Preview
                 </button>
               )}

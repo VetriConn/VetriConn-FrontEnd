@@ -3,12 +3,12 @@
 import { StepProps } from "@/types/signup";
 import { FormField } from "@/components/ui/FormField";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
-import { EXPERIENCE_LEVELS } from "@/lib/validation";
+import { EXPERIENCE_LEVELS, INDUSTRY_OPTIONS } from "@/lib/validation";
 
 /**
  * Step 4: Work Background (Optional)
  * Collects user work experience details
- * Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10
+
  */
 export const WorkBackgroundStep = ({
   formData,
@@ -21,7 +21,7 @@ export const WorkBackgroundStep = ({
   return (
     <div className="w-full max-w-lg mx-auto">
       {/* Heading */}
-      <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+      <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-2 text-center">
         Share your work experience
       </h1>
       
@@ -42,14 +42,14 @@ export const WorkBackgroundStep = ({
           error={errors.job_title}
         />
 
-        <FormField
+        <CustomDropdown
           label="Skill Area or Industry"
           name="industry"
-          type="text"
-          placeholder="E.g., Healthcare, customer service, Admin."
+          placeholder="Select your industry"
           helperText="What area do you have the most experience in?"
           value={formData.industry}
           onChange={(value) => onFieldChange("industry", value)}
+          options={INDUSTRY_OPTIONS}
           error={errors.industry}
         />
 
@@ -65,18 +65,18 @@ export const WorkBackgroundStep = ({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-8">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-[10px] transition-all hover:bg-gray-50"
+          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-10 transition-all hover:bg-gray-50"
         >
           Back
         </button>
         <button
           type="button"
           onClick={onNext}
-          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-[10px] transition-all hover:bg-primary/90"
+          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-10 transition-all hover:bg-primary/90"
         >
           Continue
         </button>

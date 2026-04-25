@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import clsx from "clsx";
 import {
   HiOutlineMapPin,
@@ -193,16 +194,16 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
           >
             Jobs
           </Link>
-          <HiOutlineChevronRight className="text-xs text-gray-400" />
+          <HiOutlineChevronRight className="w-3 h-3 md:w-4 md:h-4 text-gray-400" />
           <span className="text-gray-400">{category}</span>
-          <HiOutlineChevronRight className="text-xs text-gray-400" />
+          <HiOutlineChevronRight className="w-3 h-3 md:w-4 md:h-4 text-gray-400" />
           <span className="text-gray-700 font-medium truncate max-w-50">
             {role}
           </span>
         </nav>
 
         {/* Two-column layout */}
-        <div className="flex gap-8 items-start tablet:flex-col">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-start">
           {/* Main Content */}
           <div className="flex-1 min-w-0">
             {/* Tags */}
@@ -230,10 +231,15 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
             {/* Company info */}
             <div className="flex items-center gap-3 mb-6">
               {company_logo ? (
-                <img
+                <Image
                   src={company_logo}
                   alt={company_name}
-                  className="w-10 h-10 rounded-lg object-cover border border-gray-200"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-lg object-contain border border-gray-200"
+                  sizes="40px"
+                  loading="lazy"
+                  style={{ aspectRatio: '1' }}
                 />
               ) : (
                 <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
@@ -247,7 +253,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   {company_name}
                 </p>
                 <p className="text-xs text-gray-400 flex items-center gap-1">
-                  <HiOutlineShieldCheck className="text-sm text-emerald-500" />
+                  <HiOutlineShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-emerald-500" />
                   Trusted employer
                 </p>
               </div>
@@ -260,7 +266,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   key={i}
                   className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3.5 py-2"
                 >
-                  <item.icon className="text-base text-gray-400" />
+                  <item.icon className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
                   <span className="text-sm text-gray-700">{item.label}</span>
                 </div>
               ))}
@@ -269,7 +275,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
             {/* About This Role */}
             {full_description && (
               <section className="mb-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-3">
+                <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-3">
                   About This Role
                 </h2>
                 <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
@@ -281,7 +287,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
             {/* What You'll Do */}
             {responsibilities.length > 0 && (
               <section className="mb-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-4">
                   What You&apos;ll Do
                 </h2>
                 <ul className="space-y-3">
@@ -300,13 +306,13 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
             {/* What We're Looking For */}
             {qualifications.length > 0 && (
               <section className="mb-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-4">
                   What We&apos;re Looking For
                 </h2>
                 <ul className="space-y-3">
                   {qualifications.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <HiOutlineCheckCircle className="text-lg text-emerald-500 shrink-0 mt-0.5" />
+                      <HiOutlineCheckCircle className="w-5 h-5 md:w-6 md:h-6 text-emerald-500 shrink-0 mt-0.5" />
                       <span className="text-sm text-gray-600 leading-relaxed">
                         {item}
                       </span>
@@ -318,21 +324,21 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
 
             {/* Is This Job Right for You? */}
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-4">
                 Is This Job Right for You?
               </h2>
-              <div className="grid grid-cols-2 gap-4 tablet:grid-cols-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {fitCards.map((card, i) => (
                   <div
                     key={i}
                     className="bg-white border border-gray-200 rounded-xl p-5"
                   >
                     <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3">
-                      <HiOutlineHeart className="text-lg text-red-500" />
+                      <HiOutlineHeart className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 mb-1">
-                      {card.title}
-                    </h3>
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1">
+            {card.title}
+          </h3>
                     <p className="text-xs text-gray-500 leading-relaxed">
                       {card.description}
                     </p>
@@ -346,13 +352,13 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
           <div className="w-80 shrink-0 tablet:w-full">
             <div className="sticky top-8">
               <div className="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 className="text-base font-bold text-gray-900 mb-5">
-                  Job Summary
-                </h3>
+        <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-5">
+          Job Summary
+        </h3>
 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-start gap-3">
-                    <HiOutlineBriefcase className="text-base text-gray-400 mt-0.5 shrink-0" />
+                    <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5 text-gray-400 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400 mb-0.5">Job Title</p>
                       <p className="text-sm font-medium text-gray-900">
@@ -362,7 +368,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <HiOutlineBuildingOffice2 className="text-base text-gray-400 mt-0.5 shrink-0" />
+                    <HiOutlineBuildingOffice2 className="w-4 h-4 md:w-5 md:h-5 text-gray-400 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400 mb-0.5">Company</p>
                       <p className="text-sm font-medium text-gray-900">
@@ -372,7 +378,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <HiOutlineMapPin className="text-base text-gray-400 mt-0.5 shrink-0" />
+                    <HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5 text-gray-400 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400 mb-0.5">Location</p>
                       <p className="text-sm font-medium text-gray-900">
@@ -382,7 +388,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <HiOutlineCalendarDays className="text-base text-gray-400 mt-0.5 shrink-0" />
+                    <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5 text-gray-400 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-gray-400 mb-0.5">Job Type</p>
                       <p className="text-sm font-medium text-gray-900">
@@ -393,7 +399,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
 
                   {salaryDisplay && (
                     <div className="flex items-start gap-3">
-                      <HiOutlineBanknotes className="text-base text-gray-400 mt-0.5 shrink-0" />
+                      <HiOutlineBanknotes className="w-4 h-4 md:w-5 md:h-5 text-gray-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs text-gray-400 mb-0.5">
                           Pay Range
@@ -423,7 +429,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                     className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-hover text-white font-semibold text-sm py-3 px-4 rounded-lg transition-colors no-underline mb-3"
                   >
                     Apply Now
-                    <HiOutlineArrowLeft className="rotate-180 text-base" />
+                    <HiOutlineArrowLeft className="w-5 h-5 md:w-6 md:h-6 rotate-180" />
                   </a>
                 ) : hasApplied ? (
                   <button
@@ -438,7 +444,7 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                     className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-hover text-white font-semibold text-sm py-3 px-4 rounded-lg transition-colors no-underline mb-3"
                   >
                     {hasDraft ? "Continue Draft Application" : "Apply for this Job"}
-                    <HiOutlineArrowLeft className="rotate-180 text-base" />
+                    <HiOutlineArrowLeft className="w-5 h-5 md:w-6 md:h-6 rotate-180" />
                   </Link>
                 )}
 
@@ -455,9 +461,9 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                   )}
                 >
                   {isSaved(id) ? (
-                    <HiBookmark className="text-base" />
+                    <HiBookmark className="w-5 h-5 md:w-6 md:h-6" />
                   ) : (
-                    <HiOutlineBookmark className="text-base" />
+                    <HiOutlineBookmark className="w-5 h-5 md:w-6 md:h-6" />
                   )}
                   {isMutating(id)
                     ? "Saving..."
@@ -469,14 +475,14 @@ const JobDescriptor: React.FC<JobDescriptorProps> = ({
                 {/* Info notices */}
                 <div className="space-y-3 pt-5 border-t border-gray-100">
                   <div className="flex items-start gap-2.5">
-                    <HiOutlineCheckCircle className="text-base text-emerald-500 shrink-0 mt-0.5" />
+                    <HiOutlineCheckCircle className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 shrink-0 mt-0.5" />
                     <p className="text-xs text-gray-500 leading-relaxed">
                       Complete your profile to increase your chances of getting
                       hired
                     </p>
                   </div>
                   <div className="flex items-start gap-2.5">
-                    <HiOutlineCheckCircle className="text-base text-emerald-500 shrink-0 mt-0.5" />
+                    <HiOutlineCheckCircle className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 shrink-0 mt-0.5" />
                     <p className="text-xs text-gray-500 leading-relaxed">
                       Be one of the first to apply — early applicants are 3x
                       more likely to get noticed

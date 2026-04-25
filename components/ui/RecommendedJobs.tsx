@@ -30,27 +30,27 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
       <div>
-        <h3 className="font-semibold text-gray-900 mb-3 leading-tight">
+        <h3 className="text-lg md:text-2xl font-semibold text-gray-900 leading-tight">
           {role}
         </h3>
 
         <div className="flex items-center gap-2 text-gray-600 text-sm mb-2">
-          <HiOutlineBriefcase className="w-4 h-4 text-gray-400 shrink-0" />
+          <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5 text-gray-400 shrink-0" />
           <span className="truncate">{company_name}</span>
         </div>
 
         <div className="flex items-center gap-2 text-gray-600 text-sm mb-2">
-          <HiOutlineLocationMarker className="w-4 h-4 text-gray-400 shrink-0" />
+          <HiOutlineLocationMarker className="w-4 h-4 md:w-5 md:h-5 text-gray-400 shrink-0" />
           <span>{location}</span>
         </div>
 
         <div className="flex items-center gap-2 text-gray-600 text-sm mb-2">
-          <HiOutlineClock className="w-4 h-4 text-gray-400 shrink-0" />
+          <HiOutlineClock className="w-4 h-4 md:w-5 md:h-5 text-gray-400 shrink-0" />
           <span>{work_type}</span>
         </div>
 
         <div className="flex items-center gap-2 text-primary text-sm font-medium mb-4">
-          <HiCurrencyDollar className="w-4 h-4 shrink-0" />
+          <HiCurrencyDollar className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
           <span>{salary_range}</span>
         </div>
       </div>
@@ -95,18 +95,18 @@ export const RecommendedJobs: React.FC = () => {
       {/* Header */}
       <div className="flex items-center gap-3 mb-1">
         <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
-          <HiOutlineBriefcase className="w-5 h-5 text-primary" />
+          <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-primary" />
         </div>
-        <h2 className="text-lg font-semibold text-gray-900">
-          Recommended for you
-        </h2>
+              <h2 className="text-xl md:text-3xl font-semibold text-gray-900 mb-2">
+                Recommended for you
+              </h2>
       </div>
       <p className="text-gray-500 text-sm mb-6 ml-13">
         Jobs matching your skills and preferences
       </p>
 
       {/* Job Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {jobs.map((job) => (
           <RecommendedJobCard key={job.id} {...job} />
         ))}

@@ -4,9 +4,8 @@ import { HiOutlineCreditCard } from "react-icons/hi2";
 
 export default function BillingPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1200px] mx-auto px-6 py-8">
-        <div className="mb-8">
+    <div className="max-w-[1200px] mx-auto">
+      <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
             Billing &amp; Subscription
           </h1>
@@ -29,6 +28,5 @@ export default function BillingPage() {
           </p>
         </div>
       </div>
-    </div>
   );
 }

@@ -24,6 +24,7 @@ import {
 } from "@/hooks/useApplications";
 import { EditDialog } from "@/components/ui/EditDialog";
 import { useToaster } from "@/components/ui/Toaster";
+import { Avatar } from "@/components/ui/Avatar";
 
 // --- Status Badge ---
 
@@ -31,9 +32,9 @@ function StatusBadge({ status }: { status: ApplicationStatus }) {
   const config = APPLICATION_STATUS_CONFIG[status];
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${config.textColor} ${config.bgColor} ${config.borderColor}`}
+      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold border ${config.textColor} ${config.bgColor} ${config.borderColor}`}
     >
-      <span className="text-[10px]">{config.icon}</span>
+      <span className="text-xs">{config.icon}</span>
       {config.label}
     </span>
   );
@@ -42,15 +43,15 @@ function StatusBadge({ status }: { status: ApplicationStatus }) {
 function SourceBadge({ source }: { source: ApplicationSource }) {
   if (source === "vetriconn") {
     return (
-      <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
-        <HiOutlineBriefcase className="w-3 h-3" />
+      <span className="inline-flex items-center gap-2 text-xs text-primary font-medium">
+        <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5" />
         Via Vetriconn
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 text-xs text-gray-400 font-medium">
-      <HiOutlineGlobeAlt className="w-3 h-3" />
+    <span className="inline-flex items-center gap-2 text-xs text-gray-400 font-medium">
+      <HiOutlineGlobeAlt className="w-4 h-4 md:w-5 md:h-5" />
       External
     </span>
   );
@@ -129,7 +130,7 @@ function StatusDropdown({
                       : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
-                  <span className="mr-2 text-[10px]">{config.icon}</span>
+                  <span className="mr-2 text-xs">{config.icon}</span>
                   {config.label}
                 </button>
               );
@@ -161,14 +162,14 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
           href="/dashboard/jobs"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors no-underline"
         >
-          <HiOutlineMagnifyingGlass className="text-base" />
+          <HiOutlineMagnifyingGlass className="w-4 h-4 md:w-5 md:h-5" />
           Find Jobs
         </Link>
         <button
           onClick={onAdd}
           className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
         >
-          <HiOutlinePlusCircle className="text-base" />
+          <HiOutlinePlusCircle className="w-4 h-4 md:w-5 md:h-5" />
           Log External Application
         </button>
       </div>
@@ -199,11 +200,18 @@ function ApplicationCard({
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 transition-shadow hover:shadow-sm">
       <div className="flex items-start justify-between gap-4 mobile:flex-col">
-        {/* Info */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">
-            {application.position}
-          </h3>
+        {/* Company Avatar + Info */}
+        <div className="flex items-start gap-4 flex-1 min-w-0">
+          <Avatar
+            src={null}
+            name={application.company}
+            size={48}
+            className="shrink-0"
+          />
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
+              {application.position}
+            </h3>
 
           <div className="flex flex-wrap items-center gap-3 mb-3">
             <StatusBadge status={application.status} />
@@ -211,34 +219,35 @@ function ApplicationCard({
           </div>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-2">
-            <span className="flex items-center gap-1.5">
-              <HiOutlineBuildingOffice2 className="text-sm" />
+            <span className="inline-flex items-center gap-2">
+              <HiOutlineBuildingOffice2 className="w-4 h-4 md:w-5 md:h-5" />
               {application.company}
             </span>
             {application.location && (
-              <span className="flex items-center gap-1.5">
-                <HiOutlineMapPin className="text-sm" />
+              <span className="inline-flex items-center gap-2">
+                <HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5" />
                 {application.location}
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-            <HiOutlineCalendarDays className="text-sm" />
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5" />
             Applied {appliedDate}
           </div>
 
-          {application.notes && (
-            <div className="mt-3 p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium mb-1">
-                <HiOutlineDocumentText className="w-3 h-3" />
-                Notes
+            {application.notes && (
+              <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mb-1">
+                  <HiOutlineDocumentText className="w-4 h-4 md:w-5 md:h-5" />
+                  Notes
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                  {application.notes}
+                </p>
               </div>
-              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                {application.notes}
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Actions */}
@@ -252,9 +261,9 @@ function ApplicationCard({
 
           <button
             onClick={() => onEditNotes(application)}
-            className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-gray-500 hover:text-gray-700 cursor-pointer transition-colors"
           >
-            <HiOutlinePencilSquare className="w-3.5 h-3.5" />
+            <HiOutlinePencilSquare className="w-4 h-4 md:w-5 md:h-5" />
             {application.notes ? "Edit notes" : "Add notes"}
           </button>
 
@@ -263,9 +272,9 @@ function ApplicationCard({
               href={application.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary-hover transition-colors no-underline"
+              className="inline-flex items-center gap-2 text-xs text-primary hover:text-primary-hover transition-colors no-underline"
             >
-              <HiOutlineGlobeAlt className="w-3.5 h-3.5" />
+              <HiOutlineGlobeAlt className="w-4 h-4 md:w-5 md:h-5" />
               View posting
             </a>
           )}
@@ -273,9 +282,9 @@ function ApplicationCard({
           {application.job_id && (
             <Link
               href={`/jobs/${application.job_id}`}
-              className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary-hover transition-colors no-underline"
+              className="inline-flex items-center gap-2 text-xs text-primary hover:text-primary-hover transition-colors no-underline"
             >
-              <HiOutlineBriefcase className="w-3.5 h-3.5" />
+              <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5" />
               View on Vetriconn
             </Link>
           )}
@@ -298,9 +307,9 @@ function ApplicationCard({
           ) : (
             <button
               onClick={() => setShowConfirmDelete(true)}
-              className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-red-600 cursor-pointer transition-colors mt-1"
+              className="inline-flex items-center gap-2 text-xs text-gray-400 hover:text-red-600 cursor-pointer transition-colors mt-1"
             >
-              <HiOutlineTrash className="w-3.5 h-3.5" />
+              <HiOutlineTrash className="w-4 h-4 md:w-5 md:h-5" />
               Remove
             </button>
           )}
@@ -451,9 +460,8 @@ export default function AppliedJobsPage() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-[800px] mx-auto px-6 py-10">
-          <div className="animate-pulse space-y-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/3" />
             <div className="h-4 bg-gray-200 rounded w-1/2" />
             <div className="flex gap-4">
@@ -464,17 +472,15 @@ export default function AppliedJobsPage() {
             <div className="h-40 bg-gray-200 rounded-xl" />
           </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[800px] mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-        {/* Page Header */}
-        <div className="flex items-start justify-between mb-2 mobile:flex-col mobile:gap-3">
+    <div className="max-w-3xl mx-auto">
+      {/* Page Header */}
+      <div className="flex items-start justify-between mb-2 mobile:flex-col mobile:gap-3">
           <div>
-            <h1 className="font-lato text-[28px] font-bold text-gray-900">
+            <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
               Application Tracker
             </h1>
             <p className="text-gray-500 text-sm mt-1">
@@ -485,7 +491,7 @@ export default function AppliedJobsPage() {
             onClick={() => setShowAddDialog(true)}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer shrink-0"
           >
-            <HiOutlinePlusCircle className="text-base" />
+            <HiOutlinePlusCircle className="w-4 h-4 md:w-5 md:h-5" />
             Log Application
           </button>
         </div>
@@ -542,24 +548,152 @@ export default function AppliedJobsPage() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
-                {filteredApplications.map((app) => (
-                  <ApplicationCard
-                    key={app.id}
-                    application={app}
-                    onStatusChange={handleStatusChange}
-                    onDelete={handleDelete}
-                    onEditNotes={handleEditNotes}
-                  />
-                ))}
-              </div>
+              <>
+                {/* Desktop Table View */}
+                <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-hidden">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                          Position
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                          Company
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                          Status
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                          Applied
+                        </th>
+                        <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredApplications.map((app) => {
+                        const appliedDate = new Date(
+                          app.applied_date,
+                        ).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        });
+
+                        return (
+                          <tr
+                            key={app.id}
+                            className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                          >
+                            <td className="px-4 py-4">
+                              <div className="text-sm font-semibold text-gray-900">
+                                {app.position}
+                              </div>
+                              {app.location && (
+                                <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                                  <HiOutlineMapPin className="w-3 h-3" />
+                                  {app.location}
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-3 text-sm text-gray-900">
+                                <Avatar
+                                  src={null}
+                                  name={app.company}
+                                  size={32}
+                                />
+                                {app.company}
+                              </div>
+                              <div className="mt-1">
+                                <SourceBadge source={app.source} />
+                              </div>
+                            </td>
+                            <td className="px-4 py-4">
+                              <StatusBadge status={app.status} />
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-2 text-xs text-gray-500">
+                                <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5" />
+                                {appliedDate}
+                              </div>
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center justify-end gap-2">
+                                <StatusDropdown
+                                  currentStatus={app.status}
+                                  onStatusChange={(status) =>
+                                    handleStatusChange(app.id, status)
+                                  }
+                                />
+                                <button
+                                  onClick={() => handleEditNotes(app)}
+                                  className="p-2 min-h-44 min-w-44 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                  aria-label={
+                                    app.notes ? "Edit notes" : "Add notes"
+                                  }
+                                >
+                                  <HiOutlinePencilSquare className="w-4 h-4" />
+                                </button>
+                                {(app.url || app.job_id) && (
+                                  <a
+                                    href={
+                                      app.job_id
+                                        ? `/jobs/${app.job_id}`
+                                        : app.url
+                                    }
+                                    target={app.url ? "_blank" : undefined}
+                                    rel={
+                                      app.url
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                    }
+                                    className="p-2 min-h-44 min-w-44 text-primary hover:text-primary-hover hover:bg-red-50 rounded-lg transition-colors"
+                                    aria-label="View job posting"
+                                  >
+                                    {app.job_id ? (
+                                      <HiOutlineBriefcase className="w-4 h-4" />
+                                    ) : (
+                                      <HiOutlineGlobeAlt className="w-4 h-4" />
+                                    )}
+                                  </a>
+                                )}
+                                <button
+                                  onClick={() => handleDelete(app.id)}
+                                  className="p-2 min-h-44 min-w-44 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                  aria-label="Remove application"
+                                >
+                                  <HiOutlineTrash className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4">
+                  {filteredApplications.map((app) => (
+                    <ApplicationCard
+                      key={app.id}
+                      application={app}
+                      onStatusChange={handleStatusChange}
+                      onDelete={handleDelete}
+                      onEditNotes={handleEditNotes}
+                    />
+                  ))}
+                </div>
+              </>
             )}
           </>
         )}
-      </div>
 
-      {/* Add External Application Dialog */}
-      <EditDialog
+        {/* Add External Application Dialog */}
+        <EditDialog
         isOpen={showAddDialog}
         title="Log External Application"
         onClose={() => setShowAddDialog(false)}

@@ -1,4 +1,3 @@
-import { AuthFooter } from "@/components/ui/AuthFooter";
 import DashboardNavbar from "@/components/ui/DashboardNavbar";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
@@ -10,14 +9,12 @@ interface LayoutProps {
 
 const layout = ({ children }: LayoutProps) => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <DashboardNavbar />
       <Breadcrumbs />
-      <div>
-        {/* This is where the main content will be rendered */}
+      <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
         {children}
-      </div>
-      <AuthFooter />
+      </main>
     </div>
   );
 };

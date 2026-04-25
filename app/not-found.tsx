@@ -25,7 +25,7 @@ export default function NotFound() {
           </p>
           
           {/* Action Buttons */}
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center">
             <Link
               href="/"
               className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"

@@ -33,7 +33,7 @@ export const RoleCard = ({
       onKeyDown={handleKeyDown}
       aria-pressed={selected}
       className={clsx(
-        "relative flex flex-col items-start p-6 border-2 rounded-xl cursor-pointer transition-all w-full",
+        "relative flex flex-col items-start p-4 md:p-6 border-2 rounded-lg md:rounded-xl cursor-pointer transition-all w-full",
         "focus:outline-none",
         !selected && "bg-white border-gray-300 hover:border-gray-400",
         selected && "bg-red-50 border-primary"
@@ -59,12 +59,12 @@ export const RoleCard = ({
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-semibold mb-2 text-gray-900">
+      <h3 className="text-lg md:text-2xl font-semibold mb-2 text-gray-900">
         {title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-gray-600">
+      <p className="text-xs md:text-sm text-gray-600">
         {description}
       </p>
     </div>

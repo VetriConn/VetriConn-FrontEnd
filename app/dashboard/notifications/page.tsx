@@ -239,11 +239,10 @@ export default function NotificationsPage() {
   // ─── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-200 mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="font-lato text-[28px] font-bold text-gray-900 mb-1">
+    <div className="max-w-200 mx-auto">
+      {/* Page Header */}
+      <div className="mb-8">
+          <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900 mb-1">
             Notifications
           </h1>
           <p className="text-gray-500 text-sm">
@@ -319,10 +318,9 @@ export default function NotificationsPage() {
             </div>
           </div>
         )}
-      </div>
 
-      {/* ─── Clear All Confirmation Modal ─── */}
-      {showClearModal && (
+        {/* Clear All Confirmation Modal */}
+        {showClearModal && (
         <div className="fixed inset-0 z-200 flex items-center justify-center">
           {/* Backdrop */}
           <div

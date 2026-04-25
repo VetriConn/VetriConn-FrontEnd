@@ -37,10 +37,10 @@ function SkillTag({
         <button
           type="button"
           onClick={onRemove}
-          className="inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-red-200 transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2 -m-1 rounded-full hover:bg-red-200 transition-colors cursor-pointer"
           aria-label={`Remove ${skill}`}
         >
-          <HiOutlineXMark className="w-3 h-3" />
+          <HiOutlineXMark className="w-4 h-4 md:w-5 md:h-5" />
         </button>
       )}
     </span>
@@ -51,18 +51,18 @@ function SkillTag({
 
 export const SkillsCard: React.FC<SkillsCardProps> = ({ skills, onEdit }) => {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
+    <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <PiTreeStructureLight className="w-5 h-5 text-red-500" />
-          <h3 className="text-lg font-bold text-gray-900">Skills</h3>
+          <PiTreeStructureLight className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900">Skills</h3>
         </div>
         <button
           onClick={onEdit}
-          className="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+          className="flex items-center gap-1.5 px-4 py-2 md:px-5 md:py-2.5 min-h-[44px] bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm md:text-base"
           aria-label={skills.length > 0 ? "Edit skills" : "Add skills"}
         >
-          <HiOutlinePencilSquare className="text-base" />
+          <HiOutlinePencilSquare className="w-4 h-4 md:w-5 md:h-5" />
           {skills.length > 0 ? "Edit" : "Add Skills"}
         </button>
       </div>
@@ -75,7 +75,7 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({ skills, onEdit }) => {
         </div>
       ) : (
         <div className="text-center py-6">
-          <PiTreeStructureLight className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+          <PiTreeStructureLight className="w-8 h-8 md:w-12 md:h-12 text-gray-300 mx-auto mb-2" />
           <p className="text-sm text-gray-500 mb-1">No skills added yet</p>
           <p className="text-gray-400 text-xs">
             Click &quot;Add Skills&quot; above to add your first skill
@@ -223,7 +223,7 @@ export const SkillsEditForm: React.FC<SkillsEditProps> = ({
 
       {/* Input with autocomplete */}
       <div ref={containerRef} className="relative">
-        <label className="block text-sm font-semibold text-gray-900 mb-2">
+        <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
           {skills.length > 0 ? "Add More Skills" : "Add Skills"}
         </label>
         <div className="relative">
@@ -235,7 +235,7 @@ export const SkillsEditForm: React.FC<SkillsEditProps> = ({
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
             disabled={isAtMax}
-            className="form-input pr-10"
+            className="form-input pr-10 px-3 py-2 md:px-4 md:py-3 text-sm md:text-base focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder={
               isAtMax
                 ? `Maximum ${MAX_SKILLS} skills reached`
@@ -259,7 +259,7 @@ export const SkillsEditForm: React.FC<SkillsEditProps> = ({
               aria-label="Add skill"
               title="Add skill"
             >
-              <HiOutlinePlusCircle className="w-5 h-5" />
+              <HiOutlinePlusCircle className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           )}
         </div>

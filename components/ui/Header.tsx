@@ -20,9 +20,9 @@ export const Header = () => {
 
   const navLinkClass = (isActive: boolean) =>
     clsx(
-      "font-open-sans text-[17px] text-text transition-colors relative pb-1.5 cursor-pointer",
-      "before:content-[''] before:block before:absolute before:left-0 before:bottom-0 before:w-1 before:h-1 before:rounded-full before:bg-primary before:opacity-0 before:transition-opacity",
-      "after:content-[''] after:block after:absolute after:left-2 after:bottom-px after:w-[85%] after:h-px after:bg-primary after:rounded-sm after:opacity-0 after:transition-opacity",
+      "font-open-sans text-base md:text-lg text-text transition-colors relative cursor-pointer inline-block",
+      "before:content-[''] before:block before:absolute before:left-0 mobile:before:bottom-[10px] before:bottom-[-2px] before:w-1 before:h-1 before:rounded-full before:bg-primary before:opacity-0 before:transition-opacity",
+      "after:content-[''] after:block after:absolute after:left-2 mobile:after:bottom-[10px] after:bottom-[-2px] after:w-[85%] after:h-px after:bg-primary after:rounded-sm after:opacity-0 after:transition-opacity",
       "hover:text-primary hover:before:opacity-100 hover:after:opacity-100",
       isActive && "text-primary before:opacity-100 after:opacity-100",
     );
@@ -33,7 +33,7 @@ export const Header = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center py-2 max-w-[1340px] mx-auto px-6 shadow-[0_6px_4px_-4px_#e8e8e8]">
+    <nav className="flex justify-between items-center py-2 max-w-7xl mx-auto px-6 shadow-[0_6px_4px_-4px_#e8e8e8]">
       <Logo className="w-[180px] h-auto block overflow-visible mobile:w-[140px]" />
       <button
         className={clsx(
@@ -52,7 +52,7 @@ export const Header = () => {
           )}
         />
       </button>
-      <div className="flex gap-10 ml-auto mr-8 mobile:hidden">
+      <div className="flex gap-4 md:gap-6 ml-auto mr-8 mobile:hidden">
         <Link href="/" className={navLinkClass(pathname === "/")}>
           Home
         </Link>
@@ -81,7 +81,7 @@ export const Header = () => {
       <div className="flex items-center gap-4 mobile:hidden">
         <Link
           href="/signin"
-          className="font-open-sans text-[15px] bg-primary text-white border-none py-2.5 px-7 rounded-full cursor-pointer transition-all hover:bg-primary-hover font-semibold inline-block text-center"
+          className="font-open-sans text-sm md:text-base bg-primary text-white border-none py-2.5 px-7 rounded-full cursor-pointer transition-all hover:bg-primary-hover font-semibold inline-block text-center"
         >
           Sign In
         </Link>
@@ -90,21 +90,21 @@ export const Header = () => {
         className={clsx(
           "hidden",
           isMenuOpen &&
-            "mobile:flex mobile:flex-col mobile:fixed mobile:inset-0 mobile:w-full mobile:h-screen mobile:bg-white mobile:z-10 mobile:pt-24 mobile:pb-15 mobile:justify-between",
+            "mobile:flex mobile:flex-col mobile:fixed mobile:inset-0 mobile:w-full mobile:h-screen mobile:bg-white mobile:z-10 mobile:pt-20 mobile:pb-8 mobile:justify-between",
         )}
       >
         <div
           className={clsx(
             "hidden",
             isMenuOpen &&
-              "mobile:flex mobile:flex-col mobile:items-center mobile:justify-start mobile:m-0 mobile:px-8 mobile:pt-4 mobile:pb-4 mobile:flex-1 mobile:gap-2",
+              "mobile:flex mobile:flex-col mobile:items-center mobile:justify-start mobile:m-0 mobile:px-8 mobile:pt-4 mobile:flex-1 mobile:gap-1 mobile:overflow-y-auto",
           )}
         >
           <Link
             href="/"
             className={clsx(
               navLinkClass(pathname === "/"),
-              "mobile:py-6 mobile:text-2xl mobile:font-semibold",
+              "mobile:py-3 mobile:text-xl mobile:font-semibold mobile:min-h-[44px] mobile:flex mobile:items-center",
             )}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -114,7 +114,7 @@ export const Header = () => {
             href="/jobs"
             className={clsx(
               navLinkClass(pathname === "/jobs"),
-              "mobile:py-6 mobile:text-2xl mobile:font-semibold",
+              "mobile:py-3 mobile:text-xl mobile:font-semibold mobile:min-h-[44px] mobile:flex mobile:items-center",
             )}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -124,7 +124,7 @@ export const Header = () => {
             href="/about"
             className={clsx(
               navLinkClass(pathname === "/about"),
-              "mobile:py-6 mobile:text-2xl mobile:font-semibold",
+              "mobile:py-3 mobile:text-xl mobile:font-semibold mobile:min-h-[44px] mobile:flex mobile:items-center",
             )}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -134,7 +134,7 @@ export const Header = () => {
             href="/faq"
             className={clsx(
               navLinkClass(pathname === "/faq"),
-              "mobile:py-6 mobile:text-2xl mobile:font-semibold",
+              "mobile:py-3 mobile:text-xl mobile:font-semibold mobile:min-h-[44px] mobile:flex mobile:items-center",
             )}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -144,7 +144,7 @@ export const Header = () => {
             href="/#contact-section"
             className={clsx(
               navLinkClass(false),
-              "mobile:py-6 mobile:text-2xl mobile:font-semibold",
+              "mobile:py-3 mobile:text-xl mobile:font-semibold mobile:min-h-[44px] mobile:flex mobile:items-center",
             )}
             onClick={() => {
               setIsMenuOpen(false);
@@ -160,12 +160,12 @@ export const Header = () => {
           className={clsx(
             "hidden",
             isMenuOpen &&
-              "mobile:flex mobile:flex-col mobile:items-center mobile:justify-center mobile:mt-auto mobile:mb-12 mobile:px-8",
+              "mobile:flex mobile:flex-col mobile:items-center mobile:justify-center mobile:px-8 mobile:pb-4",
           )}
         >
           <Link
             href="/signin"
-            className="font-open-sans text-lg bg-primary text-white border-none py-4 px-10 rounded-full cursor-pointer transition-all hover:bg-primary-hover inline-block text-center mobile:w-[220px] mobile:font-semibold shadow-lg"
+            className="font-open-sans text-base bg-primary text-white border-none py-3 px-10 rounded-full cursor-pointer transition-all hover:bg-primary-hover inline-block text-center mobile:w-full mobile:max-w-[280px] mobile:font-semibold shadow-md min-h-[44px] flex items-center justify-center"
             onClick={() => setIsMenuOpen(false)}
           >
             Sign In

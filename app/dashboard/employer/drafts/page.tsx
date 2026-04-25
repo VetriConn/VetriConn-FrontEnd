@@ -25,9 +25,8 @@ export default function ManageDraftsPage() {
   const drafts = jobs.filter((job) => job.status === "draft");
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-200 mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-6">
+    <div className="max-w-200 mx-auto">
+      <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">
             Manage Job Drafts
           </h1>
@@ -79,6 +78,5 @@ export default function ManageDraftsPage() {
           </div>
         )}
       </div>
-    </div>
   );
 }

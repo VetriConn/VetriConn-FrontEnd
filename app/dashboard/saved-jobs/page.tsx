@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   HiOutlineMapPin,
@@ -12,6 +12,7 @@ import {
   HiOutlineBookmarkSlash,
   HiOutlineBookmark,
   HiOutlineMagnifyingGlass,
+  HiOutlineTrash,
 } from "react-icons/hi2";
 import { useSavedJobs } from "@/hooks/useSavedJobs";
 
@@ -53,7 +54,7 @@ function EmptyState() {
   );
 }
 
-// ─── Saved Job Card ─────────────────────────────────────────────────────────────
+// ─── Saved Job Card (Mobile View) ───────────────────────────────────────────────
 
 function SavedJobCard({
   job,
@@ -62,56 +63,97 @@ function SavedJobCard({
   job: SavedJob;
   onRemove: (id: string) => Promise<void>;
 }) {
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 transition-shadow hover:shadow-sm">
-      <div className="flex items-start justify-between gap-4 mobile:flex-col">
-        {/* Job Info */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">{job.role}</h3>
+    <div className="bg-white rounded-lg border border-gray-200 p-4 w-full">
+      <div className="space-y-3">
+        {/* Position */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Position</div>
+          <div className="text-sm font-semibold text-gray-900">{job.role}</div>
+        </div>
 
-          <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-3">
-            <HiOutlineBuildingOffice2 className="text-sm shrink-0" />
-            <span>{job.company}</span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
-            <span className="flex items-center gap-1.5">
-              <HiOutlineMapPin className="text-sm" />
-              {job.location}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <HiOutlineClock className="text-sm" />
-              {job.jobType}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <HiOutlineCurrencyDollar className="text-sm" />
-              {job.salary}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-3">
-            <HiOutlineCalendarDays className="text-sm" />
-            Saved on {job.savedDate}
+        {/* Company */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Company</div>
+          <div className="flex items-center gap-1.5 text-sm text-gray-900">
+            <HiOutlineBuildingOffice2 className="w-4 h-4 text-gray-400" />
+            {job.company}
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex flex-col gap-2 shrink-0 mobile:flex-row mobile:w-full">
-          <Link
-            href={`/jobs/${job.id}`}
-            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors no-underline"
-          >
-            <HiOutlineArrowTopRightOnSquare className="text-sm" />
-            Apply Now
-          </Link>
+        {/* Location */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Location</div>
+          <div className="flex items-center gap-1.5 text-sm text-gray-900">
+            <HiOutlineMapPin className="w-4 h-4 text-gray-400" />
+            {job.location}
+          </div>
+        </div>
+
+        {/* Job Type */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Type</div>
+          <div className="flex items-center gap-1.5 text-sm text-gray-900">
+            <HiOutlineClock className="w-4 h-4 text-gray-400" />
+            {job.jobType}
+          </div>
+        </div>
+
+        {/* Salary */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Salary</div>
+          <div className="flex items-center gap-1.5 text-sm text-gray-900">
+            <HiOutlineCurrencyDollar className="w-4 h-4 text-gray-400" />
+            {job.salary}
+          </div>
+        </div>
+
+        {/* Saved Date */}
+        <div>
+          <div className="text-xs font-medium text-gray-500 mb-1">Saved</div>
+          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+            <HiOutlineCalendarDays className="w-3.5 h-3.5" />
+            {job.savedDate}
+          </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+        <Link
+          href={`/jobs/${job.id}`}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 min-h-44 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors no-underline"
+        >
+          <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+          Apply Now
+        </Link>
+        
+        {showConfirmDelete ? (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onRemove(job.id)}
+              className="flex-1 px-4 py-2 min-h-44 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
+            >
+              Remove
+            </button>
+            <button
+              onClick={() => setShowConfirmDelete(false)}
+              className="flex-1 px-4 py-2 min-h-44 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
           <button
-            onClick={() => onRemove(job.id)}
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+            onClick={() => setShowConfirmDelete(true)}
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 min-h-44 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
           >
-            <HiOutlineBookmarkSlash className="text-sm" />
+            <HiOutlineBookmarkSlash className="w-4 h-4" />
             Remove from Saved
           </button>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -146,21 +188,18 @@ export default function SavedJobsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-200 mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-          <div className="h-8 w-48 bg-gray-200 rounded animate-shimmer mb-4" />
+      <div className="max-w-200 mx-auto">
+        <div className="h-8 w-48 bg-gray-200 rounded animate-shimmer mb-4" />
           <div className="h-4 w-72 bg-gray-200 rounded animate-shimmer mb-8" />
         </div>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-200 mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
-        {/* Page Header */}
-        <div className="flex items-start justify-between mb-2">
-          <h1 className="font-lato text-[28px] font-bold text-gray-900">
+    <div className="max-w-200 mx-auto">
+      {/* Page Header */}
+      <div className="flex items-start justify-between mb-2">
+          <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
             Saved Jobs
           </h1>
           {savedJobs.length > 0 && (
@@ -182,7 +221,92 @@ export default function SavedJobsPage() {
           <EmptyState />
         ) : (
           <>
-            <div className="space-y-4">
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                      Position
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                      Company
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                      Location
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                      Type
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">
+                      Salary
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {savedJobs.map((job) => (
+                    <tr
+                      key={job.id}
+                      className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-4 py-4">
+                        <div className="text-sm font-semibold text-gray-900">
+                          {job.role}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-1.5 text-sm text-gray-900">
+                          <HiOutlineBuildingOffice2 className="w-4 h-4 text-gray-400" />
+                          {job.company}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-1.5 text-sm text-gray-900">
+                          <HiOutlineMapPin className="w-4 h-4 text-gray-400" />
+                          {job.location}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-1.5 text-sm text-gray-900">
+                          <HiOutlineClock className="w-4 h-4 text-gray-400" />
+                          {job.jobType}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-1.5 text-sm text-gray-900">
+                          <HiOutlineCurrencyDollar className="w-4 h-4 text-gray-400" />
+                          {job.salary}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            href={`/jobs/${job.id}`}
+                            className="p-2 min-h-44 min-w-44 text-primary hover:text-primary-hover hover:bg-red-50 rounded-lg transition-colors inline-flex items-center justify-center"
+                            aria-label="Apply to job"
+                          >
+                            <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+                          </Link>
+                          <button
+                            onClick={() => handleRemove(job.id)}
+                            className="p-2 min-h-44 min-w-44 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            aria-label="Remove from saved jobs"
+                          >
+                            <HiOutlineTrash className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
               {savedJobs.map((job) => (
                 <SavedJobCard key={job.id} job={job} onRemove={handleRemove} />
               ))}
@@ -198,6 +322,5 @@ export default function SavedJobsPage() {
           </>
         )}
       </div>
-    </div>
   );
 }

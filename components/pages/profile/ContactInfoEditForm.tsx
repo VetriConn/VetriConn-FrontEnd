@@ -119,7 +119,7 @@ export const ContactInfoEditForm: React.FC<ContactInfoEditFormProps> = ({
   }, [formData]);
 
   return (
-    <div id="contact-info-form">
+    <div id="contact-info-form" className="space-y-4 md:space-y-6">
       <FormField
         label="Phone Number"
         name="phone_number"

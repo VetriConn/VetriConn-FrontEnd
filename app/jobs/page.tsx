@@ -45,17 +45,17 @@ function getJobType(job: Job): string {
 function CardSkeleton() {
   return (
     <div
-      className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col gap-3"
+      className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-4 md:p-6 flex flex-col gap-3"
       aria-hidden="true"
     >
-      <Skeleton width="55%" height="22px" borderRadius="4px" />
-      <div className="flex flex-wrap gap-3">
-        <Skeleton width="100px" height="16px" borderRadius="4px" />
-        <Skeleton width="80px" height="16px" borderRadius="4px" />
-        <Skeleton width="90px" height="16px" borderRadius="4px" />
+      <div className="h-5 md:h-6 w-[55%] bg-gray-200 rounded animate-shimmer" />
+      <div className="flex flex-wrap gap-2 md:gap-3">
+        <div className="h-3 md:h-4 w-20 md:w-24 bg-gray-200 rounded animate-shimmer" />
+        <div className="h-3 md:h-4 w-16 md:w-20 bg-gray-200 rounded animate-shimmer" />
+        <div className="h-3 md:h-4 w-18 md:w-22 bg-gray-200 rounded animate-shimmer" />
       </div>
-      <Skeleton width="100%" height="16px" borderRadius="4px" />
-      <Skeleton width="70%" height="16px" borderRadius="4px" />
+      <div className="h-3 md:h-4 w-full bg-gray-200 rounded animate-shimmer" />
+      <div className="h-3 md:h-4 w-[70%] bg-gray-200 rounded animate-shimmer" />
     </div>
   );
 }
@@ -87,32 +87,32 @@ function JobCard({ job }: { job: Job }) {
       </h3>
 
       {/* Meta row */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-gray-500 mb-3">
-        <span className="flex items-center gap-1.5">
+      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500 mb-3">
+        <span className="inline-flex items-center gap-2">
           <HiOutlineBuildingOffice2
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 md:w-5 md:h-5 text-gray-400"
             aria-hidden="true"
           />
           {job.company_name}
         </span>
-        <span className="flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-2">
           <HiOutlineMapPin
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 md:w-5 md:h-5 text-gray-400"
             aria-hidden="true"
           />
           {job.location || "Canada"}
         </span>
-        <span className="flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-2">
           <HiOutlineBriefcase
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 md:w-5 md:h-5 text-gray-400"
             aria-hidden="true"
           />
           {type}
         </span>
         {salary && (
-          <span className="flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-2">
             <HiOutlineCurrencyDollar
-              className="w-4 h-4 text-gray-400"
+              className="w-4 h-4 md:w-5 md:h-5 text-gray-400"
               aria-hidden="true"
             />
             {salary}
@@ -156,7 +156,7 @@ export default function JobsPage() {
       </div>
 
       {/* Hero banner */}
-      <section className="px-[5%] py-4 pb-16 bg-white relative overflow-hidden mobile:px-[5%] mobile:py-1.5 mobile:pb-8">
+      <section className="px-[5%] md:px-6 py-4 pb-16 bg-white relative overflow-hidden mobile:px-[5%] mobile:py-1.5 mobile:pb-8">
         {/* Decorative dots */}
         <div
           className="absolute top-10 left-[8%] w-3 h-3 rounded-full bg-amber-400 opacity-70"
@@ -183,23 +183,23 @@ export default function JobsPage() {
           aria-hidden="true"
         />
 
-        <div className="flex items-center justify-between gap-8 relative max-w-[1340px] mx-auto p-8 mobile:flex-col mobile:text-center mobile:gap-6 mobile:mt-4 mobile:p-4 mobile:pt-8">
+        <div className="flex items-center justify-between gap-8 relative max-w-7xl mx-auto p-8 mobile:flex-col mobile:text-center mobile:gap-6 mobile:mt-4 mobile:p-4 mobile:pt-8">
           {/* Left — Text content */}
-          <div className="flex-[0_0_45%] max-w-[500px] relative mobile:flex-none mobile:w-full mobile:mx-auto mobile:max-w-full">
+          <div className="flex-[0_0_45%] max-w-lg relative mobile:flex-none mobile:w-full mobile:mx-auto mobile:max-w-full">
             {/* Dotted box decoration */}
             <DottedBox
-              className="absolute top-0 -left-[150px] z-0 w-[100px] h-auto pointer-events-none mobile:w-[70px] mobile:-top-10 mobile:left-0"
+              className="absolute top-0 -left-40 z-0 w-28 h-auto pointer-events-none mobile:w-20 mobile:-top-10 mobile:left-0"
               aria-hidden="true"
             />
 
-            <h1 className="font-lato text-[52px] leading-[1.1] font-bold text-text mb-6 mobile:text-[32px] mobile:mb-4">
+            <h1 className="heading-1 mb-6 mobile:mb-4">
               Find The{" "}
-              <span className="italic font-[var(--font-outfit)] text-[0.85em] underline decoration-primary decoration-2 underline-offset-4">
+              <span className="italic font-[var(--font-outfit)] underline decoration-primary decoration-2 underline-offset-4">
                 Perfect Opportunity
               </span>{" "}
               <span className="text-primary">For You</span>
             </h1>
-            <p className="font-open-sans text-subtitle text-text-muted mb-2 max-w-[80%] text-base mobile:text-sm mobile:mb-2 mobile:max-w-full">
+            <p className="body-text text-base mobile:text-sm mb-2 max-w-[80%] mobile:mb-2 mobile:max-w-full">
               Browse pre-vetted job opportunities for Canadian veterans and
               retirees — flexible roles that match your experience, skills, and
               lifestyle.
@@ -209,33 +209,36 @@ export default function JobsPage() {
             <div className="flex flex-wrap items-center gap-5 mt-4 mobile:justify-center">
               <Link
                 href="/signin"
-                className="inline-flex items-center gap-2.5 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-8 rounded-full transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-8 rounded-full transition-all shadow-sm group"
               >
                 Browse Jobs
-                <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+                <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
               </Link>
 
               {/* Job pins stack */}
-              <div className="flex items-center">
+              <div className="hidden md:flex items-center">
                 <div className="flex -space-x-2.5">
                   {["jobs_pin", "jobs_pin2", "jobs_pin3", "jobs_pin4"].map(
                     (pin) => (
                       <div
                         key={pin}
-                        className="w-9 h-9 rounded-full border-2 border-white bg-gray-200 overflow-hidden"
+                        className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white bg-gray-200 overflow-hidden"
+                        style={{ aspectRatio: '1' }}
                       >
                         <Image
                           src={`/images/${pin}.jpg`}
                           alt=""
-                          width={36}
-                          height={36}
-                          className="w-full h-full object-cover"
+                          width={40}
+                          height={40}
+                          className="w-full h-auto object-cover"
+                          sizes="(max-width: 850px) 36px, 40px"
+                          loading="lazy"
                         />
                       </div>
                     ),
                   )}
-                  <div className="w-9 h-9 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center">
-                    <span className="text-[10px] font-semibold text-gray-600">
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center">
+                    <span className="text-xs font-semibold text-gray-600">
                       +500
                     </span>
                   </div>
@@ -245,16 +248,16 @@ export default function JobsPage() {
           </div>
 
           {/* Right — Image collage */}
-          <div className="relative flex-[0_0_auto] w-[650px] max-w-[650px] h-[455px] mobile:flex-none mobile:w-full mobile:max-w-full mobile:h-[300px]">
+          <div className="relative flex-[0_0_auto] w-2xl max-w-2xl h-[455px] mobile:flex-none mobile:w-full mobile:max-w-full mobile:h-80">
             {/* Dotted box decoration behind images */}
             <DottedBox
-              className="absolute -bottom-[30px] -right-[70px] z-[3] w-[100px] h-auto pointer-events-none"
+              className="absolute -bottom-8 -right-20 z-[3] w-28 h-auto pointer-events-none"
               aria-hidden="true"
             />
 
             {/* Maple leaf watermark */}
             <div
-              className="absolute bottom-2 right-2 w-[100px] h-[100px] rounded-[10px] bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 mobile:hidden"
+              className="absolute bottom-2 right-2 w-28 h-28 rounded-10 bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 mobile:hidden"
               aria-hidden="true"
             />
 
@@ -264,9 +267,10 @@ export default function JobsPage() {
                 src="/images/jobs_hero.jpg"
                 alt="Professional working at desk"
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover w-full h-auto"
+                sizes="(max-width: 850px) 50vw, 25vw"
                 priority
+                style={{ aspectRatio: '4/3' }}
               />
             </div>
 
@@ -276,9 +280,10 @@ export default function JobsPage() {
                 src="/images/jobs_hero2.jpg"
                 alt="Experienced professional collaborating"
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover w-full h-auto"
+                sizes="(max-width: 850px) 50vw, 25vw"
                 priority
+                style={{ aspectRatio: '4/3' }}
               />
             </div>
 
@@ -288,9 +293,10 @@ export default function JobsPage() {
                 src="/images/jobs_hero3.jpg"
                 alt="Veteran in professional setting"
                 fill
-                className="object-cover"
-                sizes="(max-width: 768px) 80vw, 30vw"
-                priority
+                className="object-cover w-full h-auto"
+                sizes="(max-width: 850px) 80vw, 30vw"
+                loading="lazy"
+                style={{ aspectRatio: '4/3' }}
               />
             </div>
 
@@ -319,7 +325,7 @@ export default function JobsPage() {
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="heading-2">
               Recently Posted Jobs
             </h2>
             <p className="text-sm text-gray-500 mt-1">
@@ -330,9 +336,9 @@ export default function JobsPage() {
           </div>
           <Link
             href="/signin"
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-red-700 transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-red-700 transition-all group"
           >
-            <HiOutlineMagnifyingGlass className="w-4 h-4" aria-hidden="true" />
+            <HiOutlineMagnifyingGlass className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             Advanced Search
           </Link>
         </div>
@@ -340,7 +346,7 @@ export default function JobsPage() {
         {/* Loading skeletons */}
         {isLoading && (
           <div
-            className="grid gap-4 sm:grid-cols-2"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
             aria-busy="true"
             aria-label="Loading jobs"
           >
@@ -353,7 +359,7 @@ export default function JobsPage() {
         {/* Job grid */}
         {!isLoading && jobs.length > 0 && (
           <div
-            className="grid gap-4 sm:grid-cols-2"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
             role="list"
             aria-label="Job listings"
           >
@@ -380,7 +386,7 @@ export default function JobsPage() {
 
         {/* CTA banner */}
         <div className="mt-12 bg-white border border-gray-200 rounded-xl p-8 sm:p-10 text-center">
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
+          <h3 className="heading-3 mb-3">
             Ready to take the next step?
           </h3>
           <p className="text-gray-600 max-w-lg mx-auto mb-6">
@@ -390,18 +396,19 @@ export default function JobsPage() {
           <div className="flex flex-col items-center gap-4">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2.5 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-all shadow-sm group"
             >
               Get Started Free
-              <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             </Link>
             <p className="text-sm font-medium text-gray-500">
               Already have an account?{" "}
               <Link
                 href="/signin"
-                className="text-primary hover:text-red-700 transition-colors font-semibold"
+                className="text-primary hover:text-red-700 transition-all font-semibold group inline-flex items-center gap-1"
               >
                 Sign in
+                <HiOutlineArrowRight className="w-3 h-3 md:w-4 md:h-4 transition-transform group-hover:-rotate-45" aria-hidden="true" />
               </Link>
             </p>
           </div>

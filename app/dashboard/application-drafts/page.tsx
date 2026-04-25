@@ -102,8 +102,8 @@ export default function ApplicationDraftsPage() {
                     <p className="text-sm text-gray-500 mt-0.5">
                       {draft.companyName || "Unknown Company"}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-1.5">
-                      <HiOutlineClock className="w-3.5 h-3.5" />
+                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-2">
+                      <HiOutlineClock className="w-4 h-4 md:w-5 md:h-5" />
                       {formatSavedDate(draft.savedAt)}
                     </p>
                   </div>
@@ -111,24 +111,24 @@ export default function ApplicationDraftsPage() {
                   <div className="flex items-center gap-2 mobile:flex-wrap">
                     <Link
                       href={`/jobs/${draft.jobId}/apply`}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors no-underline"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors no-underline"
                     >
-                      <HiOutlinePencilSquare className="w-4 h-4" />
+                      <HiOutlinePencilSquare className="w-4 h-4 md:w-5 md:h-5" />
                       Continue Draft
                     </Link>
                     <Link
                       href={`/jobs/${draft.jobId}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors no-underline"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors no-underline"
                     >
-                      <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+                      <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
                       View Posting
                     </Link>
                     <button
                       type="button"
                       onClick={() => handleDelete(draft.jobId)}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-200 text-sm font-medium text-red-700 hover:bg-red-50 transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-red-200 text-sm font-medium text-red-700 hover:bg-red-50 transition-colors"
                     >
-                      <HiOutlineTrash className="w-4 h-4" />
+                      <HiOutlineTrash className="w-4 h-4 md:w-5 md:h-5" />
                       Delete
                     </button>
                   </div>

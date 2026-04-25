@@ -91,7 +91,7 @@ export const UploadDocumentForm: React.FC<UploadDocumentFormProps> = ({
       >
         <div className="flex flex-col items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
-            <HiOutlineArrowUpTray className="text-red-500 text-xl" />
+            <HiOutlineArrowUpTray className="w-6 h-6 md:w-8 md:h-8 text-red-500" />
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">
@@ -119,7 +119,7 @@ export const UploadDocumentForm: React.FC<UploadDocumentFormProps> = ({
       {selectedFile && !error && (
         <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
           <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-            <HiOutlineDocumentText className="text-red-500 text-base" />
+            <HiOutlineDocumentText className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">

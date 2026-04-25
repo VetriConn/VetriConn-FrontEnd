@@ -24,7 +24,7 @@ export const ResumeUploadStep = ({
   return (
     <div className="w-full max-w-lg mx-auto">
       {/* Heading */}
-      <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+      <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-2 text-center">
         Upload your resume
       </h1>
 
@@ -46,11 +46,11 @@ export const ResumeUploadStep = ({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-[10px] transition-all hover:bg-gray-50"
+          className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-10 transition-all hover:bg-gray-50"
         >
           Back
         </button>
@@ -58,7 +58,7 @@ export const ResumeUploadStep = ({
           type="button"
           onClick={onNext}
           disabled={isBusy}
-          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-[10px] transition-all hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex-1 py-3 px-6 bg-primary text-white font-medium rounded-10 transition-all hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {isBusy ? "Please wait..." : "Continue"}
         </button>

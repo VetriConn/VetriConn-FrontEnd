@@ -81,7 +81,7 @@ export const CustomDropdown = ({
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           className={clsx(
-            "w-full px-4 py-3 text-left bg-white border rounded-[10px] transition-all",
+            "w-full px-4 py-3 text-left bg-white border rounded-10 transition-all",
             "flex items-center justify-between",
             "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
             error
@@ -101,7 +101,7 @@ export const CustomDropdown = ({
         {/* Dropdown Menu */}
         {isOpen && (
           <div
-            className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-[10px] shadow-lg overflow-hidden"
+            className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-10 shadow-lg overflow-hidden"
             role="listbox"
           >
             {/* Header */}

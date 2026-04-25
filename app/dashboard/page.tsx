@@ -1,10 +1,24 @@
 "use client";
 import React from "react";
+import dynamic from "next/dynamic";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import JobSeekerDashboard from "@/components/pages/dashboard/JobSeekerDashboard";
-import EmployerDashboard from "@/components/pages/dashboard/EmployerDashboard";
 import { useRouter } from "next/navigation";
 import { DashboardSkeleton } from "@/components/ui/Skeleton";
+
+// Lazy load dashboard components for better code splitting
+const JobSeekerDashboard = dynamic(
+  () => import("@/components/pages/dashboard/JobSeekerDashboard"),
+  {
+    loading: () => <DashboardSkeleton />,
+  }
+);
+
+const EmployerDashboard = dynamic(
+  () => import("@/components/pages/dashboard/EmployerDashboard"),
+  {
+    loading: () => <DashboardSkeleton />,
+  }
+);
 
 const Dashboard = () => {
   const { userProfile, isLoading, isError } = useUserProfile();

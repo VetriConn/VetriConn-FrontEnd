@@ -165,9 +165,8 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto px-6 py-8" style={{maxWidth: '600px'}}>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+    <div className="mx-auto" style={{maxWidth: '600px'}}>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
 
         <div className="space-y-5">
           {/* ── Account Information ── */}
@@ -389,6 +388,5 @@ export default function SettingsPage() {
           </button>
         </div>
       </div>
-    </div>
   );
 }

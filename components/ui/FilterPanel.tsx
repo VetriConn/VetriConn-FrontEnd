@@ -209,7 +209,7 @@ const FilterDropdown = ({
           </span>
           <HiOutlineChevronDown
             className={clsx(
-              "w-5 h-5 text-gray-400 transition-transform",
+              "w-4 h-4 md:w-5 md:h-5 text-gray-400 transition-transform",
               isOpen && "rotate-180"
             )}
             aria-hidden="true"
@@ -285,7 +285,7 @@ const FilterContent = ({
         onChange={handleLocationChange}
         options={LOCATION_OPTIONS}
         placeholder="Any location"
-        icon={<HiOutlineMapPin className="w-4 h-4" />}
+        icon={<HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5" />}
       />
 
       {/* Job Type Filter */}
@@ -295,7 +295,7 @@ const FilterContent = ({
         onChange={handleJobTypeChange}
         options={JOB_TYPE_OPTIONS}
         placeholder="Any type"
-        icon={<HiOutlineBriefcase className="w-4 h-4" />}
+        icon={<HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5" />}
       />
 
       {/* Experience Level Filter */}
@@ -305,14 +305,14 @@ const FilterContent = ({
         onChange={handleExperienceLevelChange}
         options={EXPERIENCE_OPTIONS}
         placeholder="Any level"
-        icon={<HiOutlineUser className="w-4 h-4" />}
+        icon={<HiOutlineUser className="w-4 h-4 md:w-5 md:h-5" />}
       />
 
       {/* Apply Filters Button */}
       <button
         type="button"
         onClick={onApplyFilters}
-        className="btn-primary w-full mt-4 min-h-[48px]"
+        className="btn-primary w-full mt-4 min-h-48"
       >
         Apply Filters
       </button>
@@ -321,9 +321,9 @@ const FilterContent = ({
       <button
         type="button"
         onClick={onClearFilters}
-        className="flex items-center justify-center gap-2 w-full mt-3 text-sm text-gray-500 hover:text-gray-700 transition-colors min-h-[44px]"
+        className="inline-flex items-center justify-center gap-2 w-full mt-3 text-sm text-gray-500 hover:text-gray-700 transition-colors min-h-[44px]"
       >
-        <HiOutlineArrowPath className="w-4 h-4" />
+        <HiOutlineArrowPath className="w-4 h-4 md:w-5 md:h-5" />
         <span>Clear all</span>
       </button>
     </>
@@ -381,16 +381,16 @@ export const FilterPanel = ({
         type="button"
         onClick={() => setIsMobileOpen(true)}
         className={clsx(
-          "md:hidden w-full flex items-center justify-center gap-2",
+          "md:hidden w-full inline-flex items-center justify-center gap-2",
           "bg-white border border-gray-200 rounded-xl p-4",
           "text-gray-700 font-medium",
           "hover:bg-gray-50 transition-colors",
-          "min-h-[48px]"
+          "min-h-48"
         )}
         aria-expanded={isMobileOpen}
         aria-controls="mobile-filter-drawer"
       >
-        <HiOutlineAdjustmentsHorizontal className="w-5 h-5" />
+        <HiOutlineAdjustmentsHorizontal className="w-5 h-5 md:w-6 md:h-6" />
         <span>Filter Jobs</span>
         {activeFilterCount > 0 && (
           <span className="bg-primary text-white text-xs font-medium px-2 py-0.5 rounded-full">
@@ -416,10 +416,10 @@ export const FilterPanel = ({
           />
 
           {/* Drawer Content */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl max-h-[85vh] overflow-y-auto animate-slide-up">
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl max-h-[90vh] overflow-y-auto animate-slide-up">
             {/* Drawer Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 id="mobile-filter-title" className="heading-3">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between">
+              <h2 id="mobile-filter-title" className="text-xl md:text-3xl font-bold text-gray-900">
                 Filter Jobs
               </h2>
               <button
@@ -428,12 +428,12 @@ export const FilterPanel = ({
                 className="p-2 -mr-2 text-gray-500 hover:text-gray-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                 aria-label="Close filters"
               >
-                <HiOutlineXMark className="w-6 h-6" />
+                <HiOutlineXMark className="w-6 h-6 md:w-8 md:h-8" />
               </button>
             </div>
 
             {/* Drawer Body */}
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               <FilterContent
                 filters={filters}
                 onFilterChange={onFilterChange}
@@ -448,7 +448,7 @@ export const FilterPanel = ({
       {/* Desktop Filter Panel - hidden on mobile */}
       <div className="hidden md:block bg-white border border-gray-200 rounded-xl p-6">
         {/* Heading */}
-        <h2 className="heading-3 mb-6">Filter Jobs</h2>
+        <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-6">Filter Jobs</h2>
 
         <FilterContent
           filters={filters}

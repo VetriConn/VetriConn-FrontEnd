@@ -361,6 +361,22 @@ export interface EmployerThreadDetail {
   applied_at?: string;
 }
 
+// Job Seeker Messaging Types
+export type JobSeekerMessageSender = "job_seeker" | "employer";
+
+export interface JobSeekerThreadMessage {
+  _id: string;
+  application_id: string;
+  sender: JobSeekerMessageSender;
+  content: string;
+  attachment_url?: string;
+  attachment_name?: string;
+  attachment_mime_type?: string;
+  attachment_size?: number;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 export interface NotificationItem {
   _id: string;
   type:

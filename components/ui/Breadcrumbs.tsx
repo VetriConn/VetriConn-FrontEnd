@@ -51,30 +51,30 @@ export const Breadcrumbs: React.FC = () => {
 
   return (
     <nav aria-label="Breadcrumb" className="bg-red-50 border-b border-red-100">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-4 py-2.5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-4 py-2.5">
         <ol className="flex items-center gap-1.5 text-sm">
           {crumbs.map((crumb, index) => (
-            <li key={crumb.href} className="flex items-center gap-1.5">
+            <li key={crumb.href} className="inline-flex items-center gap-1.5">
               {index > 0 && (
                 <HiOutlineChevronRight
-                  className="w-3.5 h-3.5 text-gray-400 shrink-0"
+                  className="w-3 h-3 md:w-4 md:h-4 text-gray-400 shrink-0"
                   aria-hidden="true"
                 />
               )}
               {crumb.isLast ? (
-                <span className="text-gray-900 font-medium" aria-current="page">
+                <span className="text-gray-900 font-medium inline-flex items-center gap-1.5" aria-current="page">
                   {index === 0 && (
-                    <HiOutlineHome className="w-4 h-4 inline mr-1.5 -mt-0.5 text-gray-500" />
+                    <HiOutlineHome className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
                   )}
                   {crumb.label}
                 </span>
               ) : (
                 <Link
                   href={crumb.href}
-                  className="text-gray-500 hover:text-primary transition-colors"
+                  className="text-gray-500 hover:text-primary transition-colors inline-flex items-center gap-1.5"
                 >
                   {index === 0 && (
-                    <HiOutlineHome className="w-4 h-4 inline mr-1.5 -mt-0.5" />
+                    <HiOutlineHome className="w-4 h-4 md:w-5 md:h-5" />
                   )}
                   {crumb.label}
                 </Link>

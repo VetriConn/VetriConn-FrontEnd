@@ -1,8 +1,10 @@
 import { SignupFormData } from "@/types/signup";
 import { HiCheckCircle } from "react-icons/hi";
 import { CiMail } from "react-icons/ci";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useToaster } from "@/components/ui/Toaster";
+import { useRouter } from "next/navigation";
+import { getApiUrl } from "@/lib/api-config";
 
 interface CompletionStepProps {
   formData: SignupFormData;
@@ -14,16 +16,112 @@ export function CompletionStep({
   onResendEmail,
 }: CompletionStepProps) {
   const { showToast } = useToaster();
+  const router = useRouter();
   const [isResending, setIsResending] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [resendAttempts, setResendAttempts] = useState(0);
+  const [isCheckingVerification, setIsCheckingVerification] = useState(false);
+  const [pollCount, setPollCount] = useState(0);
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
   const MAX_ATTEMPTS = 5;
+  const POLL_INTERVAL = 3000; // 3 seconds
+  const MAX_POLL_COUNT = 40; // 40 checks × 3s = 2 minutes
 
   // Exponential backoff: 60s, 120s, 300s (5m), 600s (10m), 900s (15m)
   const getWaitTime = (attempts: number): number => {
     const waitTimes = [60, 120, 300, 600, 900]; // in seconds
     return waitTimes[Math.min(attempts, waitTimes.length - 1)];
   };
+
+  /**
+   * Check if user's email has been verified
+   * Industry standard: Poll backend to check verification status
+   */
+  const checkVerificationStatus = useCallback(async () => {
+    if (!formData.email) return false;
+
+    try {
+      setIsCheckingVerification(true);
+      const response = await fetch(
+        getApiUrl(`/api/v1/auth/check-verification?email=${encodeURIComponent(formData.email)}`),
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.success && data.data?.isVerified) {
+        // User has verified! Auto-redirect to signin
+        showToast({
+          type: "success",
+          title: "Email Verified!",
+          description: "Redirecting you to sign in...",
+        });
+        
+        // Clear polling interval
+        if (pollIntervalRef.current) {
+          clearInterval(pollIntervalRef.current);
+          pollIntervalRef.current = null;
+        }
+
+        // Redirect after short delay
+        setTimeout(() => {
+          router.push("/signin");
+        }, 1500);
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      // Silently fail - don't show errors for polling
+      console.warn("Verification check failed:", error);
+      return false;
+    } finally {
+      setIsCheckingVerification(false);
+    }
+  }, [formData.email, router, showToast]);
+
+  /**
+   * Start polling for verification status
+   * Industry standard: Check every 3 seconds for up to 2 minutes
+   */
+  useEffect(() => {
+    // Start polling after component mounts
+    const startPolling = () => {
+      pollIntervalRef.current = setInterval(async () => {
+        setPollCount((prev) => {
+          const newCount = prev + 1;
+          
+          // Stop polling after max attempts
+          if (newCount >= MAX_POLL_COUNT) {
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+              pollIntervalRef.current = null;
+            }
+            return prev;
+          }
+
+          return newCount;
+        });
+
+        await checkVerificationStatus();
+      }, POLL_INTERVAL);
+    };
+
+    startPolling();
+
+    // Cleanup on unmount
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+        pollIntervalRef.current = null;
+      }
+    };
+  }, [checkVerificationStatus]);
 
   // Start initial 1-minute timer on mount
   useEffect(() => {
@@ -138,6 +236,12 @@ export function CompletionStep({
             The link expires after 24 hours
           </p>
         </div>
+        <div className="flex items-start gap-3">
+          <HiCheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-gray-700">
+            You&apos;ll be automatically redirected once verified
+          </p>
+        </div>
       </div>
 
       {formData.resumeFile && (
@@ -188,6 +292,17 @@ export function CompletionStep({
             )}
           </div>
         )}
+      </div>
+
+      {/* Manual continue button as fallback */}
+      <div className="text-center pt-2">
+        <button
+          type="button"
+          onClick={() => router.push("/signin")}
+          className="text-sm text-gray-500 hover:text-gray-700 underline"
+        >
+          Already verified? Continue to Sign In
+        </button>
       </div>
 
       {/* Help Text */}

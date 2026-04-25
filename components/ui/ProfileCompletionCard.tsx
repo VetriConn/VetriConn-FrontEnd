@@ -28,9 +28,9 @@ export const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({
   const isComplete = percentage === 100;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 lg:mt-20">
+    <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6 lg:mt-20">
       <div className="flex-1">
-        <h3 className="text-lg font-bold text-gray-900 mb-2">
+        <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-2">
           Profile Completion
         </h3>
 

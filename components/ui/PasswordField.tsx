@@ -64,7 +64,7 @@ export const PasswordField = ({
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const inputClasses = clsx(
-    "block w-full py-3 px-4 pr-12 border rounded-[10px] text-base outline-none transition-colors focus:border-primary bg-white",
+    "block w-full px-3 py-2 md:px-4 md:py-3 pr-12 border rounded-10 text-sm md:text-base outline-none transition-colors focus:ring-2 focus:ring-primary focus:border-transparent bg-white",
     error ? "border-red-500" : "border-gray-300",
     disabled && "bg-gray-100 cursor-not-allowed"
   );
@@ -73,7 +73,7 @@ export const PasswordField = ({
     <div className="flex flex-col gap-1 mb-4">
       <label
         htmlFor={inputId}
-        className="block text-sm text-text-muted mb-1 font-medium"
+        className="block text-sm text-text-muted mb-1.5 md:mb-2 font-medium"
       >
         {label}
       </label>
@@ -139,7 +139,7 @@ export const PasswordField = ({
               >
                 <span
                   className={clsx(
-                    "flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold transition-all",
+                    "flex items-center justify-center w-4 h-4 rounded-full text-xs font-bold transition-all",
                     isMet
                       ? "bg-green-500 text-white"
                       : "bg-gray-300 text-gray-300"

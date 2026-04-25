@@ -85,7 +85,7 @@ export function ResetPassword() {
       <main className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-xl">
           <div className="bg-white rounded-2xl shadow-sm p-8 mobile:p-6">
-            <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+            <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-2 text-center">
               Reset your password
             </h1>
             <p className="text-gray-600 mb-8 text-center">
@@ -134,7 +134,7 @@ export function ResetPassword() {
                   disabled={
                     isSubmitting || !token || !newPassword || !confirmPassword
                   }
-                  className="w-full py-3 px-6 bg-primary text-white font-medium rounded-[10px] transition-all hover:bg-primary-hover disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-3 px-6 bg-primary text-white font-medium rounded-10 transition-all hover:bg-primary-hover disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Resetting..." : "Reset password"}
                 </button>

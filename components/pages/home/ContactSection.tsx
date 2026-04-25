@@ -87,7 +87,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
 
   return (
     <section
-      className="w-full py-12 px-[5%] pb-16 mobile:py-8 mobile:pb-10 relative overflow-hidden"
+      className="w-full py-12 pb-16 mobile:py-8 mobile:pb-10 relative overflow-hidden"
       id={id}
     >
       {/* Decorative dots */}
@@ -112,10 +112,11 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
         aria-hidden="true"
       />
 
-      <h1 className="heading-1 text-center mb-10 mobile:mb-6 relative z-10">
-        Get In <span className="text-primary">Touch</span>
-      </h1>
-      <div className="flex gap-16 items-start justify-between mobile:flex-col mobile:gap-8 mobile:items-stretch">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-6 relative z-10">
+        <h1 className="heading-1 text-center mb-10 mobile:mb-6">
+          Get In <span className="text-primary">Touch</span>
+        </h1>
+        <div className="flex flex-col md:flex-row gap-6 md:gap-16 items-start justify-between">
         <form
           className="flex-1 flex flex-col gap-6 mobile:gap-4 mobile:w-full"
           onSubmit={handleSubmit}
@@ -143,7 +144,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
             type="text"
             name="name"
             placeholder="Full name"
-            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors focus:border-primary focus:border-[1.5px] mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl"
+            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors focus:border-primary focus:border-2 mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl"
             value={formData.full_name}
             onChange={handleInputChange}
             disabled={isSubmitting}
@@ -153,7 +154,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
             type="email"
             name="email"
             placeholder="Email address"
-            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors focus:border-primary focus:border-[1.5px] mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl"
+            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors focus:border-primary focus:border-2 mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl"
             value={formData.email}
             onChange={handleInputChange}
             disabled={isSubmitting}
@@ -162,7 +163,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
           <textarea
             name="message"
             placeholder="Message"
-            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors min-h-[120px] resize-y focus:border-primary focus:border-[1.5px] mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl mobile:min-h-[100px]"
+            className="w-full py-4 px-5 border border-gray-200 rounded-2xl font-open-sans text-base outline-none transition-colors min-h-[120px] resize-y focus:border-primary focus:border-2 mobile:py-3 mobile:px-4 mobile:text-sm mobile:rounded-xl mobile:min-h-[100px]"
             rows={6}
             value={formData.message}
             onChange={handleInputChange}
@@ -202,7 +203,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
             </span>
             <span>richmonda@vetriconn.ca</span>
           </div>
-          <div className="flex gap-9 mt-10 justify-start mobile:gap-6 mobile:mt-6">
+          <div className="flex gap-4 md:gap-6 mt-10 justify-start mobile:gap-4 mobile:mt-6">
             <a
               href="https://www.facebook.com/profile.php?id=61580233844003"
               aria-label="Facebook"
@@ -222,6 +223,7 @@ export const ContactSection = ({ id }: ContactSectionProps) => {
               <FiLinkedin />
             </a>
           </div>
+        </div>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 export default function SettingsLoading() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[800px] mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
+      <div className="max-w-3xl mx-auto px-6 py-10 mobile:px-4 mobile:py-6">
         {/* Page Header */}
         <div className="mb-8 animate-pulse">
           <div className="h-8 w-44 bg-gray-200 rounded-md mb-2" />

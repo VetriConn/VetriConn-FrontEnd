@@ -194,13 +194,13 @@ export const BenefitsSection = ({ id }: BenefitsSectionProps) => (
       </div>
 
       {/* Benefit rows — alternating image + text */}
-      <div className="flex flex-col gap-20 max-w-[1100px] mx-auto mobile:gap-14">
+      <div className="flex flex-col gap-12 md:gap-20 max-w-5xl mx-auto">
         {benefits.map((benefit, idx) => {
           const isReversed = idx % 2 !== 0;
           return (
             <article
               key={idx}
-              className={`grid grid-cols-2 gap-12 items-center mobile:grid-cols-1 mobile:gap-8 ${isReversed ? "direction-rtl" : ""}`}
+              className={`grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center ${isReversed ? "direction-rtl" : ""}`}
             >
               {/* Image */}
               <div
@@ -210,8 +210,10 @@ export const BenefitsSection = ({ id }: BenefitsSectionProps) => (
                   src={benefit.image}
                   alt={benefit.imageAlt}
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover w-full h-full"
+                  sizes="(max-width: 850px) 100vw, 50vw"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  style={{ aspectRatio: '3/2' }}
                 />
               </div>
 
@@ -220,7 +222,7 @@ export const BenefitsSection = ({ id }: BenefitsSectionProps) => (
                 className={`${isReversed ? "mobile:order-2 order-1" : "order-2"}`}
               >
                 <div className="mb-4">{benefit.icon}</div>
-                <h3 className="font-lato text-[26px] font-bold text-text mb-3 leading-tight mobile:text-xl">
+                <h3 className="font-lato text-lg md:text-2xl font-bold text-text mb-3 leading-tight">
                   {benefit.title}
                 </h3>
                 <p className="font-open-sans text-base text-text-muted leading-relaxed m-0">

@@ -138,12 +138,15 @@ export const FileUploadZone = ({
             aria-label="Upload file"
           />
 
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <Image
               src="/images/uploadfile.svg"
               alt="Upload file"
               width={24}
               height={24}
+              className="w-5 h-5 md:w-6 md:h-6"
+              sizes="24px"
+              loading="lazy"
             />
           </div>
 
@@ -164,7 +167,7 @@ export const FileUploadZone = ({
           <div className="flex items-center gap-3">
             <FileIcon className="w-8 h-8 text-primary" />
             <div>
-              <p className="text-sm font-medium text-gray-700 truncate max-w-[200px]">
+              <p className="text-sm font-medium text-gray-700 truncate max-w-52">
                 {file.name}
               </p>
               <p className="text-xs text-gray-500">

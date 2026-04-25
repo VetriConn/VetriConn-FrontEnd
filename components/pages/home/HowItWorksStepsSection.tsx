@@ -24,7 +24,7 @@ const steps = [
 ];
 
 export const HowItWorksStepsSection = () => (
-  <section className="bg-gray-50 py-14 w-full px-[5%] mobile:py-10 relative overflow-hidden">
+  <section className="bg-gray-50 py-14 w-full mobile:py-10 relative overflow-hidden">
     {/* Decorative dots */}
     <div
       className="absolute top-8 right-[7%] w-3 h-3 rounded-full bg-amber-400 opacity-50"
@@ -47,20 +47,20 @@ export const HowItWorksStepsSection = () => (
       aria-hidden="true"
     />
 
-    <div className="max-w-[1400px] mx-auto relative z-10">
+    <div className="max-w-7xl mx-auto px-[5%] md:px-6 relative z-10">
       <h2 className="heading-1 text-center mb-10 mobile:mb-8">
         How it <span className="text-primary">works</span>
       </h2>
-      <div className="flex justify-between items-start gap-12 mobile:flex-col mobile:items-center mobile:gap-8">
+      <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-12">
         {steps.map((step, idx) => (
           <div
             key={idx}
-            className="flex-1 flex flex-col items-center text-center py-8 px-6 pb-10 max-w-[400px] mobile:py-4 mobile:px-4 mobile:pb-6"
+            className="flex-1 flex flex-col items-center text-center py-8 px-6 pb-10 max-w-sm mobile:py-4 mobile:px-4 mobile:pb-6"
           >
             <div className="mb-6 [&_svg]:w-[90px] [&_svg]:h-[90px] [&_svg]:block [&_svg]:overflow-visible [&_svg]:text-primary mobile:mb-4 mobile:[&_svg]:w-[60px] mobile:[&_svg]:h-[60px]">
               {step.icon}
             </div>
-            <h3 className="heading-3 mb-4 mobile:mb-2">{step.title}</h3>
+            <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 mobile:mb-2">{step.title}</h3>
             <p className="font-open-sans text-base text-text-muted leading-relaxed mobile:text-sm">
               {step.description}
             </p>

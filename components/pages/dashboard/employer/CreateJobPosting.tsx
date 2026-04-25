@@ -147,13 +147,13 @@ const INITIAL_FORM_DATA: JobFormData = {
 // ─── Shared UI Helpers ───────────────────────────────────────────────────────
 
 const inputClasses =
-  "w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white";
+  "w-full px-3 py-2 md:px-4 md:py-3 border border-gray-200 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white";
 
 const selectClasses =
-  "w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white appearance-none cursor-pointer";
+  "w-full px-3 py-2 md:px-4 md:py-3 border border-gray-200 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white appearance-none cursor-pointer";
 
 const errorInputClasses =
-  "w-full px-4 py-2.5 border border-red-500 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white";
+  "w-full px-3 py-2 md:px-4 md:py-3 border border-red-500 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white";
 
 function FieldLabel({
   children,
@@ -167,7 +167,7 @@ function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="block text-sm font-medium text-gray-700 mb-1.5"
+      className="block text-sm font-medium text-gray-700 mb-1.5 md:mb-2"
     >
       {children}
       {required && <span className="text-red-500 ml-0.5">*</span>}
@@ -176,7 +176,7 @@ function FieldLabel({
 }
 
 function HelperText({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs text-gray-400 mt-1">{children}</p>;
+  return <p className="text-xs md:text-sm text-gray-400 mt-1">{children}</p>;
 }
 
 function FieldError({ message }: { message?: string }) {
@@ -198,7 +198,7 @@ function StepJobDetails({
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-900 mb-1">Job Details</h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm md:text-base text-gray-500 mb-6">
         Define the basic identity of the job you&apos;re posting.
       </p>
 
@@ -241,7 +241,7 @@ function StepJobDetails({
         </div>
 
         {/* Job Type & Employment Type — side by side */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div>
             <FieldLabel htmlFor="job_type">Job Type</FieldLabel>
             <select
@@ -292,7 +292,7 @@ function StepDescription({
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-900 mb-1">Job Details</h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm md:text-base text-gray-500 mb-6">
         Explain the role simply and honestly to help candidates understand what
         to expect.
       </p>
@@ -323,7 +323,7 @@ function StepRequirements({
       <h2 className="text-xl font-semibold text-gray-900 mb-1">
         Requirements &amp; Experience
       </h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm md:text-base text-gray-500 mb-6">
         Set realistic expectations for veterans and retirees.
       </p>
 
@@ -399,14 +399,14 @@ function StepSalaryLocation({
       <h2 className="text-xl font-semibold text-gray-900 mb-1">
         Salary &amp; Location
       </h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm md:text-base text-gray-500 mb-6">
         Be transparent about compensation and location to reduce uncertainty for
         applicants.
       </p>
 
-      <div className="space-y-5">
+      <div className="space-y-4 md:space-y-6">
         {/* Minimum / Maximum */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div>
             <FieldLabel htmlFor="salary_min">Minimum</FieldLabel>
             <div className="relative">
@@ -461,7 +461,7 @@ function StepSalaryLocation({
         </div>
 
         {/* City / Country */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div>
             <FieldLabel htmlFor="city">City</FieldLabel>
             <input
@@ -575,24 +575,24 @@ function StepReview({ formData }: { formData: JobFormData }) {
       <h2 className="text-2xl font-bold text-gray-900 mb-1">
         Review Your Job Listing
       </h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm md:text-base text-gray-500 mb-6">
         Review all the details before submitting. This is how candidates will
         see your posting.
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
         {/* Left — Preview card */}
         <div className="lg:col-span-3 border border-gray-200 rounded-xl p-5">
           {/* Header */}
           <div className="flex items-center justify-between mb-1">
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg md:text-2xl font-bold text-gray-900">
               {formData.job_title || "Job Title"}
             </h3>
             <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">
               Preview
             </span>
           </div>
-          <p className="text-sm text-gray-500 mb-3">
+          <p className="text-sm md:text-base text-gray-500 mb-3">
             {displayCategory || "Category"}
           </p>
 
@@ -620,7 +620,7 @@ function StepReview({ formData }: { formData: JobFormData }) {
             <h4 className="text-sm font-semibold text-gray-900 mb-1">
               About this role
             </h4>
-            <p className="text-sm text-gray-500 leading-relaxed">
+            <p className="text-sm md:text-base text-gray-500 leading-relaxed">
               {formData.description
                 ? formData.description.slice(0, 300) +
                   (formData.description.length > 300 ? "..." : "")
@@ -633,19 +633,37 @@ function StepReview({ formData }: { formData: JobFormData }) {
             <h4 className="text-sm font-semibold text-gray-900 mb-1">
               Requirements
             </h4>
-            <p className="text-sm text-gray-500">
-              <span className="font-medium text-gray-600">
-                Experience Level:
-              </span>{" "}
-              {displayExperience || "Not specified"}
-            </p>
+            <div className="space-y-1">
+              <p className="text-sm md:text-base text-gray-500">
+                <span className="font-medium text-gray-600">
+                  Experience Level:
+                </span>{" "}
+                {displayExperience || "Not specified"}
+              </p>
+              {formData.skills && (
+                <p className="text-sm md:text-base text-gray-500">
+                  <span className="font-medium text-gray-600">
+                    Required Skills:
+                  </span>{" "}
+                  {formData.skills}
+                </p>
+              )}
+              {formData.physical_demands && (
+                <p className="text-sm md:text-base text-gray-500">
+                  <span className="font-medium text-gray-600">
+                    Physical/Time Demands:
+                  </span>{" "}
+                  {PHYSICAL_DEMANDS.find((d) => d.value === formData.physical_demands)?.label || formData.physical_demands}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Right — Summary checklist */}
         <div className="lg:col-span-2">
           <div className="border border-gray-200 rounded-xl p-5">
-            <h3 className="text-base font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg md:text-2xl font-semibold text-gray-900 mb-4">
               Summary
             </h3>
             <div className="space-y-3">
@@ -663,10 +681,10 @@ function StepReview({ formData }: { formData: JobFormData }) {
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-700">
+                    <p className="text-sm md:text-base font-medium text-gray-700">
                       {item.label}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs md:text-sm text-gray-400">
                       {item.value || "Not specified"}
                     </p>
                   </div>
@@ -828,12 +846,12 @@ const CreateJobPosting = () => {
       })
       .catch((err) => {
         if (!active) return;
-        showToast({
-          type: "error",
-          title: "Unable to load draft",
-          description:
-            err instanceof Error ? err.message : "Could not load draft job",
-        });
+        // Invalid draft ID - remove it from URL and proceed with new job creation
+        console.warn("Invalid draft ID, proceeding with new job creation:", err);
+        const url = new URL(window.location.href);
+        url.searchParams.delete("draftId");
+        window.history.replaceState({}, "", url.toString());
+        // Don't show error toast - just silently proceed with new creation
       })
       .finally(() => {
         if (active) setIsDraftLoading(false);
@@ -842,7 +860,7 @@ const CreateJobPosting = () => {
     return () => {
       active = false;
     };
-  }, [draftId, mapJobToFormData, showToast]);
+  }, [draftId, mapJobToFormData]);
 
   const handleFieldChange = useCallback(
     (field: keyof JobFormData, value: string) => {
@@ -907,18 +925,32 @@ const CreateJobPosting = () => {
     (status: "draft" | "published") => ({
       role: formData.job_title,
       description: formData.description,
-      skills: formData.skills,
-      experience_level: formData.experience_level,
-      physical_demands: formData.physical_demands,
-      salary_min: formData.salary_min,
-      salary_max: formData.salary_max,
-      payment_type: formData.payment_type,
-      city: formData.city,
-      country: formData.country,
-      work_schedule: formData.work_schedule,
-      employment_type: formData.employment_type,
-      job_type: formData.job_type,
-      job_category: formData.job_category,
+      location: [formData.city, formData.country].filter(Boolean).join(", "),
+      tags: [
+        formData.job_category,
+        formData.job_type,
+        formData.employment_type,
+        formData.work_schedule,
+      ].filter(Boolean),
+      qualifications: [
+        formData.experience_level,
+        formData.skills,
+      ].filter(Boolean),
+      responsibilities: [
+        formData.physical_demands,
+      ].filter(Boolean),
+      salary_range: formData.salary_min || formData.salary_max ? {
+        start_salary: formData.salary_min ? {
+          number: Number(formData.salary_min),
+          currency: "CAD",
+          symbol: "$",
+        } : undefined,
+        end_salary: formData.salary_max ? {
+          number: Number(formData.salary_max),
+          currency: "CAD",
+          symbol: "$",
+        } : undefined,
+      } : undefined,
       status,
       company_name: userProfile?.employer_profile?.company_name,
       company_logo: userProfile?.employer_profile?.logo_url,
@@ -956,17 +988,28 @@ const CreateJobPosting = () => {
     try {
       if (editingJobId) {
         await updateEmployerJob(editingJobId, buildPayload("draft"));
+        showToast({
+          type: "success",
+          title: "Draft updated",
+          description: "Your job draft was updated successfully",
+        });
       } else {
-        await createEmployerJobApi(buildPayload("draft"));
+        const newJob = await createEmployerJobApi(buildPayload("draft"));
+        // Set the editing ID so subsequent saves update instead of creating new drafts
+        setEditingJobId(newJob._id);
+        // Update URL to include draftId
+        const url = new URL(window.location.href);
+        url.searchParams.set("draftId", newJob._id);
+        window.history.replaceState({}, "", url.toString());
+        showToast({
+          type: "success",
+          title: "Draft saved",
+          description: "Your job draft was saved successfully",
+        });
       }
       await mutate("employer-jobs-dashboard");
       await mutate("employer-jobs-manage");
       await mutate("employer-jobs-drafts");
-      showToast({
-        type: "success",
-        title: "Draft saved",
-        description: "Your job draft was saved successfully",
-      });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to save draft";
@@ -1066,10 +1109,10 @@ const CreateJobPosting = () => {
               <HiOutlineBriefcase className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">
+              <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
                 {editingJobId ? "Continue Draft" : "Create Job Posting"}
               </h1>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs md:text-sm text-gray-500">
                 Step {currentStep} of {totalSteps}
               </p>
             </div>
@@ -1091,8 +1134,9 @@ const CreateJobPosting = () => {
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-gray-200" style={{height: '2px'}} />
             {/* Filled progress track */}
             <div
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary transition-all duration-300" style={{height: '2px'}}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-primary transition-all duration-300"
               style={{
+                height: '2px',
                 width: `${((currentStep - 1) / (WIZARD_STEPS.length - 1)) * 100}%`,
               }}
             />

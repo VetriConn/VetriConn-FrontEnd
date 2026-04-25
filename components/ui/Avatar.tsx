@@ -1,51 +1,72 @@
-import React from "react";
 import Image from "next/image";
-import clsx from "clsx";
-import { AvatarProps, AvatarGroupProps } from "@/types/component";
 import { getInitials } from "@/lib/initials";
 
-export const Avatar: React.FC<AvatarProps> = ({
-  name,
-  src,
-  alt,
-  fallback,
-  size = 40,
-  className,
-}) => {
-  const initials = getInitials(name || "", "");
+interface AvatarProps {
+  /** The image URL - can be profile picture or company logo */
+  src?: string | null;
+  /** Name to generate initials from if no image */
+  name: string;
+  /** Size in pixels */
+  size?: number;
+  /** Additional CSS classes */
+  className?: string;
+  /** Alt text for the image */
+  alt?: string;
+}
+
+/**
+ * Avatar component that displays profile pictures or company logos
+ * Falls back to initials if no image is provided
+ * 
+ * Usage:
+ * - Job Seeker: <Avatar src={userProfile.picture} name={userProfile.full_name} />
+ * - Employer: <Avatar src={userProfile.employer_profile?.logo_url} name={userProfile.employer_profile?.company_name} />
+ */
+export function Avatar({ src, name, size = 40, className = "", alt }: AvatarProps) {
+  const hasValidSrc = src && src.trim() !== "";
+  const initials = getInitials(name);
+  const altText = alt || name;
 
   return (
     <div
-      className={clsx(
-        "inline-flex items-center justify-center rounded-full bg-gray-200 text-gray-800 font-semibold text-base overflow-hidden relative",
-        className,
-      )}
-      style={{ width: size, height: size }}
+      className={`rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0 ${className}`}
+      style={{ width: size, height: size, aspectRatio: '1' }}
     >
-      {src ? (
+      {hasValidSrc ? (
         <Image
           src={src}
-          alt={alt || name || "Avatar"}
-          className="w-full h-full object-cover rounded-full block"
+          alt={altText}
           width={size}
           height={size}
+          className="object-cover w-full h-full"
+          sizes={`${size}px`}
+          loading="lazy"
         />
-      ) : fallback ? (
-        fallback
       ) : (
-        <span className="text-base text-gray-800">{initials}</span>
+        <span className="text-gray-500 font-medium" style={{ fontSize: `${size * 0.35}px` }}>
+          {initials}
+        </span>
       )}
     </div>
   );
-};
+}
 
-export const AvatarGroup: React.FC<AvatarGroupProps> = ({
-  children,
-  className,
-}) => (
-  <div className={clsx("flex items-center -space-x-2", className)}>
-    {children}
-  </div>
-);
-
-export type { AvatarProps, AvatarGroupProps };
+/**
+ * Hook to get the appropriate avatar URL based on user role
+ * 
+ * @param userProfile - The user profile object
+ * @returns The avatar URL (picture for job seekers, logo for employers)
+ */
+export function useAvatarUrl(userProfile: {
+  role?: string;
+  picture?: string;
+  employer_profile?: { logo_url?: string };
+} | null | undefined): string | null {
+  if (!userProfile) return null;
+  
+  if (userProfile.role === "employer") {
+    return userProfile.employer_profile?.logo_url || null;
+  }
+  
+  return userProfile.picture || null;
+}

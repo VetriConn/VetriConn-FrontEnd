@@ -1,11 +1,30 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useJob } from "@/hooks/useJob";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useParams } from "next/navigation";
 import DashboardNavbar from "@/components/ui/DashboardNavbar";
-import JobApplicationForm from "@/components/pages/jobs/JobApplicationForm";
+
+// Lazy load the heavy job application form
+const JobApplicationForm = dynamic(
+  () => import("@/components/pages/jobs/JobApplicationForm"),
+  {
+    loading: () => (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-2xl mx-auto px-6 py-8">
+          <div className="h-4 w-32 bg-gray-200 rounded animate-shimmer mb-6" />
+          <div className="h-8 w-72 bg-gray-200 rounded animate-shimmer mb-2" />
+          <div className="h-4 w-96 bg-gray-200 rounded animate-shimmer mb-8" />
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="h-10 w-full bg-gray-100 rounded-lg animate-shimmer" />
+          </div>
+        </div>
+      </div>
+    ),
+  }
+);
 
 export default function ApplyPage() {
   const params = useParams();

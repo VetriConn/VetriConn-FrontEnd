@@ -22,7 +22,7 @@ export const FaqSection = ({ id }: FaqSectionProps) => {
 
   return (
     <section
-      className="w-full py-16 px-[5%] pb-20 mobile:py-10 mobile:pb-12 relative overflow-hidden"
+      className="w-full py-16 pb-20 mobile:py-10 mobile:pb-12 relative overflow-hidden"
       id={id}
     >
       {/* Decorative dots */}
@@ -47,13 +47,14 @@ export const FaqSection = ({ id }: FaqSectionProps) => {
         aria-hidden="true"
       />
 
-      <h2 className="heading-1 text-center mb-10 mobile:mb-6 relative z-10">
-        Got <span className="text-primary">Questions</span>?
-        <br />
-        We&apos;ve Got <span className="text-primary">Answers</span>
-      </h2>
+      <div className="max-w-7xl mx-auto px-[5%] md:px-6 relative z-10">
+        <h2 className="heading-1 text-center mb-10 mobile:mb-6">
+          Got <span className="text-primary">Questions</span>?
+          <br />
+          We&apos;ve Got <span className="text-primary">Answers</span>
+        </h2>
 
-      <div className="w-full max-w-[900px] mx-auto flex flex-col gap-5 mobile:gap-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col gap-5 mobile:gap-4">
         {homeFaqs.map((faq, idx) => (
           <Accordion
             key={idx}
@@ -65,17 +66,18 @@ export const FaqSection = ({ id }: FaqSectionProps) => {
             onToggle={() => handleToggle(idx)}
           />
         ))}
-      </div>
+        </div>
 
-      {/* See More link */}
-      <div className="text-center mt-10 relative z-10">
-        <Link
-          href="/faq"
-          className="inline-flex items-center gap-2 text-primary font-semibold font-open-sans text-lg hover:text-red-700 transition-colors"
-        >
-          See all FAQs
-          <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
-        </Link>
+        {/* See More link */}
+        <div className="text-center mt-10">
+          <Link
+            href="/faq"
+            className="inline-flex items-center gap-2 text-primary font-semibold font-open-sans text-lg hover:text-red-700 transition-colors"
+          >
+            See all FAQs
+            <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );

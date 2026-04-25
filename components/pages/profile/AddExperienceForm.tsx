@@ -56,7 +56,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
   };
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-4 md:space-y-6">
       <FormField
         label="Job Title"
         name="position"
@@ -77,11 +77,11 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
         required
       />
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="flex flex-col gap-1">
           <label
             htmlFor="start_date"
-            className="block text-sm text-text-muted mb-1 font-medium"
+            className="block text-sm text-text-muted mb-1.5 md:mb-2 font-medium"
           >
             Start Date <span className="text-red-500 ml-1">*</span>
           </label>
@@ -95,7 +95,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
                 e.target.value ? `${e.target.value}-01` : "",
               )
             }
-            className={`block w-full py-3 px-4 border rounded-[10px] text-base outline-none transition-colors focus:border-primary bg-white ${
+            className={`block w-full px-3 py-2 md:px-4 md:py-3 border rounded-10 text-sm md:text-base outline-none transition-colors focus:ring-2 focus:ring-primary focus:border-transparent bg-white ${
               errors.start_date ? "border-red-500" : "border-gray-300"
             }`}
           />
@@ -106,10 +106,10 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mb-4">
+        <div className="flex flex-col gap-1">
           <label
             htmlFor="end_date"
-            className="block text-sm text-text-muted mb-1 font-medium"
+            className="block text-sm text-text-muted mb-1.5 md:mb-2 font-medium"
           >
             End Date
           </label>
@@ -124,7 +124,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
               )
             }
             disabled={isCurrentRole}
-            className={`block w-full py-3 px-4 border rounded-[10px] text-base outline-none transition-colors focus:border-primary bg-white ${
+            className={`block w-full px-3 py-2 md:px-4 md:py-3 border rounded-10 text-sm md:text-base outline-none transition-colors focus:ring-2 focus:ring-primary focus:border-transparent bg-white ${
               isCurrentRole
                 ? "bg-gray-100 cursor-not-allowed border-gray-300"
                 : "border-gray-300"
@@ -133,7 +133,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-gray-600 -mt-2 mb-4 cursor-pointer">
+      <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
         <input
           type="checkbox"
           checked={isCurrentRole}
@@ -146,7 +146,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
       <div className="flex flex-col gap-1">
         <label
           htmlFor="description"
-          className="block text-sm text-text-muted mb-1 font-medium"
+          className="block text-sm text-text-muted mb-1.5 md:mb-2 font-medium"
         >
           Description{" "}
           <span className="text-gray-400 font-normal ml-1">(optional)</span>
@@ -157,7 +157,7 @@ export const AddExperienceForm: React.FC<AddExperienceFormProps> = ({
           placeholder="Describe your responsibilities, accomplishments, etc."
           value={formData.description || ""}
           onChange={(e) => handleChange("description", e.target.value)}
-          className="block w-full py-3 px-4 border border-gray-300 rounded-[10px] text-base outline-none transition-colors focus:border-primary bg-white resize-none"
+          className="block w-full px-3 py-2 md:px-4 md:py-3 border border-gray-300 rounded-10 text-sm md:text-base outline-none transition-colors focus:ring-2 focus:ring-primary focus:border-transparent bg-white resize-none"
         />
       </div>
     </div>

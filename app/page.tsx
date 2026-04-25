@@ -21,7 +21,7 @@ export const metadata: Metadata = generateSeoMetadata({
 
 export default function Home() {
   return (
-    <main className="max-w-[1920px] min-w-[320px] mx-auto">
+    <main className="max-w-screen-2xl min-w-80 mx-auto">
       <div className="sticky bg-white top-0 left-0 z-50">
         <Header />
       </div>

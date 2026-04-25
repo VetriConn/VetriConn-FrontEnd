@@ -54,19 +54,19 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
   return (
     <div
       id="documents-card"
-      className="bg-white rounded-xl border border-gray-200 p-6"
+      className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6"
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <HiOutlineDocumentText className="w-5 h-5 text-red-500" />
-          <h2 className="text-xl font-bold text-gray-900">Documents</h2>
+          <HiOutlineDocumentText className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+          <h2 className="text-xl md:text-3xl font-bold text-gray-900">Documents</h2>
         </div>
         <button
           onClick={onUpload}
-          className="flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
+          className="flex items-center gap-1.5 px-4 py-2 md:px-5 md:py-2.5 min-h-[44px] bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm md:text-base"
           aria-label="Upload document"
         >
-          <HiOutlineArrowUpTray className="text-base" />
+          <HiOutlineArrowUpTray className="w-4 h-4 md:w-5 md:h-5" />
           Upload
         </button>
       </div>
@@ -77,12 +77,12 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
             <div key={doc._id || index} className="flex items-center gap-4">
               {/* File icon */}
               <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-                <HiOutlineDocumentText className="text-red-500 text-lg" />
+                <HiOutlineDocumentText className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
               </div>
 
               {/* File info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-gray-900 truncate">
+                <h3 className="text-sm md:text-base font-bold text-gray-900 truncate">
                   {doc.name}
                 </h3>
                 <p className="text-xs text-gray-400">
@@ -100,17 +100,17 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={() => onDownload?.(doc)}
-                  className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="p-2 min-h-[44px] min-w-[44px] text-gray-400 hover:text-gray-600 transition-colors flex items-center justify-center"
                   aria-label={`Download ${doc.name}`}
                 >
-                  <HiOutlineArrowDownTray className="text-lg" />
+                  <HiOutlineArrowDownTray className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
                 <button
                   onClick={() => onDelete?.(doc)}
-                  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                  className="p-2 min-h-[44px] min-w-[44px] text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center"
                   aria-label={`Delete ${doc.name}`}
                 >
-                  <HiOutlineTrash className="text-lg" />
+                  <HiOutlineTrash className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
               </div>
             </div>
@@ -118,7 +118,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
         </div>
       ) : (
         <div className="text-center py-8">
-          <HiOutlineDocumentText className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+          <HiOutlineDocumentText className="w-8 h-8 md:w-12 md:h-12 text-gray-300 mx-auto mb-2" />
           <p className="text-gray-500 text-sm mb-1">No documents added yet</p>
           <p className="text-gray-400 text-xs">
             Click &quot;Upload&quot; to add your documents

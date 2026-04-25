@@ -265,7 +265,7 @@ const SearchResultsPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
       <main id="main-content" className="flex-1" tabIndex={-1}>
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="max-w-screen-xl mx-auto">
           {/* Page Header */}
           <header className="mb-6 sm:mb-8">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
@@ -313,7 +313,7 @@ const SearchResultsPage = () => {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
             {/* Filter Panel - Left Sidebar on desktop, toggle button on mobile */}
             <aside className="lg:col-span-1" aria-label="Job filters">
               <FilterPanel

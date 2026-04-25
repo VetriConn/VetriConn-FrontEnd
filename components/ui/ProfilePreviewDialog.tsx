@@ -92,11 +92,11 @@ export function ProfilePreviewDialog({
         aria-modal="true"
         aria-label="Profile preview — how employers see your profile"
       >
-        <div className="bg-white rounded-2xl shadow-xl max-w-[600px] w-full max-h-[85vh] overflow-y-auto">
+        <div className="bg-white rounded-2xl shadow-xl w-[95%] md:w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
           {/* Header bar */}
-          <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+          <div className="sticky top-0 bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between rounded-t-2xl z-10 shrink-0">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-900">
                 Profile Preview
               </h2>
               <p className="text-xs text-gray-500">
@@ -105,7 +105,7 @@ export function ProfilePreviewDialog({
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Close preview"
             >
               <HiOutlineXMark className="w-5 h-5" />
@@ -113,29 +113,30 @@ export function ProfilePreviewDialog({
           </div>
 
           {/* Profile Content */}
-          <div className="px-6 py-6 space-y-6">
+          <div className="px-4 md:px-6 py-6 space-y-6 overflow-y-auto flex-1">
             {/* Avatar + Name */}
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full overflow-hidden bg-red-50 border-2 border-red-100 flex items-center justify-center shrink-0">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-red-50 border-2 border-red-100 flex items-center justify-center shrink-0">
                 {profile.avatar ? (
                   <Image
                     src={profile.avatar}
                     alt={profile.name}
-                    width={64}
-                    height={64}
+                    width={80}
+                    height={80}
                     className="w-full h-full object-cover"
+                    sizes="(max-width: 768px) 64px, 80px"
                   />
                 ) : (
-                  <span className="text-xl font-bold text-red-600">
+                  <span className="text-xl md:text-2xl font-bold text-red-600">
                     {getInitials(profile.name)}
                   </span>
                 )}
               </div>
 
               <div className="min-w-0">
-                <h3 className="text-xl font-bold text-gray-900 truncate">
-                  {profile.name}
-                </h3>
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900 truncate">
+            {profile.name}
+          </h3>
 
                 {profile.job_title && (
                   <p className="text-sm text-gray-600 font-medium">
@@ -155,7 +156,7 @@ export function ProfilePreviewDialog({
                     <span
                       className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusConfig.badge}`}
                     >
-                      <span className="text-[10px]">{statusConfig.icon}</span>
+                      <span className="text-xs">{statusConfig.icon}</span>
                       {statusConfig.label}
                     </span>
                   )}
@@ -275,10 +276,10 @@ export function ProfilePreviewDialog({
           </div>
 
           {/* Footer */}
-          <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 rounded-b-2xl">
+          <div className="sticky bottom-0 bg-white border-t border-gray-200 px-4 md:px-6 py-4 rounded-b-2xl shrink-0">
             <button
               onClick={onClose}
-              className="w-full px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer min-h-44"
             >
               Close Preview
             </button>

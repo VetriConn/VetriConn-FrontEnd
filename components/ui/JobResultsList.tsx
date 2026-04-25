@@ -52,9 +52,9 @@ const EmptyState = () => (
     <div className="mb-6" aria-hidden="true">
       <HiOutlineMagnifyingGlass className="w-16 h-16 text-gray-300" />
     </div>
-    <h3 className="text-xl font-semibold text-gray-700 mb-2">No jobs found</h3>
-    <p className="text-gray-500 max-w-md">
-      We couldn&apos;t find any jobs matching your criteria. Try adjusting your
+    <h3 className="text-lg md:text-2xl font-semibold text-gray-700 mb-2">No jobs found</h3>
+          <p className="text-sm md:text-base text-gray-500 max-w-md">
+            We couldn&apos;t find any jobs matching your criteria. Try adjusting your
       filters or search terms.
     </p>
   </div>
@@ -74,7 +74,7 @@ const ErrorState = ({
     <div className="mb-6" aria-hidden="true">
       <FaExclamationTriangle className="text-5xl text-amber-500 opacity-80" />
     </div>
-    <h3 className="text-xl font-semibold text-gray-700 mb-2">
+    <h3 className="text-lg md:text-2xl font-semibold text-gray-700 mb-2">
       Something went wrong
     </h3>
     <p className="text-gray-500 max-w-md mb-6">
