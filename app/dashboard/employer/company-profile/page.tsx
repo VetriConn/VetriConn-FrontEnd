@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 const CompanyProfileSetup = dynamic(
   () => import("@/components/pages/dashboard/employer/CompanyProfileSetup"),
@@ -17,5 +18,9 @@ const CompanyProfileSetup = dynamic(
 );
 
 export default function CompanyProfilePage() {
-  return <CompanyProfileSetup />;
+  return (
+    <RoleGuard allowedRoles={["employer"]}>
+      <CompanyProfileSetup />
+    </RoleGuard>
+  );
 }

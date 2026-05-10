@@ -20,6 +20,7 @@ import {
 import { useAccessibility, type TextSize } from "@/hooks/useAccessibility";
 import { useToaster } from "@/components/ui/Toaster";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 import {
   changePassword as changePasswordApi,
   requestDataExport,
@@ -358,9 +359,10 @@ export default function AccountSettingsPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Page Header */}
-      <div className="mb-8">
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-3xl mx-auto">
+        {/* Page Header */}
+        <div className="mb-8">
           <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900 mb-1">
             Account settings
           </h1>
@@ -807,374 +809,375 @@ export default function AccountSettingsPage() {
 
         {/* Change Password Modal */}
         {showPasswordModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
-            onClick={handleClosePasswordModal}
-          />
+          <div className="fixed inset-0 z-[200] flex items-center justify-center">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+              onClick={handleClosePasswordModal}
+            />
 
-          {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                  <HiOutlineLockClosed className="w-5 h-5 text-primary" />
+            {/* Modal */}
+            <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
+                    <HiOutlineLockClosed className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Change Password
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      Keep your account secure
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    Change Password
-                  </h3>
-                  <p className="text-xs text-gray-400">
-                    Keep your account secure
+                <button
+                  onClick={handleClosePasswordModal}
+                  className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                  <HiOutlineXMark className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Success State */}
+              {passwordSuccess ? (
+                <div className="px-6 py-12 text-center">
+                  <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <HiOutlineCheckCircle className="w-7 h-7 text-emerald-500" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-1">
+                    Password Updated
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Your password has been changed successfully.
                   </p>
                 </div>
-              </div>
-              <button
-                onClick={handleClosePasswordModal}
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                <HiOutlineXMark className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Success State */}
-            {passwordSuccess ? (
-              <div className="px-6 py-12 text-center">
-                <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <HiOutlineCheckCircle className="w-7 h-7 text-emerald-500" />
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-1">
-                  Password Updated
-                </h4>
-                <p className="text-sm text-gray-500">
-                  Your password has been changed successfully.
-                </p>
-              </div>
-            ) : (
-              <>
-                {/* Body */}
-                <div className="px-6 py-6 space-y-5">
-                  {/* Error message */}
-                  {passwordError && (
-                    <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-lg">
-                      <HiOutlineExclamationTriangle className="w-4 h-4 text-red-500 shrink-0" />
-                      <p className="text-sm text-red-600">{passwordError}</p>
-                    </div>
-                  )}
-
-                  {/* Current Password */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-                      Current Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showCurrentPassword ? "text" : "password"}
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        placeholder="Enter your current password"
-                        className="form-input pr-11"
-                      />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowCurrentPassword(!showCurrentPassword)
-                        }
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      >
-                        {showCurrentPassword ? (
-                          <HiOutlineEyeSlash className="w-5 h-5" />
-                        ) : (
-                          <HiOutlineEye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* New Password */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-                      New Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showNewPassword ? "text" : "password"}
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Enter your new password"
-                        className="form-input pr-11"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      >
-                        {showNewPassword ? (
-                          <HiOutlineEyeSlash className="w-5 h-5" />
-                        ) : (
-                          <HiOutlineEye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Password Requirements */}
-                    {newPassword.length > 0 && (
-                      <div className="mt-3 space-y-1.5">
-                        {passwordRequirements.map((req) => (
-                          <div
-                            key={req.label}
-                            className="flex items-center gap-2"
-                          >
-                            <div
-                              className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                                req.met
-                                  ? "bg-emerald-100 text-emerald-600"
-                                  : "bg-gray-100 text-gray-400"
-                              }`}
-                            >
-                              <svg
-                                className="w-2.5 h-2.5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={3}
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M4.5 12.75l6 6 9-13.5"
-                                />
-                              </svg>
-                            </div>
-                            <span
-                              className={`text-xs ${
-                                req.met ? "text-emerald-600" : "text-gray-400"
-                              }`}
-                            >
-                              {req.label}
-                            </span>
-                          </div>
-                        ))}
+              ) : (
+                <>
+                  {/* Body */}
+                  <div className="px-6 py-6 space-y-5">
+                    {/* Error message */}
+                    {passwordError && (
+                      <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-lg">
+                        <HiOutlineExclamationTriangle className="w-4 h-4 text-red-500 shrink-0" />
+                        <p className="text-sm text-red-600">{passwordError}</p>
                       </div>
                     )}
-                  </div>
 
-                  {/* Confirm Password */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-                      Confirm New Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Re-enter your new password"
-                        className={`form-input pr-11 ${
-                          confirmPassword.length > 0 && !passwordsMatch
-                            ? "border-red-400 focus:border-red-400"
-                            : ""
-                        }`}
-                      />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      >
-                        {showConfirmPassword ? (
-                          <HiOutlineEyeSlash className="w-5 h-5" />
-                        ) : (
-                          <HiOutlineEye className="w-5 h-5" />
-                        )}
-                      </button>
+                    {/* Current Password */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                        Current Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showCurrentPassword ? "text" : "password"}
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          placeholder="Enter your current password"
+                          className="form-input pr-11"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowCurrentPassword(!showCurrentPassword)
+                          }
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                        >
+                          {showCurrentPassword ? (
+                            <HiOutlineEyeSlash className="w-5 h-5" />
+                          ) : (
+                            <HiOutlineEye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
                     </div>
-                    {confirmPassword.length > 0 && !passwordsMatch && (
-                      <p className="text-xs text-red-500 mt-1.5">
-                        Passwords do not match.
-                      </p>
-                    )}
-                    {passwordsMatch && (
-                      <p className="text-xs text-emerald-500 mt-1.5 flex items-center gap-1">
-                        <HiOutlineCheckCircle className="w-3.5 h-3.5" />
-                        Passwords match
-                      </p>
-                    )}
+
+                    {/* New Password */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                        New Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showNewPassword ? "text" : "password"}
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="Enter your new password"
+                          className="form-input pr-11"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                        >
+                          {showNewPassword ? (
+                            <HiOutlineEyeSlash className="w-5 h-5" />
+                          ) : (
+                            <HiOutlineEye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Password Requirements */}
+                      {newPassword.length > 0 && (
+                        <div className="mt-3 space-y-1.5">
+                          {passwordRequirements.map((req) => (
+                            <div
+                              key={req.label}
+                              className="flex items-center gap-2"
+                            >
+                              <div
+                                className={`w-4 h-4 rounded-full flex items-center justify-center ${
+                                  req.met
+                                    ? "bg-emerald-100 text-emerald-600"
+                                    : "bg-gray-100 text-gray-400"
+                                }`}
+                              >
+                                <svg
+                                  className="w-2.5 h-2.5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={3}
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4.5 12.75l6 6 9-13.5"
+                                  />
+                                </svg>
+                              </div>
+                              <span
+                                className={`text-xs ${
+                                  req.met ? "text-emerald-600" : "text-gray-400"
+                                }`}
+                              >
+                                {req.label}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Confirm Password */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                        Confirm New Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Re-enter your new password"
+                          className={`form-input pr-11 ${
+                            confirmPassword.length > 0 && !passwordsMatch
+                              ? "border-red-400 focus:border-red-400"
+                              : ""
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                        >
+                          {showConfirmPassword ? (
+                            <HiOutlineEyeSlash className="w-5 h-5" />
+                          ) : (
+                            <HiOutlineEye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+                      {confirmPassword.length > 0 && !passwordsMatch && (
+                        <p className="text-xs text-red-500 mt-1.5">
+                          Passwords do not match.
+                        </p>
+                      )}
+                      {passwordsMatch && (
+                        <p className="text-xs text-emerald-500 mt-1.5 flex items-center gap-1">
+                          <HiOutlineCheckCircle className="w-3.5 h-3.5" />
+                          Passwords match
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+                    <button
+                      onClick={handleClosePasswordModal}
+                      className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleChangePassword}
+                      disabled={!canSubmitPassword || passwordSaving}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+                    >
+                      {passwordSaving ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          Updating...
+                        </>
+                      ) : (
+                        "Update Password"
+                      )}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ─── Deactivate Account Modal ─── */}
+        {showDeactivateModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+              onClick={handleCloseDeactivateModal}
+            />
+
+            {/* Modal */}
+            <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                    <HiOutlineExclamationTriangle className="w-5 h-5 text-red-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Deactivate Account
+                    </h3>
+                    <p className="text-xs text-gray-400">
+                      This action cannot be easily undone
+                    </p>
                   </div>
                 </div>
+                <button
+                  onClick={handleCloseDeactivateModal}
+                  className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                  <HiOutlineXMark className="w-5 h-5" />
+                </button>
+              </div>
 
-                {/* Footer */}
-                <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-                  <button
-                    onClick={handleClosePasswordModal}
-                    className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleChangePassword}
-                    disabled={!canSubmitPassword || passwordSaving}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
-                  >
-                    {passwordSaving ? (
-                      <>
-                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Updating...
-                      </>
-                    ) : (
-                      "Update Password"
-                    )}
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ─── Deactivate Account Modal ─── */}
-      {showDeactivateModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
-            onClick={handleCloseDeactivateModal}
-          />
-
-          {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                  <HiOutlineExclamationTriangle className="w-5 h-5 text-red-500" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    Deactivate Account
-                  </h3>
-                  <p className="text-xs text-gray-400">
-                    This action cannot be easily undone
+              {/* Body */}
+              <div className="px-6 py-6 space-y-5">
+                <div className="bg-red-50 border border-red-100 rounded-lg p-4">
+                  <p className="text-sm text-red-700 leading-relaxed">
+                    <strong>Warning:</strong> Deactivating your account will:
+                  </p>
+                  <ul className="mt-2 space-y-1 text-sm text-red-600">
+                    <li>• Remove your profile from employer searches</li>
+                    <li>• Cancel all active job applications</li>
+                    <li>• Delete your saved jobs and searches</li>
+                  </ul>
+                  <p className="text-sm text-red-600 mt-2">
+                    Your data will be retained for 30 days, after which it will
+                    be permanently deleted.
                   </p>
                 </div>
-              </div>
-              <button
-                onClick={handleCloseDeactivateModal}
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                <HiOutlineXMark className="w-5 h-5" />
-              </button>
-            </div>
 
-            {/* Body */}
-            <div className="px-6 py-6 space-y-5">
-              <div className="bg-red-50 border border-red-100 rounded-lg p-4">
-                <p className="text-sm text-red-700 leading-relaxed">
-                  <strong>Warning:</strong> Deactivating your account will:
-                </p>
-                <ul className="mt-2 space-y-1 text-sm text-red-600">
-                  <li>• Remove your profile from employer searches</li>
-                  <li>• Cancel all active job applications</li>
-                  <li>• Delete your saved jobs and searches</li>
-                </ul>
-                <p className="text-sm text-red-600 mt-2">
-                  Your data will be retained for 30 days, after which it will be
-                  permanently deleted.
-                </p>
-              </div>
-
-              {/* Error message */}
-              {deactivateError && (
-                <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-lg">
-                  <HiOutlineExclamationTriangle className="w-4 h-4 text-red-500 shrink-0" />
-                  <p className="text-sm text-red-600">{deactivateError}</p>
-                </div>
-              )}
-
-              {/* Password */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-                  Confirm your password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showDeactivatePassword ? "text" : "password"}
-                    value={deactivatePassword}
-                    onChange={(e) => setDeactivatePassword(e.target.value)}
-                    placeholder="Enter your current password"
-                    className="form-input pr-11"
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowDeactivatePassword(!showDeactivatePassword)
-                    }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                  >
-                    {showDeactivatePassword ? (
-                      <HiOutlineEyeSlash className="w-5 h-5" />
-                    ) : (
-                      <HiOutlineEye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Type DEACTIVATE to confirm */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-                  Type{" "}
-                  <span className="text-red-600 font-bold">DEACTIVATE</span> to
-                  confirm
-                </label>
-                <input
-                  type="text"
-                  value={deactivateConfirmText}
-                  onChange={(e) => setDeactivateConfirmText(e.target.value)}
-                  placeholder="DEACTIVATE"
-                  className={`form-input ${
-                    deactivateConfirmText.length > 0 &&
-                    deactivateConfirmText !== "DEACTIVATE"
-                      ? "border-red-400 focus:border-red-400"
-                      : ""
-                  }`}
-                />
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-              <button
-                onClick={handleCloseDeactivateModal}
-                className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeactivateAccount}
-                disabled={
-                  deactivateConfirmText !== "DEACTIVATE" ||
-                  !deactivatePassword ||
-                  isDeactivating
-                }
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
-              >
-                {isDeactivating ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Deactivating...
-                  </>
-                ) : (
-                  "Deactivate Account"
+                {/* Error message */}
+                {deactivateError && (
+                  <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-lg">
+                    <HiOutlineExclamationTriangle className="w-4 h-4 text-red-500 shrink-0" />
+                    <p className="text-sm text-red-600">{deactivateError}</p>
+                  </div>
                 )}
-              </button>
+
+                {/* Password */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                    Confirm your password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showDeactivatePassword ? "text" : "password"}
+                      value={deactivatePassword}
+                      onChange={(e) => setDeactivatePassword(e.target.value)}
+                      placeholder="Enter your current password"
+                      className="form-input pr-11"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowDeactivatePassword(!showDeactivatePassword)
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    >
+                      {showDeactivatePassword ? (
+                        <HiOutlineEyeSlash className="w-5 h-5" />
+                      ) : (
+                        <HiOutlineEye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Type DEACTIVATE to confirm */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                    Type{" "}
+                    <span className="text-red-600 font-bold">DEACTIVATE</span>{" "}
+                    to confirm
+                  </label>
+                  <input
+                    type="text"
+                    value={deactivateConfirmText}
+                    onChange={(e) => setDeactivateConfirmText(e.target.value)}
+                    placeholder="DEACTIVATE"
+                    className={`form-input ${
+                      deactivateConfirmText.length > 0 &&
+                      deactivateConfirmText !== "DEACTIVATE"
+                        ? "border-red-400 focus:border-red-400"
+                        : ""
+                    }`}
+                  />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+                <button
+                  onClick={handleCloseDeactivateModal}
+                  className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeactivateAccount}
+                  disabled={
+                    deactivateConfirmText !== "DEACTIVATE" ||
+                    !deactivatePassword ||
+                    isDeactivating
+                  }
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+                >
+                  {isDeactivating ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Deactivating...
+                    </>
+                  ) : (
+                    "Deactivate Account"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </RoleGuard>
   );
 }

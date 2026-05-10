@@ -15,6 +15,7 @@ import {
   type ApplicationDraftRecord,
 } from "@/lib/applicationDrafts";
 import { useToaster } from "@/components/ui/Toaster";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 function formatSavedDate(value?: string): string {
   if (!value) return "Saved recently";
@@ -49,95 +50,94 @@ export default function ApplicationDraftsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-250 mx-auto">
-        <div className="flex items-center justify-between mb-6 gap-4 mobile:flex-col mobile:items-start">
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-4xl mx-auto py-8 px-4 md:px-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
               Application Drafts
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Continue applications you saved for later.
+            <p className="text-gray-500">
+              Pick up where you left off with your job applications.
             </p>
           </div>
-          <Link
-            href="/dashboard/jobs"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors no-underline"
-          >
-            Browse Jobs
-          </Link>
+          <div className="bg-red-50 px-4 py-2 rounded-lg border border-red-100">
+            <span className="text-sm font-medium text-primary">
+              {drafts.length} draft{drafts.length !== 1 && "s"} available
+            </span>
+          </div>
         </div>
 
-        {drafts.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
-            <div className="w-14 h-14 rounded-full bg-gray-100 text-gray-300 flex items-center justify-center mx-auto mb-4">
-              <HiOutlineClipboardDocument className="w-7 h-7" />
-            </div>
-            <h2 className="text-base font-semibold text-gray-900 mb-1">
-              No saved drafts yet
-            </h2>
-            <p className="text-sm text-gray-500 mb-6">
-              Start an application and use Save and Finish Later to keep it as a
-              draft.
-            </p>
-            <Link
-              href="/dashboard/jobs"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors no-underline"
-            >
-              Find Jobs
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-3">
+        {drafts.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4">
             {drafts.map((draft) => (
-              <article
+              <div
                 key={draft.jobId}
-                className="bg-white border border-gray-200 rounded-xl px-5 py-4"
+                className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow group"
               >
-                <div className="flex items-start justify-between gap-4 mobile:flex-col mobile:items-start">
-                  <div className="min-w-0">
-                    <h2 className="text-base font-semibold text-gray-900 truncate">
-                      {draft.jobTitle || "Untitled Job"}
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      {draft.companyName || "Unknown Company"}
-                    </p>
-                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-2">
-                      <HiOutlineClock className="w-4 h-4 md:w-5 md:h-5" />
-                      {formatSavedDate(draft.savedAt)}
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <h3 className="text-lg font-bold text-gray-900 truncate">
+                        {draft.jobTitle}
+                      </h3>
+                      <span className="shrink-0 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500">
+                        Draft
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">
+                        {draft.companyName}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <HiOutlineClock className="w-4 h-4 text-gray-400" />
+                        {formatSavedDate(draft.savedAt)}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 mobile:flex-wrap">
-                    <Link
-                      href={`/jobs/${draft.jobId}/apply`}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-hover transition-colors no-underline"
-                    >
-                      <HiOutlinePencilSquare className="w-4 h-4 md:w-5 md:h-5" />
-                      Continue Draft
-                    </Link>
-                    <Link
-                      href={`/jobs/${draft.jobId}`}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors no-underline"
-                    >
-                      <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
-                      View Posting
-                    </Link>
+                  <div className="flex items-center gap-2 shrink-0">
                     <button
-                      type="button"
                       onClick={() => handleDelete(draft.jobId)}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-red-200 text-sm font-medium text-red-700 hover:bg-red-50 transition-colors"
+                      className="p-2.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                      title="Delete Draft"
                     >
-                      <HiOutlineTrash className="w-4 h-4 md:w-5 md:h-5" />
-                      Delete
+                      <HiOutlineTrash className="w-5 h-5" />
                     </button>
+                    <Link
+                      href={`/jobs/${draft.jobId}?resumeDraft=true`}
+                      className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-red-700 transition-all shadow-sm shadow-primary/20"
+                    >
+                      <HiOutlinePencilSquare className="w-4 h-4" />
+                      Resume Application
+                    </Link>
                   </div>
                 </div>
-              </article>
+              </div>
             ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center shadow-sm">
+            <div className="w-20 h-20 bg-gray-50 text-gray-300 rounded-full flex items-center justify-center mx-auto mb-6">
+              <HiOutlineClipboardDocument className="w-10 h-10" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              No application drafts found
+            </h2>
+            <p className="text-gray-500 max-w-sm mx-auto mb-8">
+              When you start an application but don&apos;t finish it, we&apos;ll
+              save your progress here so you can come back later.
+            </p>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all"
+            >
+              Browse jobs to start applying
+              <HiOutlineArrowTopRightOnSquare className="w-5 h-5" />
+            </Link>
           </div>
         )}
       </div>
-    </div>
+    </RoleGuard>
   );
 }

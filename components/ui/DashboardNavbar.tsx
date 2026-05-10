@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
@@ -139,16 +145,19 @@ const DashboardNavbar = () => {
         if (!menuElement) return;
 
         const focusableElements = menuElement.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled])'
+          "a[href], button:not([disabled])",
         );
         const focusableArray = Array.from(focusableElements);
-        const currentIndex = focusableArray.indexOf(document.activeElement as HTMLElement);
+        const currentIndex = focusableArray.indexOf(
+          document.activeElement as HTMLElement,
+        );
 
         if (e.key === "ArrowDown") {
           const nextIndex = (currentIndex + 1) % focusableArray.length;
           focusableArray[nextIndex]?.focus();
         } else {
-          const prevIndex = currentIndex <= 0 ? focusableArray.length - 1 : currentIndex - 1;
+          const prevIndex =
+            currentIndex <= 0 ? focusableArray.length - 1 : currentIndex - 1;
           focusableArray[prevIndex]?.focus();
         }
       }
@@ -159,7 +168,7 @@ const DashboardNavbar = () => {
         if (!menuElement) return;
 
         const focusableElements = menuElement.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled])'
+          "a[href], button:not([disabled])",
         );
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
@@ -239,6 +248,10 @@ const DashboardNavbar = () => {
   };
 
   const avatarUrl = getAvatarUrl();
+
+  const notificationsHref = isEmployer
+    ? "/dashboard/employer/notifications"
+    : "/dashboard/notifications";
 
   // Don't render role-specific nav until the profile is confirmed to avoid flash
   const navItems = useMemo(
@@ -405,13 +418,13 @@ const DashboardNavbar = () => {
               )}
             </div>
           ))}
-        
+
           {/* Notifications */}
           <Link
-            href="/dashboard/notifications"
+            href={notificationsHref}
             className={clsx(
               "inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors relative",
-              pathname === "/dashboard/notifications"
+              pathname === notificationsHref
                 ? "text-primary bg-red-50"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
             )}
@@ -447,7 +460,10 @@ const DashboardNavbar = () => {
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               className="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0" style={{ aspectRatio: '1' }}>
+              <div
+                className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0"
+                style={{ aspectRatio: "1" }}
+              >
                 {avatarUrl ? (
                   <Image
                     src={avatarUrl}
@@ -496,7 +512,7 @@ const DashboardNavbar = () => {
                       View Public Company Page
                     </Link>
                     <Link
-                      href="/dashboard/settings"
+                      href="/dashboard/employer/settings"
                       className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
                       onClick={() => setIsProfileDropdownOpen(false)}
                     >
@@ -607,7 +623,7 @@ const DashboardNavbar = () => {
       <div
         className={clsx(
           "fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300 ease-in-out",
-          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
         onClick={closeMobileMenu}
         aria-hidden="true"
@@ -618,181 +634,181 @@ const DashboardNavbar = () => {
         ref={mobileMenuRef}
         className={clsx(
           "fixed top-0 right-0 bottom-0 w-80 bg-white border-l border-gray-200 shadow-xl z-50 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out",
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation menu"
       >
         <div className="pt-[73px] pb-[73px] px-0">
-            {navItems.map((item, index) => (
+          {navItems.map((item, index) => (
+            <Link
+              key={item.name}
+              ref={index === 0 ? firstMobileMenuItemRef : undefined}
+              href={item.href}
+              className={clsx(
+                "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors min-h-[44px]",
+                pathname === item.href
+                  ? "text-primary bg-red-50"
+                  : "text-gray-700 hover:bg-gray-50",
+              )}
+              onClick={closeMobileMenu}
+            >
+              {item.icon}
+              {item.name}
+            </Link>
+          ))}
+          <hr className="my-2 border-gray-100" />
+
+          {/* Employer mobile menu items */}
+          {isEmployer ? (
+            <>
               <Link
-                key={item.name}
-                ref={index === 0 ? firstMobileMenuItemRef : undefined}
-                href={item.href}
+                href="/dashboard/employer/post-job"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlinePlusCircle className="w-5 h-5 text-primary" />
+                Post New Job
+              </Link>
+              <Link
+                href="/dashboard/employer/applications"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineUserGroup className="w-5 h-5 text-gray-400" />
+                Applications
+              </Link>
+              <Link
+                href="/dashboard/employer/drafts"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineClipboardDocument className="w-5 h-5 text-gray-400" />
+                Manage Job Drafts
+              </Link>
+              <Link
+                href={notificationsHref}
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <div className="relative">
+                  <HiOutlineBell className="w-5 h-5" />
+                  {hasUnreadNotifications && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+                  )}
+                </div>
+                Notifications
+              </Link>
+              <Link
+                href="/dashboard/employer/messages"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineChatBubbleLeftRight className="w-5 h-5 text-gray-400" />
+                Messages
+              </Link>
+              <Link
+                href="/dashboard/employer/company-profile"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineGlobeAlt className="w-5 h-5 text-gray-400" />
+                Company Profile
+              </Link>
+              <Link
+                href="/dashboard/employer/settings"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineCog6Tooth className="w-5 h-5 text-gray-400" />
+                Settings
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href={notificationsHref}
                 className={clsx(
                   "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors min-h-[44px]",
-                  pathname === item.href
+                  pathname === notificationsHref
                     ? "text-primary bg-red-50"
                     : "text-gray-700 hover:bg-gray-50",
                 )}
                 onClick={closeMobileMenu}
               >
-                {item.icon}
-                {item.name}
-              </Link>
-            ))}
-            <hr className="my-2 border-gray-100" />
-
-            {/* Employer mobile menu items */}
-            {isEmployer ? (
-              <>
-                <Link
-                  href="/dashboard/employer/post-job"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlinePlusCircle className="w-5 h-5 text-primary" />
-                  Post New Job
-                </Link>
-                <Link
-                  href="/dashboard/employer/applications"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineUserGroup className="w-5 h-5 text-gray-400" />
-                  Applications
-                </Link>
-                <Link
-                  href="/dashboard/employer/drafts"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineClipboardDocument className="w-5 h-5 text-gray-400" />
-                  Manage Job Drafts
-                </Link>
-                <Link
-                  href="/dashboard/notifications"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <div className="relative">
-                    <HiOutlineBell className="w-5 h-5" />
-                    {hasUnreadNotifications && (
-                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
-                    )}
-                  </div>
-                  Notifications
-                </Link>
-                <Link
-                  href="/dashboard/employer/messages"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineChatBubbleLeftRight className="w-5 h-5 text-gray-400" />
-                  Messages
-                </Link>
-                <Link
-                  href="/dashboard/employer/company-profile"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineGlobeAlt className="w-5 h-5 text-gray-400" />
-                  Company Profile
-                </Link>
-                <Link
-                  href="/dashboard/settings"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineCog6Tooth className="w-5 h-5 text-gray-400" />
-                  Settings
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/dashboard/notifications"
-                  className={clsx(
-                    "flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors min-h-[44px]",
-                    pathname === "/dashboard/notifications"
-                      ? "text-primary bg-red-50"
-                      : "text-gray-700 hover:bg-gray-50",
+                <div className="relative">
+                  <HiOutlineBell className="w-5 h-5" />
+                  {hasUnreadNotifications && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
                   )}
-                  onClick={closeMobileMenu}
-                >
-                  <div className="relative">
-                    <HiOutlineBell className="w-5 h-5" />
-                    {hasUnreadNotifications && (
-                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
-                    )}
-                  </div>
-                  Notifications
-                </Link>
-                <Link
-                  href="/dashboard/profile"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineUser className="w-5 h-5 text-gray-400" />
-                  View Profile
-                </Link>
-                <Link
-                  href="/dashboard/applied-jobs"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineBriefcase className="w-5 h-5 text-gray-400" />
-                  Applied Jobs
-                </Link>
-                <Link
-                  href="/dashboard/application-drafts"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineClipboardDocument className="w-5 h-5 text-gray-400" />
-                  Application Drafts
-                </Link>
-                <Link
-                  href="/dashboard/saved-jobs"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineBookmark className="w-5 h-5 text-gray-400" />
-                  Saved Jobs
-                </Link>
-                <Link
-                  href="/dashboard/saved-searches"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineMagnifyingGlass className="w-5 h-5 text-gray-400" />
-                  Saved Searches
-                </Link>
-                <Link
-                  href="/dashboard/settings"
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
-                  onClick={closeMobileMenu}
-                >
-                  <HiOutlineCog6Tooth className="w-5 h-5 text-gray-400" />
-                  Account Settings
-                </Link>
-              </>
-            )}
+                </div>
+                Notifications
+              </Link>
+              <Link
+                href="/dashboard/profile"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineUser className="w-5 h-5 text-gray-400" />
+                View Profile
+              </Link>
+              <Link
+                href="/dashboard/applied-jobs"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineBriefcase className="w-5 h-5 text-gray-400" />
+                Applied Jobs
+              </Link>
+              <Link
+                href="/dashboard/application-drafts"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineClipboardDocument className="w-5 h-5 text-gray-400" />
+                Application Drafts
+              </Link>
+              <Link
+                href="/dashboard/saved-jobs"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineBookmark className="w-5 h-5 text-gray-400" />
+                Saved Jobs
+              </Link>
+              <Link
+                href="/dashboard/saved-searches"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineMagnifyingGlass className="w-5 h-5 text-gray-400" />
+                Saved Searches
+              </Link>
+              <Link
+                href="/dashboard/settings"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px]"
+                onClick={closeMobileMenu}
+              >
+                <HiOutlineCog6Tooth className="w-5 h-5 text-gray-400" />
+                Account Settings
+              </Link>
+            </>
+          )}
 
-            <hr className="my-2 border-gray-100" />
-            <button
-              onClick={() => {
-                handleLogout();
-                closeMobileMenu();
-              }}
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 w-full text-left min-h-[44px]"
-            >
-              <HiOutlineArrowRightOnRectangle className="w-5 h-5 text-gray-400" />
-              Logout
-            </button>
-          </div>
+          <hr className="my-2 border-gray-100" />
+          <button
+            onClick={() => {
+              handleLogout();
+              closeMobileMenu();
+            }}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 w-full text-left min-h-[44px]"
+          >
+            <HiOutlineArrowRightOnRectangle className="w-5 h-5 text-gray-400" />
+            Logout
+          </button>
         </div>
+      </div>
     </nav>
   );
 };

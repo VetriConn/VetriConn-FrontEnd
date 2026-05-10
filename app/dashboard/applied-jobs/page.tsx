@@ -25,6 +25,7 @@ import {
 import { EditDialog } from "@/components/ui/EditDialog";
 import { useToaster } from "@/components/ui/Toaster";
 import { Avatar } from "@/components/ui/Avatar";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 // --- Status Badge ---
 
@@ -213,28 +214,28 @@ function ApplicationCard({
               {application.position}
             </h3>
 
-          <div className="flex flex-wrap items-center gap-3 mb-3">
-            <StatusBadge status={application.status} />
-            <SourceBadge source={application.source} />
-          </div>
+            <div className="flex flex-wrap items-center gap-3 mb-3">
+              <StatusBadge status={application.status} />
+              <SourceBadge source={application.source} />
+            </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-2">
-            <span className="inline-flex items-center gap-2">
-              <HiOutlineBuildingOffice2 className="w-4 h-4 md:w-5 md:h-5" />
-              {application.company}
-            </span>
-            {application.location && (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-2">
               <span className="inline-flex items-center gap-2">
-                <HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5" />
-                {application.location}
+                <HiOutlineBuildingOffice2 className="w-4 h-4 md:w-5 md:h-5" />
+                {application.company}
               </span>
-            )}
-          </div>
+              {application.location && (
+                <span className="inline-flex items-center gap-2">
+                  <HiOutlineMapPin className="w-4 h-4 md:w-5 md:h-5" />
+                  {application.location}
+                </span>
+              )}
+            </div>
 
-          <div className="flex items-center gap-2 text-xs text-gray-400">
-            <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5" />
-            Applied {appliedDate}
-          </div>
+            <div className="flex items-center gap-2 text-xs text-gray-400">
+              <HiOutlineCalendarDays className="w-4 h-4 md:w-5 md:h-5" />
+              Applied {appliedDate}
+            </div>
 
             {application.notes && (
               <div className="mt-3 p-3 bg-gray-50 rounded-lg">
@@ -254,9 +255,7 @@ function ApplicationCard({
         <div className="flex flex-col gap-2 shrink-0 items-end mobile:items-start mobile:flex-row mobile:flex-wrap mobile:w-full">
           <StatusDropdown
             currentStatus={application.status}
-            onStatusChange={(status) =>
-              onStatusChange(application.id, status)
-            }
+            onStatusChange={(status) => onStatusChange(application.id, status)}
           />
 
           <button
@@ -462,23 +461,24 @@ export default function AppliedJobsPage() {
     return (
       <div className="max-w-3xl mx-auto">
         <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/3" />
-            <div className="h-4 bg-gray-200 rounded w-1/2" />
-            <div className="flex gap-4">
-              <div className="h-24 bg-gray-200 rounded-xl flex-1" />
-              <div className="h-24 bg-gray-200 rounded-xl flex-1" />
-              <div className="h-24 bg-gray-200 rounded-xl flex-1" />
-            </div>
-            <div className="h-40 bg-gray-200 rounded-xl" />
+          <div className="h-8 bg-gray-200 rounded w-1/3" />
+          <div className="h-4 bg-gray-200 rounded w-1/2" />
+          <div className="flex gap-4">
+            <div className="h-24 bg-gray-200 rounded-xl flex-1" />
+            <div className="h-24 bg-gray-200 rounded-xl flex-1" />
+            <div className="h-24 bg-gray-200 rounded-xl flex-1" />
           </div>
+          <div className="h-40 bg-gray-200 rounded-xl" />
         </div>
+      </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Page Header */}
-      <div className="flex items-start justify-between mb-2 mobile:flex-col mobile:gap-3">
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-3xl mx-auto">
+        {/* Page Header */}
+        <div className="flex items-start justify-between mb-2 mobile:flex-col mobile:gap-3">
           <div>
             <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
               Application Tracker
@@ -694,129 +694,130 @@ export default function AppliedJobsPage() {
 
         {/* Add External Application Dialog */}
         <EditDialog
-        isOpen={showAddDialog}
-        title="Log External Application"
-        onClose={() => setShowAddDialog(false)}
-        onSubmit={handleAddSubmit}
-        submitLabel="Log Application"
-      >
-        <div className="space-y-4">
-          <p className="text-sm text-gray-500 -mt-2 mb-2">
-            Track a job you applied to outside of Vetriconn.
-          </p>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Company *
-            </label>
-            <input
-              type="text"
-              value={addForm.company}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, company: e.target.value }))
-              }
-              className="form-input"
-              placeholder="e.g. Amazon, Google"
-              required
-            />
+          isOpen={showAddDialog}
+          title="Log External Application"
+          onClose={() => setShowAddDialog(false)}
+          onSubmit={handleAddSubmit}
+          submitLabel="Log Application"
+        >
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500 -mt-2 mb-2">
+              Track a job you applied to outside of Vetriconn.
+            </p>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Company *
+              </label>
+              <input
+                type="text"
+                value={addForm.company}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, company: e.target.value }))
+                }
+                className="form-input"
+                placeholder="e.g. Amazon, Google"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Position *
+              </label>
+              <input
+                type="text"
+                value={addForm.position}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, position: e.target.value }))
+                }
+                className="form-input"
+                placeholder="e.g. Operations Manager"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Location
+              </label>
+              <input
+                type="text"
+                value={addForm.location}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, location: e.target.value }))
+                }
+                className="form-input"
+                placeholder="e.g. Remote, Austin TX"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Application Date
+              </label>
+              <input
+                type="date"
+                value={addForm.applied_date}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, applied_date: e.target.value }))
+                }
+                className="form-input"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Job Posting URL
+              </label>
+              <input
+                type="url"
+                value={addForm.url}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, url: e.target.value }))
+                }
+                className="form-input"
+                placeholder="https://..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Notes
+              </label>
+              <textarea
+                value={addForm.notes}
+                onChange={(e) =>
+                  setAddForm((p) => ({ ...p, notes: e.target.value }))
+                }
+                rows={3}
+                className="form-input resize-none"
+                placeholder="Interview prep, contact person, etc."
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Position *
-            </label>
-            <input
-              type="text"
-              value={addForm.position}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, position: e.target.value }))
-              }
-              className="form-input"
-              placeholder="e.g. Operations Manager"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Location
-            </label>
-            <input
-              type="text"
-              value={addForm.location}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, location: e.target.value }))
-              }
-              className="form-input"
-              placeholder="e.g. Remote, Austin TX"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Application Date
-            </label>
-            <input
-              type="date"
-              value={addForm.applied_date}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, applied_date: e.target.value }))
-              }
-              className="form-input"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Job Posting URL
-            </label>
-            <input
-              type="url"
-              value={addForm.url}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, url: e.target.value }))
-              }
-              className="form-input"
-              placeholder="https://..."
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Notes
-            </label>
-            <textarea
-              value={addForm.notes}
-              onChange={(e) =>
-                setAddForm((p) => ({ ...p, notes: e.target.value }))
-              }
-              rows={3}
-              className="form-input resize-none"
-              placeholder="Interview prep, contact person, etc."
-            />
-          </div>
-        </div>
-      </EditDialog>
+        </EditDialog>
 
-      {/* Edit Notes Dialog */}
-      <EditDialog
-        isOpen={showNotesDialog}
-        title={`Notes \u2014 ${editingApp?.position || ""}`}
-        onClose={() => {
-          setShowNotesDialog(false);
-          setEditingApp(null);
-        }}
-        onSubmit={handleSaveNotes}
-        submitLabel="Save Notes"
-      >
-        <div>
-          <textarea
-            value={notesValue}
-            onChange={(e) => setNotesValue(e.target.value)}
-            rows={6}
-            className="form-input resize-none"
-            placeholder="Add notes about this application \u2014 interview prep, key contacts, follow-up dates..."
-            autoFocus
-          />
-          <p className="text-xs text-gray-400 mt-2">
-            Notes are saved locally and only visible to you.
-          </p>
-        </div>
-      </EditDialog>
-    </div>
+        {/* Edit Notes Dialog */}
+        <EditDialog
+          isOpen={showNotesDialog}
+          title={`Notes \u2014 ${editingApp?.position || ""}`}
+          onClose={() => {
+            setShowNotesDialog(false);
+            setEditingApp(null);
+          }}
+          onSubmit={handleSaveNotes}
+          submitLabel="Save Notes"
+        >
+          <div>
+            <textarea
+              value={notesValue}
+              onChange={(e) => setNotesValue(e.target.value)}
+              rows={6}
+              className="form-input resize-none"
+              placeholder="Add notes about this application \u2014 interview prep, key contacts, follow-up dates..."
+              autoFocus
+            />
+            <p className="text-xs text-gray-400 mt-2">
+              Notes are saved locally and only visible to you.
+            </p>
+          </div>
+        </EditDialog>
+      </div>
+    </RoleGuard>
   );
 }

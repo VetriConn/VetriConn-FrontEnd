@@ -7,6 +7,7 @@ import {
   updateEmployerApplicationStatus,
 } from "@/lib/api";
 import { useToaster } from "@/components/ui/Toaster";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 import {
   HiOutlineUserGroup,
   HiOutlineBriefcase,
@@ -108,128 +109,134 @@ export default function ApplicationsPage() {
   };
 
   return (
-    <div className="max-w-300 mx-auto">
-      <div className="mb-8">
+    <RoleGuard allowedRoles={["employer"]}>
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
-            Applications &amp; Applicants
+            Applications & Applicants
           </h1>
           <p className="text-gray-500">
-            Review and manage applications from job seekers.
+            Review and manage candidates who have applied to your job postings.
           </p>
         </div>
 
         {isLoading ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center text-sm text-gray-500">
-            Loading applications...
-          </div>
-        ) : applications.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-            <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-6">
-              <HiOutlineUserGroup className="w-8 h-8" />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              No Applications Yet
-            </h2>
-            <p className="text-gray-500 max-w-md mx-auto">
-              Once you post a job, applications from candidates will appear
-              here. You&apos;ll be able to review profiles and manage your
-              hiring pipeline.
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mb-4"></div>
+            <p className="text-sm text-gray-500 font-medium">
+              Loading applications...
             </p>
           </div>
-        ) : (
-          <div className="space-y-3">
-            {applications.map((application) => (
-              <div
-                key={application._id}
-                className="bg-white rounded-xl border border-gray-200 px-5 py-4"
-              >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-900">
-                      {application.full_name}
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {application.email} • {application.phone}
-                    </p>
-                  </div>
-                  <ApplicationStatusBadge status={application.status} />
-                </div>
-
-                <div className="mt-3 text-xs text-gray-500 flex flex-wrap items-center gap-3">
-                  <span className="inline-flex items-center gap-1">
-                    <HiOutlineBriefcase className="w-3.5 h-3.5" />
-                    {getJobLabel(application.job_id)}
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <HiOutlineCalendar className="w-3.5 h-3.5" />
-                    Applied{" "}
-                    {formatDate(
-                      application.applied_at || application.createdAt,
-                    )}
-                  </span>
-                </div>
-
-                {application.selected_skills &&
-                  application.selected_skills.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {application.selected_skills.slice(0, 6).map((skill) => (
-                        <span
-                          key={skill}
-                          className="px-2.5 py-1 rounded-md bg-gray-100 text-gray-700 text-xs"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <button
-                    type="button"
-                    disabled={busyApplicationId === application._id}
-                    onClick={() =>
-                      handleStatusChange(application._id, "reviewed")
-                    }
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-blue-200 text-xs font-medium text-blue-700 hover:bg-blue-50 disabled:opacity-50"
-                  >
-                    Mark Reviewed
-                  </button>
-                  <button
-                    type="button"
-                    disabled={busyApplicationId === application._id}
-                    onClick={() =>
-                      handleStatusChange(application._id, "accepted")
-                    }
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-200 text-xs font-medium text-green-700 hover:bg-green-50 disabled:opacity-50"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    type="button"
-                    disabled={busyApplicationId === application._id}
-                    onClick={() =>
-                      handleStatusChange(application._id, "rejected")
-                    }
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-200 text-xs font-medium text-red-700 hover:bg-red-50 disabled:opacity-50"
-                  >
-                    Reject
-                  </button>
-                  {application.resume_url && (
-                    <a
-                      href={application.resume_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50"
+        ) : applications.length > 0 ? (
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Applicant
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Applied For
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {applications.map((app: any) => (
+                    <tr
+                      key={app._id}
+                      className="hover:bg-gray-50/50 transition-colors"
                     >
-                      <HiOutlineDocumentArrowDown className="w-4 h-4" />
-                      Resume
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-primary font-bold text-sm">
+                            {app.user_id?.full_name?.charAt(0) || "U"}
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900">
+                              {app.user_id?.full_name || "Unknown User"}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {app.user_id?.email || "No email provided"}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <HiOutlineBriefcase className="w-4 h-4 text-gray-400" />
+                          <p className="text-sm text-gray-700 truncate max-w-[200px]">
+                            {getJobLabel(app.job_id)}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        <div className="flex items-center gap-2">
+                          <HiOutlineCalendar className="w-4 h-4 text-gray-400" />
+                          {formatDate(app.createdAt)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <ApplicationStatusBadge status={app.status} />
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          {app.resume_url && (
+                            <a
+                              href={app.resume_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-1.5 rounded-lg text-gray-500 hover:text-primary hover:bg-red-50 transition-colors"
+                              title="Download Resume"
+                            >
+                              <HiOutlineDocumentArrowDown className="w-5 h-5" />
+                            </a>
+                          )}
+                          <select
+                            value={app.status}
+                            disabled={busyApplicationId === app._id}
+                            onChange={(e) =>
+                              handleStatusChange(app._id, e.target.value as any)
+                            }
+                            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="rejected">Rejected</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center shadow-sm">
+            <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
+              <HiOutlineUserGroup className="w-8 h-8 text-gray-300" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No applications yet
+            </h3>
+            <p className="text-sm text-gray-500 max-w-sm mx-auto">
+              When candidates apply to your job postings, they will appear here
+              for you to review.
+            </p>
           </div>
         )}
       </div>
+    </RoleGuard>
   );
 }

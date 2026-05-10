@@ -9,6 +9,7 @@ import {
   updateEmployerJob,
 } from "@/lib/api";
 import { useToaster } from "@/components/ui/Toaster";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 import {
   HiOutlineBriefcase,
   HiOutlineCalendar,
@@ -36,7 +37,7 @@ export default function ManageJobsPage() {
   const [busyJobId, setBusyJobId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  
+
   const {
     data: jobs = [],
     isLoading,
@@ -107,165 +108,206 @@ export default function ManageJobsPage() {
   };
 
   return (
-    <div className="max-w-200 mx-auto px-4 md:px-6 py-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-          <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-            Manage Job Postings
-          </h1>
+    <RoleGuard allowedRoles={["employer"]}>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+              Manage Job Postings
+            </h1>
+            <p className="text-gray-500">
+              You have {totalJobs} total job posting
+              {totalJobs !== 1 && "s"}.
+            </p>
+          </div>
           <Link
             href="/dashboard/employer/post-job"
-            className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-red-700 transition-all shadow-sm group min-h-[44px]"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-hover transition-colors shadow-sm shadow-primary/20"
           >
-            <HiOutlinePlusCircle className="w-5 h-5 transition-transform group-hover:-rotate-45" />
+            <HiOutlinePlusCircle className="w-5 h-5" />
             Post New Job
           </Link>
         </div>
 
-        <div className="mb-6 bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-600">
-          {jobs.length} job posting{jobs.length === 1 ? "" : "s"} created
-        </div>
-
-        {/* Job Cards */}
         {isLoading ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center text-sm text-gray-500">
-            Loading postings...
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mb-4"></div>
+            <p className="text-sm text-gray-500 font-medium">Loading jobs...</p>
           </div>
-        ) : jobs.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-            <div className="w-14 h-14 bg-gray-100 text-gray-300 rounded-full flex items-center justify-center mx-auto mb-4">
-              <HiOutlineBriefcase className="w-7 h-7" />
-            </div>
-            <p className="text-sm text-gray-500">No postings yet.</p>
-          </div>
-        ) : (
+        ) : totalJobs > 0 ? (
           <>
-            <div className="space-y-3">
-              {paginatedJobs.map((job) => (
-                <div
-                  key={job._id}
-                  className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:px-5 md:py-4 hover:shadow-sm transition-shadow"
-                >
-                  {/* Mobile & Desktop Layout */}
-                  <div className="flex flex-col gap-3">
-                    {/* Job Info - Clickable */}
-                    <Link
-                      href={
-                        job.status === "published"
-                          ? `/jobs/${job._id}`
-                          : `/dashboard/employer/post-job?draft=${job._id}`
-                      }
-                      className="min-w-0 group"
-                    >
-                      <h3 className="text-base md:text-sm font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors">
-                        {job.role}
-                        {job.status === "draft" && (
-                          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
-                            Draft
-                          </span>
-                        )}
-                      </h3>
-                      <div className="text-xs text-gray-400 flex flex-wrap items-center gap-3">
-                        <span className="inline-flex items-center gap-1">
-                          <HiOutlineMapPin className="w-3.5 h-3.5" />
-                          {job.location || "Remote"}
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <HiOutlineCalendar className="w-3.5 h-3.5" />
-                          Posted {formatDate(job.createdAt)}
-                        </span>
-                      </div>
-                    </Link>
-
-                    {/* Stats & Actions */}
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                      {/* Application Count */}
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 text-gray-600 text-xs font-medium self-start">
-                        <HiOutlineUsers className="w-4 h-4" />
-                        {job.application_count || 0} application
-                        {(job.application_count || 0) === 1 ? "" : "s"}
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {job.status === "published" && (
-                          <Link
-                            href={`/jobs/${job._id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 min-h-[32px]"
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Job Details
+                      </th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Applicants
+                      </th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Date Posted
+                      </th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {paginatedJobs.map((job) => (
+                      <tr
+                        key={job._id}
+                        className="hover:bg-gray-50/50 transition-colors"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 shrink-0">
+                              <HiOutlineBriefcase className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-sm font-semibold text-gray-900 truncate">
+                                {job.role}
+                              </p>
+                              <div className="flex items-center gap-2 mt-0.5 text-xs text-gray-500">
+                                <span className="flex items-center gap-1">
+                                  <HiOutlineMapPin className="w-3 h-3" />
+                                  {job.location}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span
+                            className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              job.status === "published"
+                                ? "bg-green-50 text-green-700"
+                                : job.status === "draft"
+                                  ? "bg-gray-100 text-gray-600"
+                                  : "bg-yellow-50 text-yellow-700"
+                            }`}
                           >
-                            <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
-                            <span className="hidden sm:inline">View as Candidate</span>
-                            <span className="sm:hidden">View</span>
-                          </Link>
-                        )}
-                        <button
-                          type="button"
-                          disabled={busyJobId === job._id}
-                          onClick={() =>
-                            handleToggleStatus(
-                              job._id,
-                              job.status === "published" ? "draft" : "published",
-                            )
-                          }
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 min-h-[32px]"
-                        >
-                          {job.status === "published" ? (
-                            <HiOutlineEyeSlash className="w-4 h-4" />
-                          ) : (
-                            <HiOutlineEye className="w-4 h-4" />
-                          )}
-                          {job.status === "published" ? "Unpublish" : "Publish"}
-                        </button>
-                        <button
-                          type="button"
-                          disabled={busyJobId === job._id}
-                          onClick={() => handleDelete(job._id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-200 text-xs font-medium text-red-700 hover:bg-red-50 disabled:opacity-50 min-h-[32px]"
-                        >
-                          <HiOutlineTrash className="w-4 h-4" />
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                            {(job.status || "draft").charAt(0).toUpperCase() +
+                              (job.status || "draft").slice(1)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2 text-sm text-gray-700">
+                            <HiOutlineUsers className="w-4 h-4 text-gray-400" />
+                            {job.application_count || 0}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          <div className="flex items-center gap-2">
+                            <HiOutlineCalendar className="w-4 h-4 text-gray-400" />
+                            {formatDate(job.createdAt)}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <Link
+                              href={`/jobs/${job._id}`}
+                              className="p-1.5 rounded-lg text-gray-400 hover:text-primary hover:bg-red-50 transition-colors"
+                              title="View Public Posting"
+                            >
+                              <HiOutlineArrowTopRightOnSquare className="w-5 h-5" />
+                            </Link>
+                            {job.status === "published" ? (
+                              <button
+                                onClick={() =>
+                                  handleToggleStatus(job._id, "draft")
+                                }
+                                disabled={busyJobId === job._id}
+                                className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+                                title="Move to Drafts"
+                              >
+                                <HiOutlineEyeSlash className="w-5 h-5" />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() =>
+                                  handleToggleStatus(job._id, "published")
+                                }
+                                disabled={busyJobId === job._id}
+                                className="p-1.5 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-colors"
+                                title="Publish Job"
+                              >
+                                <HiOutlineEye className="w-5 h-5" />
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleDelete(job._id)}
+                              disabled={busyJobId === job._id}
+                              className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                              title="Delete Job"
+                            >
+                              <HiOutlineTrash className="w-5 h-5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="mt-6 flex items-center justify-between">
-                <p className="text-sm text-gray-500">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-                  {Math.min(currentPage * itemsPerPage, jobs.length)} of {jobs.length} jobs
+                <p className="text-sm text-gray-500 font-medium">
+                  Showing page {currentPage} of {totalPages}
                 </p>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
                     disabled={currentPage === 1}
-                    className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-h-[36px]"
+                    className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    <HiOutlineChevronLeft className="w-4 h-4" />
-                    <span className="hidden sm:inline">Previous</span>
+                    <HiOutlineChevronLeft className="w-5 h-5" />
                   </button>
-                  <span className="text-sm text-gray-600">
-                    Page {currentPage} of {totalPages}
-                  </span>
                   <button
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
                     disabled={currentPage === totalPages}
-                    className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed min-h-[36px]"
+                    className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    <span className="hidden sm:inline">Next</span>
-                    <HiOutlineChevronRight className="w-4 h-4" />
+                    <HiOutlineChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               </div>
             )}
           </>
+        ) : (
+          <div className="bg-white rounded-xl border border-gray-200 p-16 text-center shadow-sm">
+            <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-6">
+              <HiOutlineBriefcase className="w-8 h-8 text-gray-300" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No jobs posted yet
+            </h3>
+            <p className="text-sm text-gray-500 max-w-sm mx-auto mb-8">
+              Post your first job opening to start receiving applications from
+              qualified candidates.
+            </p>
+            <Link
+              href="/dashboard/employer/post-job"
+              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-hover transition-colors"
+            >
+              <HiOutlinePlusCircle className="w-5 h-5" />
+              Post Your First Job
+            </Link>
+          </div>
         )}
       </div>
+    </RoleGuard>
   );
 }

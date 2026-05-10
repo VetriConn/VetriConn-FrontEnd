@@ -23,6 +23,7 @@ import { ErrorState } from "@/components/ui/ErrorState";
 import { ProfilePreviewDialog } from "@/components/ui/ProfilePreviewDialog";
 import { uploadProfilePicture, deleteProfilePicture } from "@/lib/api";
 import { useToaster } from "@/components/ui/Toaster";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 import { WorkExperience, Education, UserDocument } from "@/types/api";
 import { HiOutlineBriefcase, HiOutlinePencilSquare } from "react-icons/hi2";
 
@@ -528,144 +529,144 @@ export default function ProfilePage() {
     return (
       <div className="max-w-screen-xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-            {/* Main content */}
-            <div className="space-y-4 md:space-y-6 lg:col-span-2">
-              {/* Profile Header */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-6 tablet:flex-col">
-                  <div className="w-[120px] h-[120px] rounded-full bg-gray-200 shrink-0" />
-                  <div className="flex-1 space-y-3">
-                    <div className="h-7 w-48 bg-gray-200 rounded-md" />
-                    <div className="h-5 w-36 bg-gray-200 rounded" />
-                    <div className="h-4 w-44 bg-gray-200 rounded" />
-                    <div className="flex gap-2 mt-1">
-                      <div className="w-6 h-6 bg-gray-200 rounded" />
-                      <div className="w-6 h-6 bg-gray-200 rounded" />
-                      <div className="w-6 h-6 bg-gray-200 rounded" />
-                    </div>
+          {/* Main content */}
+          <div className="space-y-4 md:space-y-6 lg:col-span-2">
+            {/* Profile Header */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-6 tablet:flex-col">
+                <div className="w-[120px] h-[120px] rounded-full bg-gray-200 shrink-0" />
+                <div className="flex-1 space-y-3">
+                  <div className="h-7 w-48 bg-gray-200 rounded-md" />
+                  <div className="h-5 w-36 bg-gray-200 rounded" />
+                  <div className="h-4 w-44 bg-gray-200 rounded" />
+                  <div className="flex gap-2 mt-1">
+                    <div className="w-6 h-6 bg-gray-200 rounded" />
+                    <div className="w-6 h-6 bg-gray-200 rounded" />
+                    <div className="w-6 h-6 bg-gray-200 rounded" />
                   </div>
-                  <div className="h-9 w-32 bg-gray-200 rounded-lg shrink-0 tablet:w-full" />
                 </div>
-              </div>
-
-              {/* Professional Info */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-48 bg-gray-200 rounded" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i}>
-                      <div className="h-3 w-20 bg-gray-200 rounded mb-2" />
-                      <div className="h-4 w-28 bg-gray-200 rounded" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Contact Info */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-40 bg-gray-200 rounded" />
-                </div>
-                <div className="space-y-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-4 h-4 bg-gray-200 rounded" />
-                      <div className="h-4 w-40 bg-gray-200 rounded" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Skills */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-20 bg-gray-200 rounded" />
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {[80, 60, 100, 70, 50, 90].map((w, i) => (
-                    <div
-                      key={i}
-                      className="h-7 bg-gray-200 rounded-full"
-                      style={{ width: `${w}px` }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Work Experience */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-40 bg-gray-200 rounded" />
-                </div>
-                <div className="space-y-4">
-                  {[1, 2].map((i) => (
-                    <div key={i} className="border-l-2 border-gray-200 pl-4">
-                      <div className="h-4 w-36 bg-gray-200 rounded mb-2" />
-                      <div className="h-3 w-28 bg-gray-200 rounded mb-1" />
-                      <div className="h-3 w-24 bg-gray-200 rounded" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Education */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-28 bg-gray-200 rounded" />
-                </div>
-                <div className="border-l-2 border-gray-200 pl-4">
-                  <div className="h-4 w-40 bg-gray-200 rounded mb-2" />
-                  <div className="h-3 w-32 bg-gray-200 rounded mb-1" />
-                  <div className="h-3 w-20 bg-gray-200 rounded" />
-                </div>
-              </div>
-
-              {/* Documents */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-5 h-5 bg-gray-200 rounded" />
-                  <div className="h-5 w-28 bg-gray-200 rounded" />
-                </div>
-                <div className="h-4 w-52 bg-gray-200 rounded" />
+                <div className="h-9 w-32 bg-gray-200 rounded-lg shrink-0 tablet:w-full" />
               </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-4 md:space-y-6 lg:col-span-1 hidden lg:block">
-              {/* Profile Completion */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="h-5 w-40 bg-gray-200 rounded mb-4" />
-                <div className="h-2 w-full bg-gray-200 rounded-full mb-3" />
-                <div className="h-4 w-16 bg-gray-200 rounded mb-4" />
-                <div className="space-y-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-gray-200 rounded-full" />
-                      <div className="h-3 w-28 bg-gray-200 rounded" />
-                    </div>
-                  ))}
-                </div>
+            {/* Professional Info */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-48 bg-gray-200 rounded" />
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-20 bg-gray-200 rounded mb-2" />
+                    <div className="h-4 w-28 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
 
-              {/* Quick Actions */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
-                <div className="h-5 w-32 bg-gray-200 rounded mb-4" />
-                <div className="space-y-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-10 bg-gray-200 rounded-lg" />
-                  ))}
-                </div>
+            {/* Contact Info */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-40 bg-gray-200 rounded" />
+              </div>
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-gray-200 rounded" />
+                    <div className="h-4 w-40 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Skills */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-20 bg-gray-200 rounded" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {[80, 60, 100, 70, 50, 90].map((w, i) => (
+                  <div
+                    key={i}
+                    className="h-7 bg-gray-200 rounded-full"
+                    style={{ width: `${w}px` }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Work Experience */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-40 bg-gray-200 rounded" />
+              </div>
+              <div className="space-y-4">
+                {[1, 2].map((i) => (
+                  <div key={i} className="border-l-2 border-gray-200 pl-4">
+                    <div className="h-4 w-36 bg-gray-200 rounded mb-2" />
+                    <div className="h-3 w-28 bg-gray-200 rounded mb-1" />
+                    <div className="h-3 w-24 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Education */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-28 bg-gray-200 rounded" />
+              </div>
+              <div className="border-l-2 border-gray-200 pl-4">
+                <div className="h-4 w-40 bg-gray-200 rounded mb-2" />
+                <div className="h-3 w-32 bg-gray-200 rounded mb-1" />
+                <div className="h-3 w-20 bg-gray-200 rounded" />
+              </div>
+            </div>
+
+            {/* Documents */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-gray-200 rounded" />
+                <div className="h-5 w-28 bg-gray-200 rounded" />
+              </div>
+              <div className="h-4 w-52 bg-gray-200 rounded" />
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-4 md:space-y-6 lg:col-span-1 hidden lg:block">
+            {/* Profile Completion */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="h-5 w-40 bg-gray-200 rounded mb-4" />
+              <div className="h-2 w-full bg-gray-200 rounded-full mb-3" />
+              <div className="h-4 w-16 bg-gray-200 rounded mb-4" />
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-gray-200 rounded-full" />
+                    <div className="h-3 w-28 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+              <div className="h-5 w-32 bg-gray-200 rounded mb-4" />
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-10 bg-gray-200 rounded-lg" />
+                ))}
               </div>
             </div>
           </div>
         </div>
+      </div>
     );
   }
 
@@ -674,11 +675,11 @@ export default function ProfilePage() {
     return (
       <div className="max-w-screen-xl mx-auto">
         <ErrorState
-            title="Unable to load profile"
-            message="There was an error loading your profile. Please try again."
-            onRetry={() => mutateProfile()}
-          />
-        </div>
+          title="Unable to load profile"
+          message="There was an error loading your profile. Please try again."
+          onRetry={() => mutateProfile()}
+        />
+      </div>
     );
   }
 
@@ -692,8 +693,9 @@ export default function ProfilePage() {
       : "";
 
   return (
-    <div className="max-w-screen-xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 items-start">
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-screen-xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 items-start">
           {/* Main content */}
           <div className="space-y-4 md:space-y-6 lg:col-span-2">
             {/* Profile Header */}
@@ -827,345 +829,351 @@ export default function ProfilePage() {
           </div>
         </div>
 
-      {/* ─── Edit Public Profile Dialog ─── */}
-      <EditDialog
-        isOpen={editSection === "public-profile"}
-        title="Edit Public Profile"
-        onClose={handleCloseDialog}
-        onSubmit={handlePublicProfileSubmit}
-        isSubmitting={isPatching}
-      >
-        <div className="space-y-4 md:space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={publicProfileForm.full_name}
-              onChange={(e) =>
-                setPublicProfileForm((p) => ({
-                  ...p,
-                  full_name: e.target.value,
-                }))
-              }
-              className="form-input"
-              placeholder="Your full name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-              Professional Bio
-            </label>
-            <textarea
-              value={publicProfileForm.bio}
-              onChange={(e) =>
-                setPublicProfileForm((p) => ({ ...p, bio: e.target.value }))
-              }
-              rows={5}
-              className="form-input resize-none"
-              placeholder="Tell employers about your background, skills, and what you're looking for..."
-            />
-            <p className="text-xs text-gray-400 mt-1.5">
-              {publicProfileForm.bio.length}/500 characters
-            </p>
-          </div>
-        </div>
-      </EditDialog>
-
-      {/* ─── Edit Professional Info Dialog ─── */}
-      <EditDialog
-        isOpen={editSection === "professional-info"}
-        title="Edit Professional Info"
-        onClose={handleCloseDialog}
-        onSubmit={handleProfessionalInfoSubmit}
-        isSubmitting={isPatching}
-      >
-        <div className="space-y-4 md:space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-              Job Title
-            </label>
-            <input
-              type="text"
-              value={professionalInfoForm.job_title}
-              onChange={(e) =>
-                setProfessionalInfoForm((p) => ({
-                  ...p,
-                  job_title: e.target.value,
-                }))
-              }
-              className="form-input"
-              placeholder="e.g. Operations Manager, Logistics Supervisor"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-              Industry
-            </label>
-            <select
-              value={professionalInfoForm.industry}
-              onChange={(e) =>
-                setProfessionalInfoForm((p) => ({
-                  ...p,
-                  industry: e.target.value,
-                }))
-              }
-              className="form-input"
-            >
-              <option value="">Select industry</option>
-              <option value="Government & Public Administration">
-                Government &amp; Public Administration
-              </option>
-              <option value="Defence & Military">Defence &amp; Military</option>
-              <option value="Healthcare & Medical">
-                Healthcare &amp; Medical
-              </option>
-              <option value="Information Technology">
-                Information Technology
-              </option>
-              <option value="Engineering">Engineering</option>
-              <option value="Logistics & Supply Chain">
-                Logistics &amp; Supply Chain
-              </option>
-              <option value="Education & Training">
-                Education &amp; Training
-              </option>
-              <option value="Construction & Trades">
-                Construction &amp; Trades
-              </option>
-              <option value="Finance & Accounting">
-                Finance &amp; Accounting
-              </option>
-              <option value="Law Enforcement & Security">
-                Law Enforcement &amp; Security
-              </option>
-              <option value="Transportation">Transportation</option>
-              <option value="Telecommunications">Telecommunications</option>
-              <option value="Manufacturing">Manufacturing</option>
-              <option value="Non-profit & Community">
-                Non-profit &amp; Community
-              </option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
-              Years of Experience
-            </label>
-            <select
-              value={professionalInfoForm.years_of_experience}
-              onChange={(e) =>
-                setProfessionalInfoForm((p) => ({
-                  ...p,
-                  years_of_experience: e.target.value,
-                }))
-              }
-              className="form-input"
-            >
-              <option value="">Select experience</option>
-              <option value="0-2 years">0–2 years</option>
-              <option value="3-5 years">3–5 years</option>
-              <option value="6-10 years">6–10 years</option>
-              <option value="11-15 years">11–15 years</option>
-              <option value="16-20 years">16–20 years</option>
-              <option value="20+ years">20+ years</option>
-            </select>
-          </div>
-        </div>
-      </EditDialog>
-
-      {/* Contact Info Edit Dialog */}
-      <EditDialog
-        isOpen={editSection === "contact"}
-        title="Edit Contact Information"
-        onClose={handleCloseDialog}
-        onSubmit={handleContactSubmit}
-        isSubmitting={isPatching}
-      >
-        <ContactInfoEditForm
-          initialData={contactFormData}
-          onDataChange={setContactFormData}
-        />
-      </EditDialog>
-
-      {/* Add Work Experience Dialog */}
-      <EditDialog
-        isOpen={editSection === "add-experience"}
-        title="Add Work Experience"
-        onClose={handleCloseDialog}
-        onSubmit={handleExperienceSubmit}
-        isSubmitting={isPatching}
-        submitLabel="Add Experience"
-      >
-        <AddExperienceForm onDataChange={setExperienceFormData} />
-      </EditDialog>
-
-      {/* Edit Work Experience Dialog */}
-      <EditDialog
-        isOpen={editSection === "edit-experience"}
-        title="Edit Work Experience"
-        onClose={handleCloseDialog}
-        onSubmit={handleExperienceSubmit}
-        isSubmitting={isPatching}
-      >
-        <AddExperienceForm
-          initialData={experienceFormData}
-          onDataChange={setExperienceFormData}
-        />
-      </EditDialog>
-
-      {/* Add Education Dialog */}
-      <EditDialog
-        isOpen={editSection === "add-education"}
-        title="Add Education"
-        onClose={handleCloseDialog}
-        onSubmit={handleEducationSubmit}
-        isSubmitting={isPatching}
-        submitLabel="Add Education"
-      >
-        <AddEducationForm onDataChange={setEducationFormData} />
-      </EditDialog>
-
-      {/* Edit Education Dialog */}
-      <EditDialog
-        isOpen={editSection === "edit-education"}
-        title="Edit Education"
-        onClose={handleCloseDialog}
-        onSubmit={handleEducationSubmit}
-        isSubmitting={isPatching}
-      >
-        <AddEducationForm
-          initialData={educationFormData}
-          onDataChange={setEducationFormData}
-        />
-      </EditDialog>
-
-      {/* Upload Document Dialog */}
-      <EditDialog
-        isOpen={editSection === "upload-document"}
-        title="Upload Document"
-        onClose={handleCloseDialog}
-        onSubmit={handleDocumentSubmit}
-        isSubmitting={false}
-        submitLabel="Upload"
-      >
-        <UploadDocumentForm onFileSelected={setUploadedFile} />
-      </EditDialog>
-
-      {/* Photo Upload Dialog */}
-      <EditDialog
-        isOpen={editSection === "photo"}
-        title="Change Profile Photo"
-        onClose={handleCloseDialog}
-        onSubmit={handlePhotoUpload}
-        isSubmitting={isUploadingPhoto}
-        submitLabel={photoFile ? "Upload Photo" : "Save"}
-      >
-        <div className="space-y-4 md:space-y-5">
-          {/* Preview */}
-          <div className="flex justify-center">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center">
-              {photoPreview ? (
-                <img
-                  src={photoPreview}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                />
-              ) : userProfile.picture ? (
-                <img
-                  src={userProfile.picture}
-                  alt="Current photo"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-4xl font-bold text-gray-400">
-                  {userProfile.full_name
-                    .split(" ")
-                    .map((n: string) => n[0])
-                    .join("")
-                    .toUpperCase()}
-                </span>
-              )}
+        {/* ─── Edit Public Profile Dialog ─── */}
+        <EditDialog
+          isOpen={editSection === "public-profile"}
+          title="Edit Public Profile"
+          onClose={handleCloseDialog}
+          onSubmit={handlePublicProfileSubmit}
+          isSubmitting={isPatching}
+        >
+          <div className="space-y-4 md:space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={publicProfileForm.full_name}
+                onChange={(e) =>
+                  setPublicProfileForm((p) => ({
+                    ...p,
+                    full_name: e.target.value,
+                  }))
+                }
+                className="form-input"
+                placeholder="Your full name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                Professional Bio
+              </label>
+              <textarea
+                value={publicProfileForm.bio}
+                onChange={(e) =>
+                  setPublicProfileForm((p) => ({ ...p, bio: e.target.value }))
+                }
+                rows={5}
+                className="form-input resize-none"
+                placeholder="Tell employers about your background, skills, and what you're looking for..."
+              />
+              <p className="text-xs text-gray-400 mt-1.5">
+                {publicProfileForm.bio.length}/500 characters
+              </p>
             </div>
           </div>
+        </EditDialog>
 
-          {/* File picker */}
-          <div>
-            <label
-              htmlFor="photo-upload"
-              className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-medium text-gray-600 hover:border-primary hover:text-primary cursor-pointer transition-colors"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+        {/* ─── Edit Professional Info Dialog ─── */}
+        <EditDialog
+          isOpen={editSection === "professional-info"}
+          title="Edit Professional Info"
+          onClose={handleCloseDialog}
+          onSubmit={handleProfessionalInfoSubmit}
+          isSubmitting={isPatching}
+        >
+          <div className="space-y-4 md:space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                Job Title
+              </label>
+              <input
+                type="text"
+                value={professionalInfoForm.job_title}
+                onChange={(e) =>
+                  setProfessionalInfoForm((p) => ({
+                    ...p,
+                    job_title: e.target.value,
+                  }))
+                }
+                className="form-input"
+                placeholder="e.g. Operations Manager, Logistics Supervisor"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                Industry
+              </label>
+              <select
+                value={professionalInfoForm.industry}
+                onChange={(e) =>
+                  setProfessionalInfoForm((p) => ({
+                    ...p,
+                    industry: e.target.value,
+                  }))
+                }
+                className="form-input"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                />
-              </svg>
-              {photoFile ? photoFile.name : "Choose a photo"}
-            </label>
-            <input
-              id="photo-upload"
-              type="file"
-              accept="image/jpeg,image/jpg,image/png,image/webp"
-              className="hidden"
-              onChange={handlePhotoFileSelect}
-            />
-            <p className="text-xs text-gray-400 mt-2 text-center">
-              JPEG, PNG, or WebP — max 5 MB
-            </p>
+                <option value="">Select industry</option>
+                <option value="Government & Public Administration">
+                  Government &amp; Public Administration
+                </option>
+                <option value="Defence & Military">
+                  Defence &amp; Military
+                </option>
+                <option value="Healthcare & Medical">
+                  Healthcare &amp; Medical
+                </option>
+                <option value="Information Technology">
+                  Information Technology
+                </option>
+                <option value="Engineering">Engineering</option>
+                <option value="Logistics & Supply Chain">
+                  Logistics &amp; Supply Chain
+                </option>
+                <option value="Education & Training">
+                  Education &amp; Training
+                </option>
+                <option value="Construction & Trades">
+                  Construction &amp; Trades
+                </option>
+                <option value="Finance & Accounting">
+                  Finance &amp; Accounting
+                </option>
+                <option value="Law Enforcement & Security">
+                  Law Enforcement &amp; Security
+                </option>
+                <option value="Transportation">Transportation</option>
+                <option value="Telecommunications">Telecommunications</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Non-profit & Community">
+                  Non-profit &amp; Community
+                </option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5 md:mb-2">
+                Years of Experience
+              </label>
+              <select
+                value={professionalInfoForm.years_of_experience}
+                onChange={(e) =>
+                  setProfessionalInfoForm((p) => ({
+                    ...p,
+                    years_of_experience: e.target.value,
+                  }))
+                }
+                className="form-input"
+              >
+                <option value="">Select experience</option>
+                <option value="0-2 years">0–2 years</option>
+                <option value="3-5 years">3–5 years</option>
+                <option value="6-10 years">6–10 years</option>
+                <option value="11-15 years">11–15 years</option>
+                <option value="16-20 years">16–20 years</option>
+                <option value="20+ years">20+ years</option>
+              </select>
+            </div>
           </div>
+        </EditDialog>
 
-          {/* Delete current photo */}
-          {userProfile.picture && !photoFile && (
-            <button
-              type="button"
-              onClick={handleDeletePhoto}
-              disabled={isUploadingPhoto}
-              className="w-full px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors cursor-pointer disabled:opacity-50"
-            >
-              Remove current photo
-            </button>
-          )}
-        </div>
-      </EditDialog>
+        {/* Contact Info Edit Dialog */}
+        <EditDialog
+          isOpen={editSection === "contact"}
+          title="Edit Contact Information"
+          onClose={handleCloseDialog}
+          onSubmit={handleContactSubmit}
+          isSubmitting={isPatching}
+        >
+          <ContactInfoEditForm
+            initialData={contactFormData}
+            onDataChange={setContactFormData}
+          />
+        </EditDialog>
 
-      {/* Skills Edit Dialog */}
-      <EditDialog
-        isOpen={editSection === "skills"}
-        title="Edit Skills"
-        onClose={handleCloseDialog}
-        onSubmit={handleSkillsSubmit}
-        isSubmitting={isPatching}
-      >
-        <SkillsEditForm skills={localSkills} onSkillsChange={setLocalSkills} />
-      </EditDialog>
+        {/* Add Work Experience Dialog */}
+        <EditDialog
+          isOpen={editSection === "add-experience"}
+          title="Add Work Experience"
+          onClose={handleCloseDialog}
+          onSubmit={handleExperienceSubmit}
+          isSubmitting={isPatching}
+          submitLabel="Add Experience"
+        >
+          <AddExperienceForm onDataChange={setExperienceFormData} />
+        </EditDialog>
 
-      {/* Profile Preview Dialog */}
-      <ProfilePreviewDialog
-        isOpen={showPreview}
-        onClose={() => setShowPreview(false)}
-        profile={{
-          name: userProfile.full_name,
-          avatar: userProfile.picture,
-          bio: userProfile.bio || undefined,
-          job_title: userProfile.job_title || undefined,
-          location: displayLocation,
-          job_seeking_status: userProfile.job_seeking_status,
-          skills: localSkills,
-          work_experience: localExperiences,
-          education: localEducation,
-          industry: userProfile.industry || undefined,
-          years_of_experience: userProfile.years_of_experience || undefined,
-        }}
-      />
-    </div>
+        {/* Edit Work Experience Dialog */}
+        <EditDialog
+          isOpen={editSection === "edit-experience"}
+          title="Edit Work Experience"
+          onClose={handleCloseDialog}
+          onSubmit={handleExperienceSubmit}
+          isSubmitting={isPatching}
+        >
+          <AddExperienceForm
+            initialData={experienceFormData}
+            onDataChange={setExperienceFormData}
+          />
+        </EditDialog>
+
+        {/* Add Education Dialog */}
+        <EditDialog
+          isOpen={editSection === "add-education"}
+          title="Add Education"
+          onClose={handleCloseDialog}
+          onSubmit={handleEducationSubmit}
+          isSubmitting={isPatching}
+          submitLabel="Add Education"
+        >
+          <AddEducationForm onDataChange={setEducationFormData} />
+        </EditDialog>
+
+        {/* Edit Education Dialog */}
+        <EditDialog
+          isOpen={editSection === "edit-education"}
+          title="Edit Education"
+          onClose={handleCloseDialog}
+          onSubmit={handleEducationSubmit}
+          isSubmitting={isPatching}
+        >
+          <AddEducationForm
+            initialData={educationFormData}
+            onDataChange={setEducationFormData}
+          />
+        </EditDialog>
+
+        {/* Upload Document Dialog */}
+        <EditDialog
+          isOpen={editSection === "upload-document"}
+          title="Upload Document"
+          onClose={handleCloseDialog}
+          onSubmit={handleDocumentSubmit}
+          isSubmitting={false}
+          submitLabel="Upload"
+        >
+          <UploadDocumentForm onFileSelected={setUploadedFile} />
+        </EditDialog>
+
+        {/* Photo Upload Dialog */}
+        <EditDialog
+          isOpen={editSection === "photo"}
+          title="Change Profile Photo"
+          onClose={handleCloseDialog}
+          onSubmit={handlePhotoUpload}
+          isSubmitting={isUploadingPhoto}
+          submitLabel={photoFile ? "Upload Photo" : "Save"}
+        >
+          <div className="space-y-4 md:space-y-5">
+            {/* Preview */}
+            <div className="flex justify-center">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center">
+                {photoPreview ? (
+                  <img
+                    src={photoPreview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : userProfile.picture ? (
+                  <img
+                    src={userProfile.picture}
+                    alt="Current photo"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-4xl font-bold text-gray-400">
+                    {userProfile.full_name
+                      .split(" ")
+                      .map((n: string) => n[0])
+                      .join("")
+                      .toUpperCase()}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* File picker */}
+            <div>
+              <label
+                htmlFor="photo-upload"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-medium text-gray-600 hover:border-primary hover:text-primary cursor-pointer transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                  />
+                </svg>
+                {photoFile ? photoFile.name : "Choose a photo"}
+              </label>
+              <input
+                id="photo-upload"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
+                className="hidden"
+                onChange={handlePhotoFileSelect}
+              />
+              <p className="text-xs text-gray-400 mt-2 text-center">
+                JPEG, PNG, or WebP — max 5 MB
+              </p>
+            </div>
+
+            {/* Delete current photo */}
+            {userProfile.picture && !photoFile && (
+              <button
+                type="button"
+                onClick={handleDeletePhoto}
+                disabled={isUploadingPhoto}
+                className="w-full px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                Remove current photo
+              </button>
+            )}
+          </div>
+        </EditDialog>
+
+        {/* Skills Edit Dialog */}
+        <EditDialog
+          isOpen={editSection === "skills"}
+          title="Edit Skills"
+          onClose={handleCloseDialog}
+          onSubmit={handleSkillsSubmit}
+          isSubmitting={isPatching}
+        >
+          <SkillsEditForm
+            skills={localSkills}
+            onSkillsChange={setLocalSkills}
+          />
+        </EditDialog>
+
+        {/* Profile Preview Dialog */}
+        <ProfilePreviewDialog
+          isOpen={showPreview}
+          onClose={() => setShowPreview(false)}
+          profile={{
+            name: userProfile.full_name,
+            avatar: userProfile.picture,
+            bio: userProfile.bio || undefined,
+            job_title: userProfile.job_title || undefined,
+            location: displayLocation,
+            job_seeking_status: userProfile.job_seeking_status,
+            skills: localSkills,
+            work_experience: localExperiences,
+            education: localEducation,
+            industry: userProfile.industry || undefined,
+            years_of_experience: userProfile.years_of_experience || undefined,
+          }}
+        />
+      </div>
+    </RoleGuard>
   );
 }

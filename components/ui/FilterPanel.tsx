@@ -15,7 +15,7 @@ import {
 interface FilterState {
   location: string;
   jobType: string;
-  experienceLevel: string;
+  experienceLevel: string;  
 }
 
 interface FilterPanelProps {

@@ -9,6 +9,7 @@ import {
   HiOutlineXMark,
 } from "react-icons/hi2";
 import { useNotifications } from "@/hooks/useNotifications";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -68,8 +69,9 @@ export default function NotificationsPage() {
   );
 
   return (
-    <div className="max-w-170 mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
+    <RoleGuard allowedRoles={["employer"]}>
+      <div className="max-w-170 mx-auto">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h1>
 
         {employerNotifications.length > 0 && (
           <div className="mb-3 flex justify-end">
@@ -151,5 +153,6 @@ export default function NotificationsPage() {
           )}
         </div>
       </div>
+    </RoleGuard>
   );
 }

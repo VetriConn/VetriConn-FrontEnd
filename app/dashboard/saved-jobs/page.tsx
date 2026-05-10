@@ -15,6 +15,7 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { useSavedJobs } from "@/hooks/useSavedJobs";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 // ─── Types ──────────────────────────────────────────────────────────────────────
 
@@ -129,7 +130,7 @@ function SavedJobCard({
           <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
           Apply Now
         </Link>
-        
+
         {showConfirmDelete ? (
           <div className="flex items-center gap-2">
             <button
@@ -190,15 +191,16 @@ export default function SavedJobsPage() {
     return (
       <div className="max-w-200 mx-auto">
         <div className="h-8 w-48 bg-gray-200 rounded animate-shimmer mb-4" />
-          <div className="h-4 w-72 bg-gray-200 rounded animate-shimmer mb-8" />
-        </div>
+        <div className="h-4 w-72 bg-gray-200 rounded animate-shimmer mb-8" />
+      </div>
     );
   }
 
   return (
-    <div className="max-w-200 mx-auto">
-      {/* Page Header */}
-      <div className="flex items-start justify-between mb-2">
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-200 mx-auto">
+        {/* Page Header */}
+        <div className="flex items-start justify-between mb-2">
           <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
             Saved Jobs
           </h1>
@@ -322,5 +324,6 @@ export default function SavedJobsPage() {
           </>
         )}
       </div>
+    </RoleGuard>
   );
 }

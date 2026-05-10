@@ -21,6 +21,7 @@ import {
   buildSearchUrl,
   type SavedSearch,
 } from "@/hooks/useSavedSearches";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 
 // ─── Empty State ────────────────────────────────────────────────────────────────
 
@@ -223,18 +224,19 @@ export default function SavedSearchesPage() {
     return (
       <div className="max-w-3xl mx-auto">
         <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/3" />
-            <div className="h-4 bg-gray-200 rounded w-1/2" />
-            <div className="h-40 bg-gray-200 rounded-xl" />
-            <div className="h-40 bg-gray-200 rounded-xl" />
-          </div>
+          <div className="h-8 bg-gray-200 rounded w-1/3" />
+          <div className="h-4 bg-gray-200 rounded w-1/2" />
+          <div className="h-40 bg-gray-200 rounded-xl" />
+          <div className="h-40 bg-gray-200 rounded-xl" />
         </div>
+      </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Page Header */}
+    <RoleGuard allowedRoles={["job_seeker"]}>
+      <div className="max-w-3xl mx-auto">
+        {/* Page Header */}
         <div className="flex items-start justify-between mb-2">
           <h1 className="font-lato text-xl md:text-3xl font-bold text-gray-900">
             Saved Searches
@@ -290,5 +292,6 @@ export default function SavedSearchesPage() {
           </>
         )}
       </div>
+    </RoleGuard>
   );
 }
