@@ -14,13 +14,8 @@ import {
   HiOutlineCalendar,
   HiOutlineDocumentArrowDown,
 } from "react-icons/hi2";
+import { formatDate } from "@/lib/date-utils";
 
-function formatDate(value?: string) {
-  if (!value) return "—";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
-  return date.toLocaleDateString();
-}
 
 function getJobLabel(
   job:

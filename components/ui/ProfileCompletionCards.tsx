@@ -47,7 +47,7 @@ export const CompleteProfileCard: React.FC<CompleteProfileCardProps> = ({
           </div>
 
           <Link
-            href="/dashboard/profile"
+            href="/dashboard/job-seeker/profile"
             className="inline-flex items-center bg-primary text-white px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-medium hover:bg-primary-hover transition-colors text-sm min-h-[44px]"
           >
             Complete my profile
@@ -88,7 +88,7 @@ export const ReadyToApplyCard: React.FC = () => {
           </p>
 
           <Link
-            href="/dashboard/jobs"
+            href="/dashboard/job-seeker/jobs"
             className="inline-flex items-center gap-2 border border-primary text-primary px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-medium hover:bg-red-50 transition-colors text-sm min-h-[44px]"
           >
             View all jobs

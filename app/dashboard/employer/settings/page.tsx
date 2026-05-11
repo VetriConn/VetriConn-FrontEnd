@@ -17,6 +17,8 @@ import {
   HiOutlineArrowTopRightOnSquare,
   HiOutlineBell,
   HiOutlineCreditCard,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineClipboardDocumentCheck,
 } from "react-icons/hi2";
 import { useAccessibility, type TextSize } from "@/hooks/useAccessibility";
 import { useToaster } from "@/components/ui/Toaster";
@@ -37,10 +39,14 @@ interface EmployerSettingsState {
   companySize: string;
   industry: string;
   hiringFrequency: string;
+  publicCompanyProfile: boolean;
+  showContactInformation: boolean;
 
   // Notifications
   emailNotifications: boolean;
   applicationAlerts: boolean;
+  jobApprovedRejected: boolean;
+  messages: boolean;
   platformUpdates: boolean;
 
   // Two-Step Verification
@@ -61,9 +67,13 @@ export default function EmployerSettingsPage() {
     companySize: "1-10",
     industry: "technology",
     hiringFrequency: "monthly",
+    publicCompanyProfile: true,
+    showContactInformation: true,
 
     emailNotifications: true,
     applicationAlerts: true,
+    jobApprovedRejected: true,
+    messages: true,
     platformUpdates: false,
 
     twoStepVerification: false,
@@ -268,11 +278,12 @@ export default function EmployerSettingsPage() {
 
               {/* Link to company profile */}
               <a
-                href="/dashboard/profile"
+                href="/dashboard/employer/company-profile"
                 className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-hover font-medium transition-colors"
               >
                 <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
-                Edit your company name, logo, and details on your Profile page
+                Edit your company name, logo, and details on your Company
+                Profile page
               </a>
             </div>
           )}
@@ -334,9 +345,9 @@ export default function EmployerSettingsPage() {
           </div>
         </SectionCard>
 
-        {/* ─── 3. Company Preferences ─── */}
+        {/* ─── 3. Hiring Profile ─── */}
         <SectionCard
-          title="Company Preferences"
+          title="Hiring Profile"
           subtitle="Help us understand your hiring needs and company profile."
         >
           <div className="space-y-5">
@@ -389,10 +400,64 @@ export default function EmployerSettingsPage() {
           </div>
         </SectionCard>
 
-        {/* ─── 4. Notifications ─── */}
+        {/* ─── 4. Company Preferences ─── */}
         <SectionCard
-          title="Notifications"
-          subtitle="Choose which emails you'd like to receive from us."
+          title="Company Preferences"
+          subtitle="Manage how your company is presented to job seekers."
+        >
+          <div className="space-y-6">
+            {/* Public Company Profile */}
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                  Public Company Profile
+                </h4>
+                <p className="text-sm text-gray-500">
+                  Allow job seekers to view your company page
+                </p>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.publicCompanyProfile}
+                  onToggle={() =>
+                    update(
+                      "publicCompanyProfile",
+                      !settings.publicCompanyProfile,
+                    )
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Show Contact Information */}
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                  Show Contact Information
+                </h4>
+                <p className="text-sm text-gray-500">
+                  Display email and phone on your profile
+                </p>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.showContactInformation}
+                  onToggle={() =>
+                    update(
+                      "showContactInformation",
+                      !settings.showContactInformation,
+                    )
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </SectionCard>
+
+        {/* ─── 5. Notification Preferences ─── */}
+        <SectionCard
+          title="Notification Preferences"
+          subtitle="Choose which emails and alerts you'd like to receive."
         >
           <div className="space-y-5">
             {/* Email Notifications */}
@@ -446,6 +511,56 @@ export default function EmployerSettingsPage() {
               </div>
             </div>
 
+            {/* Job Approved/Rejected */}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+                  <HiOutlineClipboardDocumentCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                    Job Approved/Rejected
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Get notified when your job postings are reviewed and their
+                    status changes.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.jobApprovedRejected}
+                  onToggle={() =>
+                    update("jobApprovedRejected", !settings.jobApprovedRejected)
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+                  <HiOutlineChatBubbleLeftRight className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                    Messages
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Get notified when you receive a new message from a
+                    candidate.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.messages}
+                  onToggle={() => update("messages", !settings.messages)}
+                />
+              </div>
+            </div>
+
             {/* Platform Updates */}
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
@@ -473,7 +588,7 @@ export default function EmployerSettingsPage() {
           </div>
         </SectionCard>
 
-        {/* ─── 5. Accessibility Preferences ─── */}
+        {/* ─── 6. Accessibility Preferences ─── */}
         <SectionCard
           title="Accessibility Preferences"
           subtitle="Customize how the platform looks and feels to make it easier for you to use."
@@ -557,7 +672,7 @@ export default function EmployerSettingsPage() {
           </div>
         </SectionCard>
 
-        {/* ─── 6. Privacy & Data ─── */}
+        {/* ─── 7. Privacy & Data ─── */}
         <SectionCard
           title="Privacy & Data"
           subtitle="Control your company profile visibility and manage your data."

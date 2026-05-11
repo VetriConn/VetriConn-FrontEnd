@@ -12,20 +12,24 @@ interface RoleGuardProps {
 
 /**
  * RoleGuard - Protects routes based on user role
- * 
+ *
  * Usage:
  * <RoleGuard allowedRoles={["employer"]}>
  *   <EmployerOnlyContent />
  * </RoleGuard>
  */
-export function RoleGuard({ allowedRoles, children, redirectTo }: RoleGuardProps) {
+export function RoleGuard({
+  allowedRoles,
+  children,
+  redirectTo,
+}: RoleGuardProps) {
   const { userProfile, isLoading } = useUserProfile();
   const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && userProfile) {
       const userRole = userProfile.role;
-      
+
       if (!allowedRoles.includes(userRole)) {
         // Redirect based on user role
         if (redirectTo) {
@@ -35,7 +39,7 @@ export function RoleGuard({ allowedRoles, children, redirectTo }: RoleGuardProps
           if (userRole === "employer") {
             router.replace("/dashboard/employer/notifications");
           } else if (userRole === "job_seeker") {
-            router.replace("/dashboard/notifications");
+            router.replace("/dashboard/job-seeker/notifications");
           } else {
             router.replace("/dashboard");
           }

@@ -45,8 +45,8 @@ function EmptyState() {
         jobs will appear here for easy access.
       </p>
       <Link
-        href="/dashboard/jobs"
-        className="inline-flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary-hover text-white font-semibold text-sm rounded-lg transition-colors no-underline"
+        href="/dashboard/job-seeker/jobs"
+        className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-primary/25"
       >
         <HiOutlineMagnifyingGlass className="text-base" />
         Browse Jobs

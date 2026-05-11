@@ -16,13 +16,7 @@ import {
 } from "@/lib/applicationDrafts";
 import { useToaster } from "@/components/ui/Toaster";
 import { RoleGuard } from "@/components/auth/RoleGuard";
-
-function formatSavedDate(value?: string): string {
-  if (!value) return "Saved recently";
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return "Saved recently";
-  return `Saved ${parsed.toLocaleString()}`;
-}
+import { formatFullDateTime } from "@/lib/date-utils";
 
 export default function ApplicationDraftsPage() {
   const { showToast } = useToaster();
@@ -91,7 +85,7 @@ export default function ApplicationDraftsPage() {
                       </span>
                       <span className="flex items-center gap-1.5">
                         <HiOutlineClock className="w-4 h-4 text-gray-400" />
-                        {formatSavedDate(draft.savedAt)}
+                        {draft.savedAt ? `Saved ${formatFullDateTime(draft.savedAt)}` : "Saved recently"}
                       </span>
                     </div>
                   </div>

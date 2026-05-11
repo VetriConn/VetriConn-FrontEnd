@@ -55,7 +55,7 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({ skills, onEdit }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <PiTreeStructureLight className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
-          <h3 className="text-lg md:text-2xl font-bold text-gray-900">Skills</h3>
+          <h3 className="text-lg md:text-xl font-bold text-gray-900">Skills</h3>
         </div>
         <button
           onClick={onEdit}

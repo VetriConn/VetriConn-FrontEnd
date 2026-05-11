@@ -39,32 +39,40 @@ export const QuickActionsCard: React.FC<QuickActionsCardProps> = ({
     {
       label: "Account settings",
       subtitle: "Update your information",
-      href: "/dashboard/settings",
-      icon: <HiOutlineCog6Tooth className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
+      href: "/dashboard/job-seeker/settings",
+      icon: (
+        <HiOutlineCog6Tooth className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+      ),
     },
     {
       label: "View applied jobs",
       subtitle: appliedSubtitle,
-      href: "/dashboard/applied-jobs",
-      icon: <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
+      href: "/dashboard/job-seeker/applied-jobs",
+      icon: (
+        <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+      ),
     },
     {
       label: "Saved jobs",
       subtitle: savedSubtitle,
-      href: "/dashboard/saved-jobs",
+      href: "/dashboard/job-seeker/saved-jobs",
       icon: <HiOutlineHeart className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
     },
     {
       label: "Application drafts",
       subtitle: "Continue where you left off",
-      href: "/dashboard/application-drafts",
-      icon: <HiOutlineClipboardDocument className="w-5 h-5 md:w-6 md:h-6 text-red-500" />,
+      href: "/dashboard/job-seeker/application-drafts",
+      icon: (
+        <HiOutlineClipboardDocument className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
+      ),
     },
   ];
   return (
     <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6 hidden lg:block">
       <div className="flex-1">
-        <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-4">Quick Actions</h3>
+        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
+          Quick Actions
+        </h3>
 
         <div className="flex flex-col gap-2">
           {quickActions.map((action) => (

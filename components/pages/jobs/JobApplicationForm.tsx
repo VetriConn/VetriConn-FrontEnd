@@ -322,13 +322,13 @@ export default function JobApplicationForm({
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
               <Link
-                href="/dashboard/jobs"
+                href="/dashboard/job-seeker/jobs"
                 className="inline-flex items-center gap-2 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-primary hover:bg-primary-hover text-white font-semibold text-sm mobile:text-xs rounded-lg transition-colors no-underline"
               >
                 Browse More Jobs
               </Link>
               <Link
-                href="/dashboard/applied-jobs"
+                href="/dashboard/job-seeker/applied-jobs"
                 className="inline-flex items-center gap-2 px-5 py-2.5 mobile:px-4 mobile:py-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm mobile:text-xs rounded-lg hover:bg-gray-50 transition-colors no-underline"
               >
                 <HiOutlineBriefcase className="w-4 h-4 md:w-5 md:h-5" />
@@ -389,8 +389,12 @@ export default function JobApplicationForm({
               <HiOutlineBriefcase className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
             </div>
             <div>
-              <h3 className="text-lg md:text-2xl font-bold text-gray-900">{job.role}</h3>
-              <p className="text-sm md:text-base text-gray-500">{job.company_name}</p>
+              <h3 className="text-lg md:text-2xl font-bold text-gray-900">
+                {job.role}
+              </h3>
+              <p className="text-sm md:text-base text-gray-500">
+                {job.company_name}
+              </p>
               <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-1.5 text-xs text-gray-400">
                 {job.location && (
                   <span className="inline-flex items-center gap-2">
@@ -643,7 +647,9 @@ export default function JobApplicationForm({
                 <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs md:text-sm font-medium rounded">
                   DOCX
                 </span>
-                <span className="text-xs md:text-sm text-gray-400">Max 5MB</span>
+                <span className="text-xs md:text-sm text-gray-400">
+                  Max 5MB
+                </span>
               </div>
             </div>
           )}
@@ -756,7 +762,9 @@ function SectionCard({
           {complete ? "✓" : number}
         </div>
         <div>
-          <h2 className="text-xl md:text-3xl font-bold text-gray-900">{title}</h2>
+          <h2 className="text-xl md:text-3xl font-bold text-gray-900">
+            {title}
+          </h2>
           <p className="text-xs md:text-sm text-gray-400 mt-0.5">{subtitle}</p>
         </div>
       </div>

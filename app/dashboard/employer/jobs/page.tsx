@@ -23,12 +23,8 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi2";
-function formatDate(value?: string) {
-  if (!value) return "—";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
-  return date.toLocaleDateString();
-}
+import { formatDate } from "@/lib/date-utils";
+
 
 // ─── Page Component ──────────────────────────────────────────────────────────
 

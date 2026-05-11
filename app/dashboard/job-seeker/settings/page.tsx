@@ -16,6 +16,8 @@ import {
   HiOutlineLockClosed,
   HiOutlineArrowTopRightOnSquare,
   HiOutlineChevronDown,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineClipboardDocumentCheck,
 } from "react-icons/hi2";
 import { useAccessibility, type TextSize } from "@/hooks/useAccessibility";
 import { useToaster } from "@/components/ui/Toaster";
@@ -40,6 +42,8 @@ interface SettingsState {
   // Notifications
   emailNotifications: boolean;
   jobAlerts: boolean;
+  applicationApprovedRejected: boolean;
+  messages: boolean;
   communityUpdates: boolean;
 
   // Two-Step Verification
@@ -199,6 +203,8 @@ export default function AccountSettingsPage() {
 
     emailNotifications: true,
     jobAlerts: true,
+    applicationApprovedRejected: true,
+    messages: true,
     communityUpdates: false,
 
     twoStepVerification: false,
@@ -401,13 +407,15 @@ export default function AccountSettingsPage() {
               </div>
 
               {/* Link to profile */}
-              <a
-                href="/dashboard/profile"
-                className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-hover font-medium transition-colors"
-              >
-                <HiOutlineArrowTopRightOnSquare className="w-4 h-4 md:w-5 md:h-5" />
-                Edit your name, bio, and contact info on your Profile page
-              </a>
+              <div className="pt-2">
+                <a
+                  href="/dashboard/job-seeker/profile"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-red-700 transition-colors"
+                >
+                  Edit Public Profile
+                  <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           )}
         </SectionCard>
@@ -550,10 +558,10 @@ export default function AccountSettingsPage() {
           </div>
         </SectionCard>
 
-        {/* ─── 4. Notifications ─── */}
+        {/* ─── 4. Notification Preferences ─── */}
         <SectionCard
-          title="Notifications"
-          subtitle="Choose which emails you'd like to receive from us."
+          title="Notification Preferences"
+          subtitle="Choose which emails and alerts you'd like to receive."
         >
           <div className="space-y-5">
             {/* Email Notifications */}
@@ -601,6 +609,59 @@ export default function AccountSettingsPage() {
                 <Toggle
                   enabled={settings.jobAlerts}
                   onToggle={() => update("jobAlerts", !settings.jobAlerts)}
+                />
+              </div>
+            </div>
+
+            {/* Application Approved/Rejected */}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+                  <HiOutlineClipboardDocumentCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                    Application Approved/Rejected
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Get notified when your applications are reviewed and their
+                    status changes.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.applicationApprovedRejected}
+                  onToggle={() =>
+                    update(
+                      "applicationApprovedRejected",
+                      !settings.applicationApprovedRejected,
+                    )
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+                  <HiOutlineChatBubbleLeftRight className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
+                    Messages
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Get notified when you receive a new message from an
+                    employer.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 pt-1">
+                <Toggle
+                  enabled={settings.messages}
+                  onToggle={() => update("messages", !settings.messages)}
                 />
               </div>
             </div>

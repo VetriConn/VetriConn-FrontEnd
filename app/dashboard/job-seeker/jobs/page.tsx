@@ -266,6 +266,14 @@ const SearchResultsPage = () => {
       {/* Main Content */}
       <main id="main-content" className="flex-1" tabIndex={-1}>
         <div className="max-w-screen-xl mx-auto">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 font-medium transition-colors no-underline mb-6"
+          >
+            <HiOutlineArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+            Back to Dashboard
+          </Link>
+
           {/* Page Header */}
           <header className="mb-6 sm:mb-8">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">

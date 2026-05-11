@@ -28,7 +28,7 @@ export const ContactInfoCard: React.FC<ContactInfoCardProps> = ({
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2">
           <HiOutlineEnvelope className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
-          <h2 className="text-xl md:text-3xl font-bold text-gray-900">
+          <h2 className="text-lg md:text-xl font-bold text-gray-900">
             Contact Information
           </h2>
         </div>

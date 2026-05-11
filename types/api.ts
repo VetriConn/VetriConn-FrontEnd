@@ -377,15 +377,20 @@ export interface JobSeekerThreadMessage {
   updatedAt?: string;
 }
 
+export type NotificationType =
+  | "application_sent"
+  | "application_received"
+  | "application_reviewed"
+  | "job_match"
+  | "profile_reminder"
+  | "profile_viewed"
+  | "new_reply"
+  | "employer_message"
+  | "system";
+
 export interface NotificationItem {
   _id: string;
-  type:
-    | "application_sent"
-    | "application_received"
-    | "application_reviewed"
-    | "job_match"
-    | "profile_reminder"
-    | "system";
+  type: NotificationType;
   title: string;
   description: string;
   link?: string;

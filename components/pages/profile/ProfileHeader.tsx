@@ -85,7 +85,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     <div className="space-y-6">
       {/* Page Title Section */}
       <div>
-        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">My Profile</h1>
+        <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-1">
+          My Profile
+        </h1>
         <p className="text-gray-500 text-sm md:text-base">
           Review and update your professional information
         </p>
