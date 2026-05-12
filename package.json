@@ -9,7 +9,9 @@
     "lint": "next lint",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "analyze": "ANALYZE=true next build --webpack",
+    "analyze:turbo": "next experimental-analyze"
   },
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^16.2.4",
     "@tailwindcss/postcss": "^4.1.18",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
@@ -41,10 +44,11 @@
     "autoprefixer": "^10.4.23",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
-    "fast-check": "^4.5.3",
+    "fast-check": "^4.7.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "postcss": "^8.5.6",
+    "pure-rand": "^8.4.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5"
   }

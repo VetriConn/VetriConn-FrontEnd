@@ -35,7 +35,7 @@ export const SearchBar = ({
           Search jobs by title, company, or keyword
         </label>
         <HiOutlineMagnifyingGlass
-          className="w-5 h-5 text-gray-400 flex-shrink-0"
+          className="w-5 h-5 md:w-6 md:h-6 text-gray-400 flex-shrink-0"
           aria-hidden="true"
         />
         <input
@@ -45,7 +45,7 @@ export const SearchBar = ({
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 py-3 sm:py-3 px-3 text-base outline-none bg-transparent text-gray-900 placeholder:text-gray-400 min-h-[48px]"
+          className="flex-1 py-3 sm:py-3 px-3 text-base outline-none bg-transparent text-gray-900 placeholder:text-gray-400 min-h-48"
           aria-describedby={`${inputId}-description`}
         />
         <span id={`${inputId}-description`} className="sr-only">
@@ -55,7 +55,7 @@ export const SearchBar = ({
       <button
         type="button"
         onClick={onSearch}
-        className="btn-primary rounded-none sm:rounded-none px-6 py-3 min-h-[48px] border-t sm:border-t-0 border-gray-200"
+        className="btn-primary rounded-none sm:rounded-none px-6 py-3 min-h-48 border-t sm:border-t-0 border-gray-200"
       >
         Search
       </button>

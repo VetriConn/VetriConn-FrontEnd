@@ -176,23 +176,23 @@ export const EditDialog: React.FC<EditDialogProps> = ({
       <div
         ref={dialogRef}
         className={clsx(
-          "bg-white rounded-xl w-full shadow-2xl",
-          "max-w-2xl max-h-[90vh] overflow-y-auto",
-          "mobile:max-w-full mobile:h-full mobile:rounded-none"
+          "bg-white rounded-xl shadow-2xl",
+          "w-[95%] md:w-full max-w-lg",
+          "max-h-[90vh] overflow-hidden flex flex-col"
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Dialog Header */}
-        <div className="flex items-center justify-between p-6 pb-4 border-b border-gray-200 sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 md:p-6 pb-4 border-b border-gray-200 sticky top-0 bg-white z-10 shrink-0">
           <h2
             id="dialog-title"
-            className="text-xl font-semibold text-gray-900 m-0"
+            className="text-xl md:text-3xl font-semibold text-gray-900 m-0"
           >
             {title}
           </h2>
           <button
             type="button"
-            className="bg-transparent border-none text-gray-400 cursor-pointer p-2 rounded-lg flex items-center justify-center transition-colors hover:text-gray-700 hover:bg-gray-100"
+            className="bg-transparent border-none text-gray-400 cursor-pointer p-2 rounded-lg flex items-center justify-center transition-colors hover:text-gray-700 hover:bg-gray-100 min-h-[44px] min-w-[44px]"
             onClick={onClose}
             disabled={isSubmitting}
             aria-label="Close dialog"
@@ -202,14 +202,14 @@ export const EditDialog: React.FC<EditDialogProps> = ({
         </div>
 
         {/* Dialog Content */}
-        <form onSubmit={handleSubmit}>
-          <div className="p-6">{children}</div>
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+          <div className="p-4 md:p-6 overflow-y-auto flex-1">{children}</div>
 
           {/* Dialog Footer */}
-          <div className="flex gap-3 p-6 pt-4 justify-end border-t border-gray-200 sticky bottom-0 bg-white">
+          <div className="flex gap-3 p-4 md:p-6 pt-4 justify-end border-t border-gray-200 sticky bottom-0 bg-white shrink-0">
             <button
               type="button"
-              className="bg-gray-100 text-gray-700 border-none rounded-lg py-2.5 px-5 text-sm font-medium cursor-pointer transition-colors hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-gray-100 text-gray-700 border-none rounded-lg py-2.5 px-5 text-sm font-medium cursor-pointer transition-colors hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
               onClick={onClose}
               disabled={isSubmitting}
               aria-label={cancelLabel}
@@ -222,7 +222,7 @@ export const EditDialog: React.FC<EditDialogProps> = ({
                 "bg-primary text-white border-none rounded-lg py-2.5 px-5 text-sm font-medium cursor-pointer transition-colors",
                 "hover:bg-primary-hover",
                 "disabled:opacity-50 disabled:cursor-not-allowed",
-                "flex items-center gap-2"
+                "flex items-center gap-2 min-h-[44px]"
               )}
               disabled={isSubmitting}
               aria-label={submitLabel}

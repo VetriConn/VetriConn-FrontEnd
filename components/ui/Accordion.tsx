@@ -24,13 +24,13 @@ export const Accordion: React.FC<AccordionProps> = ({
   return (
     <div
       className={clsx(
-        "rounded-[20px] transition-shadow duration-200 overflow-hidden mobile:rounded-xl",
+        "rounded-20 transition-shadow duration-200 overflow-hidden mobile:rounded-xl",
         className
       )}
     >
       <button
         className={clsx(
-          "w-full bg-transparent border-none outline-none text-left flex items-center justify-between py-4 px-8 rounded-[20px] cursor-pointer text-xl transition-colors duration-150 hover:bg-black/5 mobile:py-3 mobile:px-5 mobile:text-base mobile:rounded-xl",
+          "w-full bg-transparent border-none outline-none text-left flex items-center justify-between py-4 px-8 rounded-20 cursor-pointer text-xl transition-colors duration-150 hover:bg-black/5 mobile:py-3 mobile:px-5 mobile:text-base mobile:rounded-xl",
           open && "bg-black/5"
         )}
         onClick={onToggle}

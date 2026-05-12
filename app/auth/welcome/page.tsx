@@ -57,7 +57,7 @@ export default function WelcomePage() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-8 text-left">
             <h2 className="font-semibold text-gray-900 mb-4">You can now:</h2>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 md:gap-4">
                 <svg
                   className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
                   fill="currentColor"
@@ -73,7 +73,7 @@ export default function WelcomePage() {
                   Browse thousands of job opportunities
                 </span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 md:gap-4">
                 <svg
                   className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
                   fill="currentColor"
@@ -89,7 +89,7 @@ export default function WelcomePage() {
                   Connect with top employers
                 </span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 md:gap-4">
                 <svg
                   className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
                   fill="currentColor"

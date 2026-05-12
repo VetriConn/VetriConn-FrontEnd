@@ -50,7 +50,7 @@ export const JobResultCard = ({
   return (
     <article
       className={clsx(
-        "bg-white border border-gray-200 rounded-xl p-4 sm:p-6",
+        "bg-white border border-gray-200 rounded-lg md:rounded-xl p-4 md:p-6",
         "transition-shadow duration-200 hover:shadow-md",
         "flex flex-col gap-4",
       )}
@@ -61,7 +61,7 @@ export const JobResultCard = ({
         {/* Job Title - h3 for proper hierarchy under page h1 and section h2 */}
         <h3
           id={`job-title-${id}`}
-          className="font-semibold text-lg text-gray-900 mb-3"
+          className="font-semibold text-base md:text-lg text-gray-900 mb-3"
         >
           {title}
         </h3>
@@ -69,30 +69,30 @@ export const JobResultCard = ({
         {/* Job Meta Info - Stack on mobile, wrap on larger screens */}
         <dl className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-x-4 sm:gap-y-2 mb-3 text-sm text-gray-600">
           {/* Company */}
-          <div className="flex items-center gap-1.5 min-h-[24px]">
+          <div className="inline-flex items-center gap-1.5 min-h-6">
             <dt className="sr-only">Company</dt>
             <HiOutlineBuildingOffice2
-              className="w-4 h-4 text-gray-400 flex-shrink-0"
+              className="w-4 h-4 md:w-5 md:h-5 text-gray-400 flex-shrink-0"
               aria-hidden="true"
             />
             <dd>{company}</dd>
           </div>
 
           {/* Location */}
-          <div className="flex items-center gap-1.5 min-h-[24px]">
+          <div className="inline-flex items-center gap-1.5 min-h-6">
             <dt className="sr-only">Location</dt>
             <HiOutlineMapPin
-              className="w-4 h-4 text-gray-400 flex-shrink-0"
+              className="w-4 h-4 md:w-5 md:h-5 text-gray-400 flex-shrink-0"
               aria-hidden="true"
             />
             <dd>{location}</dd>
           </div>
 
           {/* Job Type */}
-          <div className="flex items-center gap-1.5 min-h-[24px]">
+          <div className="inline-flex items-center gap-1.5 min-h-6">
             <dt className="sr-only">Job Type</dt>
             <HiOutlineBriefcase
-              className="w-4 h-4 text-gray-400 flex-shrink-0"
+              className="w-4 h-4 md:w-5 md:h-5 text-gray-400 flex-shrink-0"
               aria-hidden="true"
             />
             <dd>{jobType}</dd>
@@ -100,10 +100,10 @@ export const JobResultCard = ({
 
           {/* Salary */}
           {salary && (
-            <div className="flex items-center gap-1.5 min-h-[24px]">
+            <div className="inline-flex items-center gap-1.5 min-h-6">
               <dt className="sr-only">Salary</dt>
               <HiOutlineCurrencyDollar
-                className="w-4 h-4 text-primary flex-shrink-0"
+                className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0"
                 aria-hidden="true"
               />
               <dd className="text-primary font-medium">{salary}</dd>
@@ -112,7 +112,7 @@ export const JobResultCard = ({
         </dl>
 
         {/* Description */}
-        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
+        <p className="text-xs md:text-sm text-gray-600 line-clamp-2">{description}</p>
       </div>
 
       {/* Apply Button Section - Full width on mobile, auto width on desktop */}
@@ -120,7 +120,7 @@ export const JobResultCard = ({
         <button
           type="button"
           onClick={handleApplyClick}
-          className="btn-primary w-full md:w-auto whitespace-nowrap min-h-[48px]"
+          className="btn-primary w-full md:w-auto whitespace-nowrap min-h-48"
           aria-label={`${hasDraft ? "Continue application draft" : "Apply now"} for ${title} at ${company}`}
         >
           {hasDraft ? "Continue Draft" : "Apply Now"}

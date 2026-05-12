@@ -51,7 +51,7 @@ export const AddEducationForm: React.FC<AddEducationFormProps> = ({
   });
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-4 md:space-y-6">
       <FormField
         label="Institution"
         name="institution"
@@ -81,7 +81,7 @@ export const AddEducationForm: React.FC<AddEducationFormProps> = ({
         optional
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <FormField
           label="Start Year"
           name="start_year"

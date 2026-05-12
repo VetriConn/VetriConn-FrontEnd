@@ -72,9 +72,9 @@ interface FormErrors {
 // ─── Shared styles ───────────────────────────────────────────────────────────
 
 const inputClasses =
-  "w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white";
+  "w-full px-3 py-2 md:px-4 md:py-3 border border-gray-200 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white";
 
-const labelClasses = "block text-sm font-medium text-gray-700 mb-1.5";
+const labelClasses = "block text-sm font-medium text-gray-700 mb-1.5 md:mb-2";
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -274,7 +274,7 @@ const CompanyProfileSetup = () => {
       <div className="max-w-275 mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1">
             Company Profile
           </h1>
           <p className="text-sm text-gray-500">
@@ -285,13 +285,13 @@ const CompanyProfileSetup = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* ── Form Card ── */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-5">
               Company Details
             </h2>
 
-            <div className="space-y-5">
+            <div className="space-y-4 md:space-y-6">
               {/* Logo & Banner uploads */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className={labelClasses}>Company Logo</label>
                   <button
@@ -307,6 +307,8 @@ const CompanyProfileSetup = () => {
                         width={64}
                         height={64}
                         className="w-16 h-16 rounded-md object-contain bg-white"
+                        sizes="64px"
+                        loading="lazy"
                       />
                     ) : (
                       <HiOutlinePhoto className="w-6 h-6" />
@@ -346,6 +348,8 @@ const CompanyProfileSetup = () => {
                         width={180}
                         height={64}
                         className="w-full h-16 rounded-md object-cover px-2"
+                        sizes="(max-width: 850px) 90vw, 180px"
+                        loading="lazy"
                       />
                     ) : (
                       <HiOutlinePhoto className="w-6 h-6" />
@@ -391,7 +395,7 @@ const CompanyProfileSetup = () => {
               </div>
 
               {/* Industry / Location */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className={labelClasses}>Industry</label>
                   <select
@@ -438,7 +442,7 @@ const CompanyProfileSetup = () => {
               </div>
 
               {/* Website / Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className={labelClasses}>Website</label>
                   <input
@@ -474,7 +478,7 @@ const CompanyProfileSetup = () => {
               </div>
 
               {/* Phone / Company Size */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className={labelClasses}>Phone</label>
                   <input
@@ -520,7 +524,7 @@ const CompanyProfileSetup = () => {
           {/* ── Live Preview Sidebar ── */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
-              <h3 className="text-sm font-semibold text-gray-500 mb-3">
+              <h3 className="text-sm md:text-base font-semibold text-gray-500 mb-3">
                 Live Preview
               </h3>
 
@@ -532,7 +536,9 @@ const CompanyProfileSetup = () => {
                       src={formData.banner_url}
                       alt="Company banner"
                       fill
-                      className="object-cover"
+                      className="object-cover w-full h-auto"
+                      sizes="(max-width: 1024px) 0px, 400px"
+                      loading="lazy"
                     />
                   </div>
                 ) : (
@@ -549,6 +555,8 @@ const CompanyProfileSetup = () => {
                         width={56}
                         height={56}
                         className="w-full h-full object-contain"
+                        sizes="56px"
+                        loading="lazy"
                       />
                     </div>
                   ) : (
@@ -560,7 +568,7 @@ const CompanyProfileSetup = () => {
 
                 {/* Content */}
                 <div className="px-5 pt-3 pb-5">
-                  <h4 className="text-base font-bold text-gray-900 mb-1">
+                  <h4 className="text-sm md:text-base font-bold text-gray-900 mb-1">
                     {formData.company_name || "Company Name"}
                   </h4>
 

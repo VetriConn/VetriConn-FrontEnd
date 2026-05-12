@@ -3,18 +3,14 @@
 import Link from "next/link";
 import useSWR from "swr";
 import { getEmployerJobs } from "@/lib/api";
+import { RoleGuard } from "@/components/auth/RoleGuard";
 import {
   HiOutlineClipboardDocument,
   HiOutlineCalendar,
   HiOutlineArrowRight,
 } from "react-icons/hi2";
+import { formatDate } from "@/lib/date-utils";
 
-function formatDate(value?: string) {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-  return date.toLocaleDateString();
-}
 
 export default function ManageDraftsPage() {
   const { data: jobs = [], isLoading } = useSWR(
@@ -25,8 +21,8 @@ export default function ManageDraftsPage() {
   const drafts = jobs.filter((job) => job.status === "draft");
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-200 mx-auto px-6 py-8">
+    <RoleGuard allowedRoles={["employer"]}>
+      <div className="max-w-200 mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">
             Manage Job Drafts
@@ -52,33 +48,33 @@ export default function ManageDraftsPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {drafts.map((job) => (
+            {drafts.map((draft) => (
               <div
-                key={job._id}
-                className="bg-white rounded-xl border border-gray-200 px-5 py-4 flex items-center justify-between"
+                key={draft._id}
+                className="bg-white rounded-xl border border-gray-200 px-5 py-4 flex items-center justify-between gap-4 hover:border-gray-300 transition-colors"
               >
-                <div className="min-w-0 mr-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-0.5 truncate">
-                    {job.role}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    {draft.role}
                   </h3>
-                  <div className="text-xs text-gray-500 flex items-center gap-2">
-                    <HiOutlineCalendar className="w-3.5 h-3.5" />
-                    Last updated {formatDate(job.updatedAt)}
+                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <HiOutlineCalendar className="w-3.5 h-3.5" />
+                      Updated {formatDate(draft.updatedAt)}
+                    </span>
                   </div>
                 </div>
-
                 <Link
-                  href={`/dashboard/employer/post-job?draftId=${job._id}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                  href={`/dashboard/employer/post-job?draftId=${draft._id}`}
+                  className="p-2 rounded-lg text-gray-400 hover:text-primary hover:bg-red-50 transition-colors"
                 >
-                  Continue Draft
-                  <HiOutlineArrowRight className="w-3.5 h-3.5" />
+                  <HiOutlineArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             ))}
           </div>
         )}
       </div>
-    </div>
+    </RoleGuard>
   );
 }

@@ -361,15 +361,36 @@ export interface EmployerThreadDetail {
   applied_at?: string;
 }
 
+// Job Seeker Messaging Types
+export type JobSeekerMessageSender = "job_seeker" | "employer";
+
+export interface JobSeekerThreadMessage {
+  _id: string;
+  application_id: string;
+  sender: JobSeekerMessageSender;
+  content: string;
+  attachment_url?: string;
+  attachment_name?: string;
+  attachment_mime_type?: string;
+  attachment_size?: number;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export type NotificationType =
+  | "application_sent"
+  | "application_received"
+  | "application_reviewed"
+  | "job_match"
+  | "profile_reminder"
+  | "profile_viewed"
+  | "new_reply"
+  | "employer_message"
+  | "system";
+
 export interface NotificationItem {
   _id: string;
-  type:
-    | "application_sent"
-    | "application_received"
-    | "application_reviewed"
-    | "job_match"
-    | "profile_reminder"
-    | "system";
+  type: NotificationType;
   title: string;
   description: string;
   link?: string;

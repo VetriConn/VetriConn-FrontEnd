@@ -6,8 +6,8 @@ export const AuthFooter = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="flex justify-between items-center w-full py-4 px-6 mobile:px-4 mobile:flex-col mobile:gap-2 bg-white border-t border-[#E2E4E9]">
-      <p className="font-open-sans text-sm text-gray-500">
+    <footer className="flex flex-col md:flex-row justify-between items-center w-full py-4 px-4 md:px-6 gap-3 md:gap-0 bg-white border-t border-[#E2E4E9]">
+      <p className="font-open-sans text-xs md:text-sm text-gray-500">
         © {currentYear} Vetriconn. All rights reserved.
       </p>
       <div className="flex items-center gap-4">
@@ -15,7 +15,7 @@ export const AuthFooter = () => {
           href="https://vetriconntandc.notion.site/VETRICONN-INC-TERMS-AND-CONDITIONS-22ac6380202c807fa63ef48c7ca69815"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-open-sans text-sm text-gray-500 hover:text-primary transition-colors"
+          className="font-open-sans text-xs md:text-sm text-gray-500 hover:text-primary transition-colors min-h-44 flex items-center"
         >
           Privacy Policy
         </Link>
@@ -24,7 +24,7 @@ export const AuthFooter = () => {
           href="https://vetriconntandc.notion.site/VETRICONN-INC-TERMS-AND-CONDITIONS-22ac6380202c807fa63ef48c7ca69815"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-open-sans text-sm text-gray-500 hover:text-primary transition-colors"
+          className="font-open-sans text-xs md:text-sm text-gray-500 hover:text-primary transition-colors min-h-44 flex items-center"
         >
           Terms of Service
         </Link>

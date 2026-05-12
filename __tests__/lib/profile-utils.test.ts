@@ -24,8 +24,8 @@ describe("calculateProfileCompletion", () => {
     phone_number: "123-456-7890",
     location: "New York, USA",
     job_title: "Software Engineer",
-    industry: "Technology",
-    years_of_experience: "5",
+    industry: "Information Technology",
+    years_of_experience: "3-5 years",
     bio: "Experienced developer",
     picture: "https://res.cloudinary.com/demo/image/upload/profile.jpg",
     work_experience: [

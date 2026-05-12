@@ -105,12 +105,45 @@ export const employerStep3Schema = z.object({
   company_location: z.string().optional(),
 });
 
-// Experience levels for dropdown
+// Experience levels for dropdown (standardized format matching profile settings)
 export const EXPERIENCE_LEVELS = [
-  { value: "less-than-1", label: "Less than 1 year" },
-  { value: "1-2", label: "1-2 years" },
-  { value: "3-5", label: "3-5 years" },
-  { value: "6-10", label: "6-10 years" },
-  { value: "11-20", label: "11-20 years" },
-  { value: "more-than-20", label: "More than 20 years" },
+  { value: "0-2 years", label: "0–2 years" },
+  { value: "3-5 years", label: "3–5 years" },
+  { value: "6-10 years", label: "6–10 years" },
+  { value: "11-15 years", label: "11–15 years" },
+  { value: "16-20 years", label: "16–20 years" },
+  { value: "20+ years", label: "20+ years" },
+];
+
+// Industry options for job seekers (standardized format matching profile settings)
+export const INDUSTRY_OPTIONS = [
+  { value: "Government & Public Administration", label: "Government & Public Administration" },
+  { value: "Defence & Military", label: "Defence & Military" },
+  { value: "Healthcare & Medical", label: "Healthcare & Medical" },
+  { value: "Information Technology", label: "Information Technology" },
+  { value: "Engineering", label: "Engineering" },
+  { value: "Logistics & Supply Chain", label: "Logistics & Supply Chain" },
+  { value: "Education & Training", label: "Education & Training" },
+  { value: "Construction & Trades", label: "Construction & Trades" },
+  { value: "Finance & Accounting", label: "Finance & Accounting" },
+  { value: "Law Enforcement & Security", label: "Law Enforcement & Security" },
+  { value: "Transportation", label: "Transportation" },
+  { value: "Telecommunications", label: "Telecommunications" },
+  { value: "Manufacturing", label: "Manufacturing" },
+  { value: "Non-profit & Community", label: "Non-profit & Community" },
+  { value: "Other", label: "Other" },
+];
+
+// Company industry options for employers (standardized format matching company profile)
+export const COMPANY_INDUSTRY_OPTIONS = [
+  { value: "technology", label: "Technology & Consulting" },
+  { value: "healthcare", label: "Healthcare" },
+  { value: "education", label: "Education" },
+  { value: "finance", label: "Finance & Banking" },
+  { value: "retail", label: "Retail & E-commerce" },
+  { value: "manufacturing", label: "Manufacturing" },
+  { value: "construction", label: "Construction" },
+  { value: "hospitality", label: "Hospitality & Tourism" },
+  { value: "nonprofit", label: "Non-profit & Social Services" },
+  { value: "other", label: "Other" },
 ];

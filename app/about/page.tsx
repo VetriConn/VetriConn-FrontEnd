@@ -188,7 +188,7 @@ export default function AboutPage() {
       </div>
 
       {/* ─── Hero Section ─────────────────────────────────────────── */}
-      <section className="px-[5%] py-4 pb-16 bg-white relative overflow-hidden mobile:px-[5%] mobile:py-1.5 mobile:pb-8">
+      <section className="px-[5%] md:px-6 py-4 pb-16 bg-white relative overflow-hidden mobile:px-[5%] mobile:py-1.5 mobile:pb-8">
         {/* Decorative dots */}
         <div
           className="absolute top-10 left-[8%] w-3 h-3 rounded-full bg-amber-400 opacity-70"
@@ -223,7 +223,7 @@ export default function AboutPage() {
               aria-hidden="true"
             />
 
-            <h1 className="font-lato text-[52px] leading-[1.1] font-bold text-text mb-6 mobile:text-[32px] mobile:mb-4">
+            <h1 className="heading-1 mb-6 mobile:mb-4">
               About <span className="text-primary">Vetriconn</span>
             </h1>
             <p className="font-open-sans text-subtitle text-text-muted mb-2 max-w-[90%] text-base mobile:text-sm mobile:mb-2 mobile:max-w-full leading-relaxed">
@@ -233,10 +233,10 @@ export default function AboutPage() {
 
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2.5 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-8 rounded-full transition-colors shadow-sm mt-4"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-8 rounded-full transition-all shadow-sm mt-4 group"
             >
               Get Started
-              <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             </Link>
           </div>
 
@@ -249,7 +249,7 @@ export default function AboutPage() {
 
             {/* Maple leaf watermark */}
             <div
-              className="absolute bottom-2 right-2 w-[100px] h-[100px] rounded-[10px] bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 mobile:hidden"
+              className="absolute bottom-2 right-2 w-[100px] h-[100px] rounded-10 bg-[url('/favicon.svg')] bg-no-repeat bg-center bg-contain z-[1] opacity-80 mobile:hidden"
               aria-hidden="true"
             />
 
@@ -258,7 +258,7 @@ export default function AboutPage() {
                 src={heroImages[0].src}
                 alt={heroImages[0].alt}
                 fill
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="(max-width: 768px) 50vw, 25vw"
                 priority
               />
@@ -268,7 +268,7 @@ export default function AboutPage() {
                 src={heroImages[1].src}
                 alt={heroImages[1].alt}
                 fill
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="(max-width: 768px) 50vw, 25vw"
                 priority
               />
@@ -278,7 +278,7 @@ export default function AboutPage() {
                 src={heroImages[2].src}
                 alt={heroImages[2].alt}
                 fill
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="(max-width: 768px) 80vw, 30vw"
                 priority
               />
@@ -306,9 +306,9 @@ export default function AboutPage() {
 
       {/* ─── Mission Section ──────────────────────────────────────── */}
       <section className="py-20 bg-white relative overflow-hidden mobile:py-14">
-        <div className="max-w-[1340px] mx-auto px-[5%]">
+        <div className="max-w-[1340px] mx-auto px-[5%] md:px-6">
           {/* Two-column: text left, image right */}
-          <div className="grid grid-cols-2 gap-16 items-center mobile:grid-cols-1 mobile:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-center">
             {/* Left — Text */}
             <div className="relative">
               <DottedBox
@@ -318,13 +318,13 @@ export default function AboutPage() {
               <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-4 font-open-sans">
                 Our Mission
               </p>
-              <h2 className="font-lato text-[38px] leading-[1.15] font-bold text-text mb-6 mobile:text-[28px]">
+              <h2 className="heading-2 mb-6">
                 Reconnecting experience{" "}
-                <span className="text-primary italic font-[var(--font-outfit)] text-[0.9em]">
+                <span className="text-primary italic font-[var(--font-outfit)]">
                   with opportunity
                 </span>
               </h2>
-              <p className="font-open-sans text-base text-text-muted leading-relaxed mb-6">
+              <p className="body-text text-lg mobile:text-base leading-relaxed mb-6">
                 At Vetriconn, our mission is to strengthen the Canadian
                 workforce and economy by reconnecting Canadian retirees and
                 veterans with flexible work, volunteer, and remote
@@ -355,8 +355,9 @@ export default function AboutPage() {
                 src="/images/Hero/7.svg"
                 alt="Community of veterans and retirees"
                 fill
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
               />
             </div>
           </div>
@@ -365,17 +366,18 @@ export default function AboutPage() {
 
       {/* ─── Commitments Section ──────────────────────────────────── */}
       <section className="py-20 bg-gray-light relative overflow-hidden mobile:py-14">
-        <div className="max-w-[1340px] mx-auto px-[5%]">
+        <div className="max-w-[1340px] mx-auto px-[5%] md:px-6">
           {/* Two-column: image left, text right */}
-          <div className="grid grid-cols-2 gap-16 items-center mobile:grid-cols-1 mobile:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-center">
             {/* Left — Image */}
             <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg mobile:order-2 mobile:aspect-[16/10]">
               <Image
                 src="/images/Hero/1.svg"
                 alt="Meaningful employment opportunities"
                 fill
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
               />
             </div>
 
@@ -384,9 +386,9 @@ export default function AboutPage() {
               <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-4 font-open-sans">
                 Our Commitment
               </p>
-              <h2 className="font-lato text-[38px] leading-[1.15] font-bold text-text mb-6 mobile:text-[28px]">
+              <h2 className="heading-2 mb-6">
                 Making workforce re-entry{" "}
-                <span className="text-primary italic font-[var(--font-outfit)] text-[0.9em]">
+                <span className="text-primary italic font-[var(--font-outfit)]">
                   smooth &amp; fulfilling
                 </span>
               </h2>
@@ -431,14 +433,14 @@ export default function AboutPage() {
           aria-hidden="true"
         />
 
-        <div className="max-w-[1340px] mx-auto px-[5%] relative z-10">
+        <div className="max-w-[1340px] mx-auto px-[5%] md:px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-14 mobile:mb-10">
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-4 font-open-sans">
               Why Vetriconn
             </p>
             <h2 className="heading-1 mb-5 mobile:mb-4">
               Benefits of Using{" "}
-              <span className="text-primary italic font-[var(--font-outfit)] text-[0.9em]">
+              <span className="text-primary italic font-[var(--font-outfit)]">
                 Vetriconn
               </span>
             </h2>
@@ -448,23 +450,23 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-8 mobile:grid-cols-1 mobile:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {benefits.map((benefit, idx) => (
               <article key={idx} className="flex flex-col">
                 <div className="mb-5">{benefit.icon}</div>
-                <h3 className="font-lato text-lg font-bold text-text mb-3">
+                <h3 className="heading-3 mb-3">
                   {benefit.title}
                 </h3>
-                <p className="font-open-sans text-[15px] text-text-muted leading-relaxed mb-5 flex-1">
+                <p className="font-open-sans text-sm md:text-base text-text-muted leading-relaxed mb-5 flex-1">
                   {benefit.description}
                 </p>
                 <Link
                   href={benefit.href}
-                  className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-red-700 transition-colors font-open-sans"
+                  className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:text-red-700 transition-all font-open-sans group"
                 >
                   {benefit.cta}
                   <HiOutlineArrowRight
-                    className="w-3.5 h-3.5"
+                    className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45"
                     aria-hidden="true"
                   />
                 </Link>
@@ -476,7 +478,7 @@ export default function AboutPage() {
 
       {/* ─── CTA Banner ───────────────────────────────────────────── */}
       <section className="py-16 bg-gray-light mobile:py-12">
-        <div className="max-w-[1340px] mx-auto px-[5%] text-center">
+        <div className="max-w-[1340px] mx-auto px-[5%] md:px-6 text-center">
           <h2 className="heading-1 mb-4 mobile:mb-3">
             Ready to{" "}
             <span className="text-primary italic font-[var(--font-outfit)]">
@@ -491,10 +493,10 @@ export default function AboutPage() {
           <div className="flex items-center justify-center">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-all shadow-sm group"
             >
               Create Your Free Account
-              <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             </Link>
           </div>
         </div>

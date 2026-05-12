@@ -46,15 +46,25 @@ const config: Config = {
       screens: {
         mobile: { max: "850px" },
         tablet: { max: "768px" },
+        // md: "768px" (Tailwind default - tablet and up)
+        // lg: "1024px" (Tailwind default - desktop)
       },
       boxShadow: {
         header: "0 4px 2px -2px rgba(0, 0, 0, 0.05)",
       },
       spacing: {
         "standard-x": "5%",
+        "safe-top": "env(safe-area-inset-top)",
+        "safe-bottom": "env(safe-area-inset-bottom)",
+        "safe-left": "env(safe-area-inset-left)",
+        "safe-right": "env(safe-area-inset-right)",
+        "44": "2.75rem", // 44px - WCAG 2.1 Level AAA touch target minimum
+        "48": "3rem", // 48px - larger touch target for primary actions
       },
       borderRadius: {
         DEFAULT: "0.5rem",
+        "10": "0.625rem", // 10px - commonly used in the app
+        "20": "1.25rem", // 20px - used in Accordion component
       },
       keyframes: {
         shimmer: {

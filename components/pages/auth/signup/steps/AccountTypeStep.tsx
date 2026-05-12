@@ -23,7 +23,7 @@ export const AccountTypeStep = ({
   return (
     <div className="w-full max-w-lg mx-auto">
       {/* Heading */}
-      <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+      <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-2 text-center">
         Welcome! Let&apos;s get started.
       </h1>
       
@@ -55,7 +55,7 @@ export const AccountTypeStep = ({
         type="button"
         onClick={onNext}
         disabled={!isRoleSelected}
-        className="w-full py-3 px-6 bg-primary text-white font-medium rounded-[10px] transition-all hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        className="w-full py-3 px-6 bg-primary text-white font-medium rounded-10 transition-all hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
       >
         Continue
       </button>

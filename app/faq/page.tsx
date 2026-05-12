@@ -184,8 +184,8 @@ export default function FaqPage() {
       </div>
 
       {/* ─── Hero Section ─────────────────────────────────────────── */}
-      <section className="px-[5%] pt-16 pb-12 bg-white mobile:pt-10 mobile:pb-8">
-        <div className="max-w-[1340px] mx-auto">
+      <section className="px-[5%] md:px-6 pt-16 pb-12 bg-white mobile:pt-10 mobile:pb-8">
+        <div className="max-w-7xl mx-auto">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary bg-red-50 rounded-full px-4 py-1.5 mb-6 font-open-sans">
               <svg
@@ -211,28 +211,31 @@ export default function FaqPage() {
               </svg>
               FAQs
             </span>
-            <h1 className="font-lato text-[48px] leading-[1.1] font-bold text-text mb-5 mobile:text-[32px] mobile:mb-4">
-              Frequently asked questions
+            <h1 className="heading-1 mb-5 mobile:mb-4">
+              Frequently{" "}
+              <span className="italic font-[var(--font-outfit)] underline decoration-primary decoration-2 underline-offset-4">
+                asked questions
+              </span>
             </h1>
-            <p className="font-open-sans text-lg text-text-muted leading-relaxed mobile:text-base">
+            <p className="body-text text-lg mobile:text-base leading-relaxed mb-6">
               Stuck on something? We&apos;re here to help with all your
-              questions and answers in one place. Can&apos;t find what you need?{" "}
-              <Link
-                href="/#contact-section"
-                className="text-primary font-medium hover:text-red-700 transition-colors underline underline-offset-2"
-              >
-                Contact us
-              </Link>
-              .
+              questions and answers in one place.
             </p>
+            <Link
+              href="/#contact-section"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-full transition-all shadow-sm group"
+            >
+              Contact Us
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ─── FAQ Grid ─────────────────────────────────────────────── */}
-      <section className="px-[5%] py-16 bg-white mobile:py-10">
-        <div className="max-w-[1340px] mx-auto">
-          <div className="grid grid-cols-2 gap-x-12 gap-y-10 mobile:grid-cols-1 mobile:gap-y-8">
+      <section className="px-[5%] md:px-6 py-16 bg-white mobile:py-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {FAQ_DATA.map((faq, idx) => (
               <article key={idx} className="flex items-start gap-4">
                 {/* Icon */}
@@ -244,7 +247,7 @@ export default function FaqPage() {
                   <h3 className="font-lato text-base font-bold text-text mb-2 leading-snug">
                     {faq.question}
                   </h3>
-                  <p className="font-open-sans text-[15px] text-text-muted leading-relaxed m-0">
+                  <p className="font-open-sans text-sm md:text-base text-text-muted leading-relaxed m-0">
                     {faq.answer}
                   </p>
                 </div>
@@ -255,34 +258,34 @@ export default function FaqPage() {
       </section>
 
       {/* ─── Divider ──────────────────────────────────────────────── */}
-      <div className="max-w-[1340px] mx-auto px-[5%]">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-6">
         <hr className="border-gray-200" />
       </div>
 
       {/* ─── CTA Banner ───────────────────────────────────────────── */}
       <section className="py-16 bg-white mobile:py-12">
-        <div className="max-w-[1340px] mx-auto px-[5%] text-center">
-          <h2 className="font-lato text-[32px] font-bold text-text mb-4 mobile:text-[24px] mobile:mb-3">
+        <div className="max-w-7xl mx-auto px-[5%] md:px-6 text-center">
+          <h2 className="font-lato text-xl md:text-3xl font-bold text-text mb-4 mobile:mb-3">
             Still have questions?
           </h2>
           <p className="font-open-sans text-lg text-text-muted max-w-xl mx-auto mb-8 mobile:text-base mobile:mb-6 leading-relaxed">
             Our support team is always happy to help. Reach out by phone or
             email and we&apos;ll get back to you as soon as possible.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
             <Link
               href="/#contact-section"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-red-700 text-white font-semibold py-3.5 px-10 rounded-full transition-all shadow-sm group"
             >
               Contact Us
-              <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:text-red-700 transition-colors"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:text-red-700 transition-all group"
             >
               Create an Account
-              <HiOutlineArrowRight className="w-4 h-4" aria-hidden="true" />
+              <HiOutlineArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-rotate-45" aria-hidden="true" />
             </Link>
           </div>
         </div>

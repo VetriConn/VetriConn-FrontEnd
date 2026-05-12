@@ -27,9 +27,9 @@ const JobCard: React.FC<JobCardProps> = ({ role, name, description, tags, varian
   return (
     <div
       className={clsx(
-        "bg-white rounded-xl p-4 w-full transition-all duration-200 border border-gray-100",
-        !isSidebar && "max-w-[400px] shadow-sm hover:-translate-y-0.5 hover:shadow-md",
-        isSidebar && "max-w-[340px] shadow-none cursor-pointer relative hover:bg-red-50 tablet:min-w-[260px] sm:min-w-[240px] xs:min-w-[220px]",
+        "bg-white rounded-lg md:rounded-xl p-4 md:p-6 w-full transition-all duration-200 border border-gray-100",
+        !isSidebar && "max-w-sm shadow-sm hover:-translate-y-0.5 hover:shadow-md",
+        isSidebar && "max-w-sm shadow-none cursor-pointer relative hover:bg-red-50 tablet:min-w-64 sm:min-w-60 xs:min-w-56",
         isSidebar && "before:content-[''] before:absolute before:left-0 before:top-3 before:bottom-3 before:w-1 before:h-[calc(100%-24px)] before:bg-transparent hover:before:bg-red-600",
         selected && isSidebar && "bg-red-50 before:bg-red-600"
       )}
@@ -38,20 +38,20 @@ const JobCard: React.FC<JobCardProps> = ({ role, name, description, tags, varian
       <div className="flex items-center mb-3 tablet:mb-2">
         <BsBuildings className="rounded-lg mr-3 shrink-0 overflow-visible" />
         <div className="flex-1">
-          <h3 className="font-open-sans text-base font-semibold m-0 mb-1 text-text tablet:text-sm sm:text-[13px] xs:text-xs">{role}</h3>
-          <p className="font-open-sans text-sm text-gray-500 m-0 tablet:text-xs sm:text-[11px] xs:text-[10px]">{name}</p>
+          <h3 className="font-open-sans text-sm md:text-base font-semibold m-0 mb-1 text-text">{role}</h3>
+          <p className="font-open-sans text-xs md:text-sm text-gray-500 m-0">{name}</p>
         </div>
         <button className="bg-transparent border-none cursor-pointer p-2 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-black/5 group">
           <FaRegStar className="text-lg text-gray-300 transition-colors duration-200 group-hover:text-primary" />
         </button>
       </div>
-      <p className="font-open-sans text-sm leading-relaxed text-text m-0 mb-4 overflow-hidden text-ellipsis line-clamp-2 tablet:text-xs tablet:mb-2.5 sm:text-[11px] sm:mb-2 xs:text-[10px] xs:mb-1.5">{description}</p>
+      <p className="font-open-sans text-xs md:text-sm leading-relaxed text-text m-0 mb-4 overflow-hidden text-ellipsis line-clamp-2">{description}</p>
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-wrap gap-2 tablet:gap-1.5 sm:gap-1 xs:gap-1">
           {tags.map((tag, index) => {
             const tagName = typeof tag === "string" ? tag : tag.name;
             const tagColor = typeof tag === "string" ? undefined : tag.color;
-            return <span key={index} className={clsx("font-open-sans py-1 px-3 rounded text-xs font-medium text-text tablet:text-[11px] tablet:py-0.5 tablet:px-2 sm:text-[10px] xs:text-[9px] xs:py-0.5 xs:px-1.5", tagColor && tagColorMap[tagColor] ? tagColorMap[tagColor] : "bg-gray-100")}>{tagName}</span>;
+            return <span key={index} className={clsx("font-open-sans py-1 px-3 rounded text-xs font-medium text-text", tagColor && tagColorMap[tagColor] ? tagColorMap[tagColor] : "bg-gray-100")}>{tagName}</span>;
           })}
         </div>
         {isSidebar && <button className="bg-transparent border-none cursor-pointer p-2 flex items-center justify-center rounded-full ml-2 transition-colors duration-200 hover:bg-gray-100 group xs:p-1.5" onClick={(e) => e.stopPropagation()} aria-label="Select job"><FaArrowRight className="text-lg text-gray-400 transition-colors duration-200 group-hover:text-primary xs:text-base" /></button>}

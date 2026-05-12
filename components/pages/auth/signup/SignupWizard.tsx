@@ -573,11 +573,38 @@ export function SignupWizard() {
             {/* Current Step Content */}
             {renderStep()}
           </div>
+
+          {/* Footer links - minimal, below card */}
+          <div className="mt-6 text-center space-y-3">
+            <p className="text-sm text-gray-600">
+              Already have an account?{" "}
+              <a href="/signin" className="text-primary hover:underline font-medium">
+                Sign in
+              </a>
+            </p>
+            <p className="text-xs text-gray-500">
+              By signing up, you agree to our{" "}
+              <a 
+                href="https://vetriconntandc.notion.site/VETRICONN-INC-TERMS-AND-CONDITIONS-22ac6380202c807fa63ef48c7ca69815" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Terms & Conditions
+              </a>{" "}
+              and{" "}
+              <a 
+                href="https://vetriconntandc.notion.site/VETRICONN-INC-TERMS-AND-CONDITIONS-22ac6380202c807fa63ef48c7ca69815" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Privacy Guide
+              </a>
+            </p>
+          </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <AuthFooter />
     </div>
   );
 }
